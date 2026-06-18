@@ -1,4 +1,5 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient } from '@supabase/supabase-js'
+import { translations } from '../i18n/translations'
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
@@ -9,19 +10,25 @@ export const supabase = isSupabaseConfigured
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null
 
-export async function subscribeNewsletter(email) {
+function getMessages(locale = 'fr') {
+  return translations[locale]?.newsletter ?? translations.fr.newsletter
+}
+
+export async function subscribeNewsletter(email, locale = 'fr') {
+  const messages = getMessages(locale)
+
   if (!supabase) {
-    return { ok: false, message: "Supabase non configuré pour le moment." }
+    return { ok: false, message: messages.notConfigured }
   }
 
-  const { error } = await supabase.from("newsletter_subscribers").insert({ email })
+  const { error } = await supabase.from('newsletter_subscribers').insert({ email })
 
   if (error) {
-    if (error.code === "23505") {
-      return { ok: true, message: "Vous êtes déjà inscrit·e. Merci !" }
+    if (error.code === '23505') {
+      return { ok: true, message: messages.duplicate }
     }
-    return { ok: false, message: "Une erreur est survenue. Réessayez plus tard." }
+    return { ok: false, message: messages.error }
   }
 
-  return { ok: true, message: "Merci ! Vous serez informé·e des nouveautés." }
+  return { ok: true, message: messages.success }
 }

@@ -13,7 +13,7 @@ export default function Footer() {
             <p className="mt-1 text-xs text-tg-ivory/60">{t.footer.made}</p>
           </div>
           <div className="text-sm text-tg-ivory/70">
-            <p>Powered by purified beef tallow</p>
+            <p>{t.footer.powered}</p>
             <a href={`mailto:${t.contact.email}`} className="mt-3 block text-tg-ivory hover:underline">
               {t.contact.email}
             </a>

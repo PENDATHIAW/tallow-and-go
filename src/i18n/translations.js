@@ -1,13 +1,22 @@
 export const translations = {
   fr: {
     nav: { products: 'Produits', story: 'Histoire', trace: 'Traçabilité', contact: 'Contact' },
+    header: {
+      tagline: 'Suif purifié · Sénégal',
+      menuOpen: 'Ouvrir le menu',
+      menuClose: 'Fermer le menu',
+      switchLang: 'Changer de langue',
+      darkMode: 'Mode sombre',
+      lightMode: 'Mode clair',
+    },
     hero: {
       kicker: 'Cosmétiques au suif purifié · Fabriqué au Sénégal',
       title: 'Nourrir · Clarifier · Rayonner',
       subtitle:
         'Tallow & Go — soins premium au suif de bœuf purifié, issu de nos embouches bovines. De la ferme à votre peau.',
       cta1: 'Découvrir la gamme',
-      cta2: 'Notre histoire',
+      cta2: 'Notre traçabilité',
+      scrollHint: 'Cinq rituels essentiels — formulés à la main au Sénégal.',
     },
     story: {
       kicker: 'Notre histoire',
@@ -15,7 +24,15 @@ export const translations = {
       p1: 'Tallow & Go prolonge un projet d\'élevage responsable : le suif issu de nos embouches bovines est purifié et transformé en cosmétiques naturels au Sénégal.',
       p2: 'Peu d\'ingrédients, haute efficacité, traçabilité totale — sans parabène, sans silicone.',
     },
-    products: { kicker: 'La gamme', title: 'Cinq rituels essentiels', shop: 'Commander', composition: 'Composition', benefits: 'Bienfaits' },
+    products: {
+      kicker: 'La gamme',
+      title: 'Cinq rituels essentiels',
+      subtitle: 'Chaque formule est pensée autour du suif purifié — texture, packaging et bienfaits uniques.',
+      shop: 'Commander',
+      composition: 'Composition',
+      benefits: 'Bienfaits',
+      bestSeller: 'Best-seller',
+    },
     trace: {
       kicker: 'Traçabilité',
       title: 'De la ferme à la peau',
@@ -42,22 +59,45 @@ export const translations = {
       ],
     },
     contact: {
+      kicker: 'Newsletter',
       title: 'Restons en contact',
-      email: 'hello@tallowandgo.com',
+      emailLabel: 'Email',
+      contactLabel: 'Contact',
+      whatsappLabel: 'WhatsApp',
       send: 'S\'inscrire',
       placeholder: 'vous@exemple.com',
+      email: 'hello@tallowandgo.com',
     },
-    footer: { tagline: 'Nourrir · Clarifier · Rayonner', made: 'Fabriqué au Sénégal' },
+    newsletter: {
+      notConfigured: 'Newsletter bientôt disponible.',
+      success: 'Merci ! Vous serez informé·e des nouveautés.',
+      duplicate: 'Vous êtes déjà inscrit·e. Merci !',
+      error: 'Une erreur est survenue. Réessayez plus tard.',
+    },
+    footer: {
+      tagline: 'Nourrir · Clarifier · Rayonner',
+      made: 'Fabriqué au Sénégal',
+      powered: 'Powered by purified beef tallow',
+    },
   },
   en: {
     nav: { products: 'Products', story: 'Story', trace: 'Traceability', contact: 'Contact' },
+    header: {
+      tagline: 'Purified tallow · Senegal',
+      menuOpen: 'Open menu',
+      menuClose: 'Close menu',
+      switchLang: 'Switch language',
+      darkMode: 'Dark mode',
+      lightMode: 'Light mode',
+    },
     hero: {
       kicker: 'Purified tallow skincare · Made in Senegal',
       title: 'Nourish · Clarify · Glow',
       subtitle:
         'Tallow & Go — premium beef tallow skincare from our cattle finishing operations. From farm to skin.',
       cta1: 'Explore the range',
-      cta2: 'Our story',
+      cta2: 'Our traceability',
+      scrollHint: 'Five essential rituals — handcrafted in Senegal.',
     },
     story: {
       kicker: 'Our story',
@@ -65,7 +105,15 @@ export const translations = {
       p1: 'Tallow & Go extends a responsible livestock project: tallow from our cattle is purified and crafted into natural cosmetics in Senegal.',
       p2: 'Few ingredients, high efficacy, full traceability — paraben and silicone free.',
     },
-    products: { kicker: 'The range', title: 'Five essential rituals', shop: 'Order', composition: 'Composition', benefits: 'Benefits' },
+    products: {
+      kicker: 'The range',
+      title: 'Five essential rituals',
+      subtitle: 'Each formula is built around purified tallow — unique texture, packaging, and benefits.',
+      shop: 'Order',
+      composition: 'Composition',
+      benefits: 'Benefits',
+      bestSeller: 'Best-seller',
+    },
     trace: {
       kicker: 'Traceability',
       title: 'From Farm to Skin',
@@ -92,11 +140,25 @@ export const translations = {
       ],
     },
     contact: {
+      kicker: 'Newsletter',
       title: 'Stay in touch',
-      email: 'hello@tallowandgo.com',
+      emailLabel: 'Email',
+      contactLabel: 'Contact',
+      whatsappLabel: 'WhatsApp',
       send: 'Subscribe',
       placeholder: 'you@example.com',
+      email: 'hello@tallowandgo.com',
     },
-    footer: { tagline: 'Nourish · Clarify · Glow', made: 'Made in Senegal' },
+    newsletter: {
+      notConfigured: 'Newsletter coming soon.',
+      success: 'Thank you! You will hear from us soon.',
+      duplicate: 'You are already subscribed. Thank you!',
+      error: 'Something went wrong. Please try again later.',
+    },
+    footer: {
+      tagline: 'Nourish · Clarify · Glow',
+      made: 'Made in Senegal',
+      powered: 'Powered by purified beef tallow',
+    },
   },
 }

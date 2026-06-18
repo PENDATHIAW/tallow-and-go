@@ -3,7 +3,7 @@ import { useLocale } from '../context/LocaleContext'
 import { subscribeNewsletter } from '../lib/supabase'
 
 export default function Contact() {
-  const { t } = useLocale()
+  const { locale, t } = useLocale()
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -13,7 +13,7 @@ export default function Contact() {
     setLoading(true)
     setStatus(null)
 
-    const result = await subscribeNewsletter(email.trim())
+    const result = await subscribeNewsletter(email.trim(), locale)
     setStatus(result)
     setLoading(false)
 
@@ -28,14 +28,14 @@ export default function Contact() {
         <div className="overflow-hidden rounded-[2rem] border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950">
           <div className="grid lg:grid-cols-2">
             <div className="p-8 sm:p-12">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-tg-green">{t.contact.title}</p>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-tg-green">{t.contact.kicker}</p>
               <h2 className="mt-3 font-display text-4xl font-semibold text-earth dark:text-neutral-100">
                 {t.contact.title}
               </h2>
 
               <form className="mt-8 space-y-3" onSubmit={handleSubmit}>
                 <label className="block text-sm font-medium text-earth dark:text-neutral-200" htmlFor="email">
-                  Email
+                  {t.contact.emailLabel}
                 </label>
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <input
@@ -57,7 +57,7 @@ export default function Contact() {
                 </div>
                 {status ? (
                   <p
-                    className={`text-sm ${status.ok ? 'text-sage' : 'text-tallow-deep'}`}
+                    className={`text-sm ${status.ok ? 'text-sage dark:text-sage' : 'text-tallow-deep dark:text-tg-gold'}`}
                     role="status"
                   >
                     {status.message}
@@ -67,16 +67,25 @@ export default function Contact() {
             </div>
 
             <div className="bg-gradient-to-br from-tg-green/20 via-blush/30 to-cream p-8 sm:p-12 dark:from-tg-green/30 dark:via-neutral-900 dark:to-neutral-950">
-              <h3 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">Contact</h3>
+              <h3 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">
+                {t.contact.contactLabel}
+              </h3>
               <ul className="mt-6 space-y-4 text-earth-soft dark:text-neutral-400">
                 <li>
-                  <span className="block text-xs font-semibold uppercase tracking-wider text-tg-green">Email</span>
-                  <a href={`mailto:${t.contact.email}`} className="font-medium text-earth hover:text-tg-green dark:text-neutral-200">
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-tg-green">
+                    {t.contact.emailLabel}
+                  </span>
+                  <a
+                    href={`mailto:${t.contact.email}`}
+                    className="font-medium text-earth hover:text-tg-green dark:text-neutral-200"
+                  >
                     {t.contact.email}
                   </a>
                 </li>
                 <li>
-                  <span className="block text-xs font-semibold uppercase tracking-wider text-tg-green">WhatsApp</span>
+                  <span className="block text-xs font-semibold uppercase tracking-wider text-tg-green">
+                    {t.contact.whatsappLabel}
+                  </span>
                   <a href="https://wa.me/" className="font-medium text-earth hover:text-tg-green dark:text-neutral-200">
                     {t.products.shop}
                   </a>

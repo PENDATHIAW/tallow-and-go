@@ -25,7 +25,7 @@ export default function Header() {
               Tallow & Go
             </span>
             <span className="text-[0.6rem] font-medium uppercase tracking-[0.22em] text-tg-green">
-              Suif purifié · Sénégal
+              {t.header.tagline}
             </span>
           </span>
         </a>
@@ -47,7 +47,7 @@ export default function Header() {
             type="button"
             onClick={() => switchLocale(locale === 'fr' ? 'en' : 'fr')}
             className="hidden rounded-full border border-cream-dark px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-earth-soft transition hover:border-tg-green hover:text-tg-green sm:inline-flex dark:border-neutral-700 dark:text-neutral-300"
-            aria-label="Changer de langue"
+            aria-label={t.header.switchLang}
           >
             {locale === 'fr' ? 'EN' : 'FR'}
           </button>
@@ -56,7 +56,7 @@ export default function Header() {
             type="button"
             onClick={toggle}
             className="inline-flex rounded-full border border-cream-dark p-2 text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700 dark:text-neutral-300"
-            aria-label={theme === 'light' ? 'Mode sombre' : 'Mode clair'}
+            aria-label={theme === 'light' ? t.header.darkMode : t.header.lightMode}
           >
             {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
           </button>
@@ -73,7 +73,7 @@ export default function Header() {
             type="button"
             className="inline-flex rounded-full border border-cream-dark p-2 text-earth md:hidden dark:border-neutral-700 dark:text-neutral-200"
             onClick={() => setOpen((value) => !value)}
-            aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-label={open ? t.header.menuClose : t.header.menuOpen}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
