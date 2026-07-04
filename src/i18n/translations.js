@@ -105,6 +105,7 @@ export const translations = {
         cash: 'Paiement en espèces au livreur à la réception.',
       },
       emailSent: 'Un récapitulatif a été envoyé à votre adresse email.',
+      emailPendingForward: 'Commande enregistrée. Notre équipe vous enverra le récapitulatif par email sous peu.',
       whatsappConfirm: 'Notre équipe vous confirmera la commande par WhatsApp au numéro indiqué.',
       successPayment: {
         waveTitle: 'Finalisez votre paiement Wave',
@@ -259,6 +260,7 @@ export const translations = {
         cash: 'Pay cash to the delivery person on arrival.',
       },
       emailSent: 'A summary has been sent to your email address.',
+      emailPendingForward: 'Order saved. Our team will email you the summary shortly.',
       whatsappConfirm: 'Our team will confirm your order via WhatsApp at the number provided.',
       successPayment: {
         waveTitle: 'Complete your Wave payment',

@@ -51,6 +51,8 @@ export async function sendOrderNotifications(order, locale = 'fr') {
     return {
       emailSent: Boolean(data?.emailSent),
       shopNotified: Boolean(data?.shopNotified ?? data?.ok),
+      customerRecapInShopEmail: Boolean(data?.customerRecapInShopEmail),
+      reason: data?.reason ?? null,
     }
   } catch {
     return { emailSent: false, shopNotified: false }

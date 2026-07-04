@@ -1,24 +1,5 @@
--- Tallow & Go — Emails commande via Resend (pg_net)
--- Exécuter UNE FOIS dans Supabase → SQL Editor
--- Remplace __RESEND_API_KEY__ par ta clé re_... avant d'exécuter
-
-create extension if not exists pg_net with schema extensions;
-
-create schema if not exists private;
-
-create table if not exists private.app_config (
-  key text primary key,
-  value text not null
-);
-
-revoke all on schema private from public;
-revoke all on private.app_config from public;
-
-insert into private.app_config (key, value) values
-  ('resend_api_key', '__RESEND_API_KEY__'),
-  ('shop_email', 'pendathiaw1995@gmail.com'),
-  ('from_email', 'Tallow & Go <onboarding@resend.dev>')
-on conflict (key) do update set value = excluded.value;
+-- Mise à jour emails : récap client inclus dans mail boutique (mode test Resend)
+-- Exécuter dans Supabase → SQL Editor si les clients ne reçoivent pas encore leurs emails
 
 create or replace function public.send_order_confirmation_email(p_order jsonb, p_locale text default 'fr')
 returns jsonb
@@ -48,7 +29,7 @@ begin
   select value into shop_email from private.app_config where key = 'shop_email';
   select value into from_email from private.app_config where key = 'from_email';
 
-  if resend_key is null or resend_key = '' or resend_key = '__RESEND_API_KEY__' then
+  if resend_key is null or resend_key = '' then
     return jsonb_build_object('ok', false, 'emailSent', false, 'shopNotified', false, 'reason', 'not_configured');
   end if;
 

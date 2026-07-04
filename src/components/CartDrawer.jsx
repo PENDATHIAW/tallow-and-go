@@ -248,6 +248,11 @@ export default function CartDrawer() {
                   {t.checkout.emailSent}
                 </p>
               ) : null}
+              {notificationStatus && lastOrder.customer.email && !notificationStatus.emailSent ? (
+                <p className="rounded-xl bg-cream px-4 py-3 text-earth dark:bg-neutral-900 dark:text-neutral-200">
+                  {t.checkout.emailPendingForward}
+                </p>
+              ) : null}
               {!lastOrder.customer.email ? (
                 <p className="text-earth-soft">{t.checkout.whatsappConfirm}</p>
               ) : null}
