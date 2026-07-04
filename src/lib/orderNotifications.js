@@ -39,8 +39,9 @@ export async function sendOrderNotifications(order, locale = 'fr') {
   }
 
   try {
-    const { data, error } = await supabase.functions.invoke('send-order-confirmation', {
-      body: { order, locale },
+    const { data, error } = await supabase.rpc('send_order_confirmation_email', {
+      p_order: order,
+      p_locale: locale,
     })
 
     if (error) {
