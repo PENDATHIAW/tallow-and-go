@@ -2,6 +2,8 @@ import { Minus, Plus, X } from 'lucide-react'
 import { useState } from 'react'
 import { localityGroups, getLocalityById } from '../data/localities'
 import { formatPrice } from '../lib/format'
+import { sendOrderNotifications } from '../lib/orderNotifications'
+import { getPaymentInstructions, getPaymentMethodLabel } from '../lib/payments'
 import { submitOrder } from '../lib/orders'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
@@ -21,7 +23,6 @@ export default function CartDrawer() {
     clearCart,
     closeCart,
     openCheckout,
-    getWhatsAppUrl,
     setLastOrder,
     lastOrder,
   } = useCart()
@@ -37,6 +38,7 @@ export default function CartDrawer() {
   })
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
+  const [notificationStatus, setNotificationStatus] = useState(null)
 
   if (!open) return null
 
@@ -91,6 +93,21 @@ export default function CartDrawer() {
     })
     clearCart()
     setStep('recap')
+    setNotificationStatus(null)
+
+    sendOrderNotifications(
+      {
+        orderNumber: result.orderNumber,
+        subtotal: total,
+        shippingFee,
+        total: total + shippingFee,
+        paymentMethod: form.paymentMethod,
+        locality,
+        customer: form,
+        items: orderItems,
+      },
+      locale,
+    ).then(setNotificationStatus)
   }
 
   return (
@@ -184,10 +201,13 @@ export default function CartDrawer() {
                         checked={form.paymentMethod === method}
                         onChange={() => setForm({ ...form, paymentMethod: method })}
                       />
-                      {t.cart.paymentMethods[method]}
+                      {getPaymentMethodLabel(method, t)}
                     </label>
                   ))}
                 </div>
+                {form.paymentMethod !== 'cash' ? (
+                  <p className="mt-2 text-xs text-earth-soft">{t.checkout.paymentHint[form.paymentMethod]}</p>
+                ) : null}
               </div>
               {locality ? (
                 <p className="text-sm text-earth-soft">
@@ -213,9 +233,24 @@ export default function CartDrawer() {
                 <p className="mt-2 font-display text-lg font-semibold">{t.cart.total} : {formatPrice(lastOrder.total)}</p>
               </div>
               <p>
-                {t.cart.payment} : {t.cart.paymentMethods[lastOrder.paymentMethod]}
+                {t.cart.payment} : {getPaymentMethodLabel(lastOrder.paymentMethod, t)}
               </p>
-              <p className="text-earth-soft">{t.checkout.paymentHint[lastOrder.paymentMethod]}</p>
+
+              <PaymentSuccessBlock
+                paymentMethod={lastOrder.paymentMethod}
+                total={lastOrder.total}
+                locale={locale}
+                t={t}
+              />
+
+              {notificationStatus?.emailSent ? (
+                <p className="rounded-xl bg-cream px-4 py-3 text-earth dark:bg-neutral-900 dark:text-neutral-200">
+                  {t.checkout.emailSent}
+                </p>
+              ) : null}
+              {!lastOrder.customer.email ? (
+                <p className="text-earth-soft">{t.checkout.whatsappConfirm}</p>
+              ) : null}
             </div>
           )}
         </div>
@@ -252,22 +287,42 @@ export default function CartDrawer() {
           )}
 
           {step === 'recap' && lastOrder && (
-            <>
-              <a
-                href={getWhatsAppUrl(locale)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="block w-full rounded-full bg-tg-green py-3.5 text-center text-sm font-semibold text-tg-ivory"
-              >
-                {t.cart.whatsapp}
-              </a>
-              <button type="button" onClick={closeCart} className="mt-3 w-full text-sm underline text-earth-soft">
-                {t.cart.continue}
-              </button>
-            </>
+            <button type="button" onClick={closeCart} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
+              {t.cart.continue}
+            </button>
           )}
         </div>
       </aside>
+    </div>
+  )
+}
+
+function PaymentSuccessBlock({ paymentMethod, total, locale, t }) {
+  const payment = getPaymentInstructions(paymentMethod, total, locale, t)
+
+  return (
+    <div className="rounded-xl border border-cream-dark bg-cream/40 px-4 py-4 dark:border-neutral-800 dark:bg-neutral-900/60">
+      <p className="font-semibold text-earth dark:text-neutral-100">{payment.title}</p>
+      <p className="mt-2 text-earth-soft">{payment.hint}</p>
+      {payment.link ? (
+        <a
+          href={payment.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-4 block rounded-full bg-tg-green py-3 text-center text-sm font-semibold text-tg-ivory"
+        >
+          {payment.linkLabel}
+        </a>
+      ) : payment.pending ? (
+        <p className="mt-4 rounded-full border border-amber-200 bg-amber-50 px-4 py-3 text-center text-sm font-medium text-amber-900 dark:border-amber-900/40 dark:bg-amber-950/40 dark:text-amber-100">
+          {t.checkout.paymentPending}
+        </p>
+      ) : null}
+      {payment.phone ? (
+        <p className="mt-3 text-sm">
+          {t.checkout.successPayment.merchantPhone} : <strong>{payment.phone}</strong>
+        </p>
+      ) : null}
     </div>
   )
 }
