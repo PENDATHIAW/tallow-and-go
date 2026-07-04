@@ -12,34 +12,33 @@ export async function submitOrder({ customer, locality, items, subtotal, shippin
   }
 
   const orderNumber = generateOrderNumber()
+  const orderId = crypto.randomUUID()
   const localityLabel = locality.name[locale] ?? locality.name.fr
 
-  const { data: order, error: orderError } = await supabase
-    .from('orders')
-    .insert({
-      order_number: orderNumber,
-      customer_name: customer.name,
-      customer_phone: customer.phone,
-      customer_email: customer.email || null,
-      locality_id: locality.id,
-      locality_label: localityLabel,
-      address_details: customer.address || null,
-      payment_method: paymentMethod,
-      subtotal,
-      shipping_fee: shippingFee,
-      total,
-      notes: notes || null,
-      status: 'pending',
-    })
-    .select('id, order_number')
-    .single()
+  // Insert sans .select() : avec RLS, RETURNING exige une policy SELECT absente ici.
+  const { error: orderError } = await supabase.from('orders').insert({
+    id: orderId,
+    order_number: orderNumber,
+    customer_name: customer.name,
+    customer_phone: customer.phone,
+    customer_email: customer.email || null,
+    locality_id: locality.id,
+    locality_label: localityLabel,
+    address_details: customer.address || null,
+    payment_method: paymentMethod,
+    subtotal,
+    shipping_fee: shippingFee,
+    total,
+    notes: notes || null,
+    status: 'pending',
+  })
 
   if (orderError) {
     return { ok: false, message: orderError.message }
   }
 
   const lines = items.map((item) => ({
-    order_id: order.id,
+    order_id: orderId,
     item_type: item.type,
     item_id: item.id,
     item_name: item.name,
@@ -53,7 +52,7 @@ export async function submitOrder({ customer, locality, items, subtotal, shippin
     return { ok: false, message: itemsError.message }
   }
 
-  return { ok: true, orderNumber: order.order_number, orderId: order.id }
+  return { ok: true, orderNumber, orderId }
 }
 
 export async function fetchAdminOrders(credentials) {

@@ -59,16 +59,23 @@ alter table public.order_items enable row level security;
 alter table public.newsletter_subscribers enable row level security;
 
 create policy "Localités lisibles publiquement"
-  on public.localities for select using (active = true);
+  on public.localities for select to anon, authenticated using (active = true);
 
+-- INSERT only (pas de SELECT public) : le frontend génère l'UUID et n'utilise pas RETURNING
 create policy "Création commande publique"
-  on public.orders for insert with check (true);
+  on public.orders for insert to anon, authenticated with check (true);
 
 create policy "Création lignes commande publique"
-  on public.order_items for insert with check (true);
+  on public.order_items for insert to anon, authenticated with check (true);
 
 create policy "Inscription newsletter publique"
-  on public.newsletter_subscribers for insert with check (true);
+  on public.newsletter_subscribers for insert to anon, authenticated with check (true);
+
+grant usage on schema public to anon, authenticated;
+grant select on public.localities to anon, authenticated;
+grant insert on public.orders to anon, authenticated;
+grant insert on public.order_items to anon, authenticated;
+grant insert on public.newsletter_subscribers to anon, authenticated;
 
 -- Fonctions admin (mot de passe via secret — remplacer en production)
 create or replace function public.admin_check(p_user text, p_password text)
