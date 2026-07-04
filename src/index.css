@@ -165,7 +165,8 @@
 @media (prefers-reduced-motion: reduce) {
   .hero-ken-burns,
   .reveal,
-  .hero-scroll-indicator span {
+  .hero-scroll-indicator span,
+  .carousel-track {
     animation: none;
   }
 
@@ -177,4 +178,18 @@
   .hero-ken-burns {
     transform: scale(1.1);
   }
+}
+
+@keyframes carousel-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.carousel-track {
+  animation: carousel-scroll 28s linear infinite;
+  width: max-content;
 }

@@ -16,6 +16,8 @@ function loadCart() {
 export function CartProvider({ children }) {
   const [items, setItems] = useState(loadCart)
   const [open, setOpen] = useState(false)
+  const [step, setStep] = useState('cart')
+  const [lastOrder, setLastOrder] = useState(null)
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items))
@@ -79,6 +81,13 @@ export function CartProvider({ children }) {
 
   const clearCart = () => setItems([])
 
+  const closeCart = () => {
+    setOpen(false)
+    setStep('cart')
+  }
+
+  const openCheckout = () => setStep('form')
+
   const resolved = useMemo(
     () =>
       items.map((item) => {
@@ -105,7 +114,7 @@ export function CartProvider({ children }) {
     })
     const label = locale === 'fr' ? 'Commande Tallow & Go' : 'Tallow & Go order'
     const text = `${label}\n\n${lines.join('\n')}\n\nTotal : ${total.toLocaleString('fr-FR')} F`
-    const phone = import.meta.env.VITE_WHATSAPP_NUMBER || ''
+    const phone = import.meta.env.VITE_WHATSAPP_NUMBER || '221785890153'
     if (!phone) return `https://wa.me/?text=${encodeURIComponent(text)}`
     return `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
   }
@@ -119,6 +128,12 @@ export function CartProvider({ children }) {
         count,
         open,
         setOpen,
+        step,
+        setStep,
+        lastOrder,
+        setLastOrder,
+        closeCart,
+        openCheckout,
         addProduct,
         addBundle,
         addRoutine,

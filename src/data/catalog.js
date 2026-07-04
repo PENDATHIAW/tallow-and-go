@@ -1,3 +1,5 @@
+import { enrichProduct } from './productExtras'
+
 export const universes = [
   {
     id: 'skin',
@@ -14,10 +16,6 @@ export const universes = [
   {
     id: 'nomades',
     image: '/products/glow-and-go.png',
-  },
-  {
-    id: 'home',
-    image: '/brand/logo-monogram.png',
   },
 ]
 
@@ -238,7 +236,7 @@ export const products = [
     tagline: { fr: 'Déodorant naturel', en: 'Natural deodorant' },
     size: '75 g',
     price: 4000,
-    image: '/brand/logo-monogram.png',
+    image: '/products/clean.png',
     universe: 'essentials',
     zones: ['body'],
     nomade: true,
@@ -316,27 +314,6 @@ export const products = [
       en: ['On-the-go', 'Deep nourishment', 'Natural glow'],
     },
   },
-  {
-    id: 'eden',
-    name: 'EDEN',
-    tagline: { fr: 'Ambiance parfumée', en: 'Scented ambiance' },
-    size: 'Tag parfumé',
-    price: 20000,
-    image: '/brand/logo-monogram.png',
-    universe: 'home',
-    zones: [],
-    nomade: true,
-    routine: null,
-    featured: false,
-    description: {
-      fr: 'Tag parfumé pour valise, dressing ou intérieur.',
-      en: 'Scented tag for luggage, closet or home.',
-    },
-    benefits: {
-      fr: ['Ambiance raffinée', 'Format nomade', 'Signature Tallow & Go'],
-      en: ['Refined ambiance', 'Travel format', 'Tallow & Go signature'],
-    },
-  },
 ]
 
 export const bundles = [
@@ -350,6 +327,18 @@ export const bundles = [
     description: {
       fr: 'Dry Oil matin · COMFY & RELIEF Balm soir — rituel maternité.',
       en: 'Dry Oil morning · COMFY & RELIEF Balm evening — maternity ritual.',
+    },
+  },
+  {
+    id: 'eden-kit',
+    name: 'EDEN',
+    tagline: { fr: 'Kit ambiance parfumée', en: 'Scented ambiance kit' },
+    price: 20000,
+    image: '/bundles/eden.png',
+    productIds: [],
+    description: {
+      fr: 'Collection parfumée — coquillages, pot-pourri, objets nomades et Eden Drops.',
+      en: 'Scented collection — shells, potpourri, travel objects and Eden Drops.',
     },
   },
 ]
@@ -386,18 +375,22 @@ export const routines = [
 ]
 
 export function getProduct(id) {
-  return products.find((p) => p.id === id)
+  const product = products.find((p) => p.id === id)
+  return product ? enrichProduct(product) : undefined
 }
 
 export function getProductsByUniverse(universeId) {
+  let list
   if (universeId === 'nomades') {
-    return products.filter((p) => p.nomade)
+    list = products.filter((p) => p.nomade)
+  } else {
+    list = products.filter((p) => p.universe === universeId)
   }
-  return products.filter((p) => p.universe === universeId)
+  return list.map(enrichProduct)
 }
 
 export function getRoutineProducts(routineId) {
   const routine = routines.find((r) => r.id === routineId)
   if (!routine) return []
-  return routine.productIds.map(getProduct).filter(Boolean)
+  return routine.productIds.map((id) => getProduct(id)).filter(Boolean)
 }

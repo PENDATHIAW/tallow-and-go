@@ -9,12 +9,12 @@ export default function ProductCard({ product, onSelect }) {
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-cream-dark/80 bg-white-warm transition hover:-translate-y-1 hover:border-tg-green/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-950">
       <button type="button" onClick={() => onSelect(product)} className="text-left">
-        <div className="relative aspect-square overflow-hidden bg-tg-cream dark:bg-neutral-900">
+        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#f5efe6] p-3 dark:bg-neutral-900">
           <img
             src={product.image}
             alt={product.name}
             loading="lazy"
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.03]"
+            className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-[1.02]"
           />
           {product.featured ? (
             <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">
