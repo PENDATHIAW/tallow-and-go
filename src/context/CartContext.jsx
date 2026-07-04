@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { bundles, getProduct } from '../data/catalog'
+import { translations } from '../i18n/translations'
 
 const CartContext = createContext()
 const STORAGE_KEY = 'tg-cart'
@@ -105,16 +106,45 @@ export function CartProvider({ children }) {
   const count = items.reduce((sum, item) => sum + item.quantity, 0)
 
   const getWhatsAppUrl = (locale) => {
+    const phone = import.meta.env.VITE_WHATSAPP_NUMBER || '221785890153'
+    const label = locale === 'fr' ? 'Commande Tallow & Go' : 'Tallow & Go order'
+    const tr = translations[locale]?.cart ?? translations.fr.cart
+    const fmt = (amount) => `${amount.toLocaleString('fr-FR')} F`
+
+    // Après validation, le panier est vidé : on s'appuie sur lastOrder, pas sur le cart.
+    if (lastOrder) {
+      const itemLines = (lastOrder.items ?? []).map(
+        (item) => `• ${item.name} × ${item.quantity} — ${fmt(item.unitPrice * item.quantity)}`,
+      )
+      const localityName = lastOrder.locality?.name?.[locale] ?? lastOrder.locality?.name?.fr ?? ''
+      const paymentLabel = tr.paymentMethods?.[lastOrder.paymentMethod] ?? lastOrder.paymentMethod
+      const text = [
+        label,
+        '',
+        `${tr.orderNumber} : ${lastOrder.orderNumber}`,
+        `${lastOrder.customer.name} · ${lastOrder.customer.phone}`,
+        localityName,
+        lastOrder.customer.address,
+        '',
+        ...itemLines,
+        '',
+        `${tr.subtotal} : ${fmt(lastOrder.subtotal)}`,
+        `${tr.shipping} : ${fmt(lastOrder.shippingFee)}`,
+        `${tr.total} : ${fmt(lastOrder.total)}`,
+        `${tr.payment} : ${paymentLabel}`,
+      ]
+        .filter(Boolean)
+        .join('\n')
+
+      if (!phone) return `https://wa.me/?text=${encodeURIComponent(text)}`
+      return `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
+    }
+
     const lines = resolved.map((item) => {
-      const name =
-        item.type === 'bundle'
-          ? item.bundle?.name
-          : item.product?.name
+      const name = item.type === 'bundle' ? item.bundle?.name : item.product?.name
       return `• ${name} × ${item.quantity}`
     })
-    const label = locale === 'fr' ? 'Commande Tallow & Go' : 'Tallow & Go order'
-    const text = `${label}\n\n${lines.join('\n')}\n\nTotal : ${total.toLocaleString('fr-FR')} F`
-    const phone = import.meta.env.VITE_WHATSAPP_NUMBER || '221785890153'
+    const text = `${label}\n\n${lines.join('\n')}\n\n${tr.total} : ${fmt(total)}`
     if (!phone) return `https://wa.me/?text=${encodeURIComponent(text)}`
     return `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(text)}`
   }

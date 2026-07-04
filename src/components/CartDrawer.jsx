@@ -87,6 +87,7 @@ export default function CartDrawer() {
       paymentMethod: form.paymentMethod,
       locality,
       customer: form,
+      items: orderItems,
     })
     clearCart()
     setStep('recap')
