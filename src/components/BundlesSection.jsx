@@ -1,0 +1,54 @@
+import { bundles } from '../data/catalog'
+import { formatPrice } from '../lib/format'
+import { useCart } from '../context/CartContext'
+import { useLocale } from '../context/LocaleContext'
+
+export default function BundlesSection() {
+  const { locale, t } = useLocale()
+  const { addBundle } = useCart()
+
+  return (
+    <section id="bundles" className="section-padding scroll-mt-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 max-w-xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.bundles.kicker}</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
+            {t.bundles.title}
+          </h2>
+        </div>
+
+        <div className="grid gap-6 sm:grid-cols-2 lg:max-w-2xl">
+          {bundles.map((bundle) => (
+            <article
+              key={bundle.id}
+              className="overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950"
+            >
+              <div className="aspect-[4/3] overflow-hidden bg-tg-cream dark:bg-neutral-900">
+                <img src={bundle.image} alt={bundle.name} className="h-full w-full object-cover" />
+              </div>
+              <div className="p-5">
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-tg-green">{bundle.name}</p>
+                <h3 className="mt-1 font-display text-xl font-semibold text-earth dark:text-neutral-100">
+                  {bundle.tagline[locale]}
+                </h3>
+                <p className="mt-2 text-sm text-earth-soft dark:text-neutral-400">{bundle.description[locale]}</p>
+                <div className="mt-5 flex items-center justify-between gap-3">
+                  <span className="font-display text-xl font-semibold text-earth dark:text-neutral-100">
+                    {formatPrice(bundle.price)}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => addBundle(bundle.id)}
+                    className="rounded-full bg-tg-green px-5 py-2.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
+                  >
+                    {t.bundles.add}
+                  </button>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}

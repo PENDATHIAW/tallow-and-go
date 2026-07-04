@@ -1,54 +1,41 @@
 import { ArrowRight } from 'lucide-react'
-import { lineupImage } from '../data/products'
+import { products } from '../data/catalog'
+import { formatPrice } from '../lib/format'
 import { useLocale } from '../context/LocaleContext'
 
 export default function Hero() {
   const { t } = useLocale()
+  const minPrice = Math.min(...products.map((p) => p.price))
 
   return (
-    <section className="hero-cinematic relative min-h-[100svh] overflow-hidden">
-      <div className="hero-media absolute inset-0">
-        <img
-          src={lineupImage}
-          alt="Gamme Tallow & Go — SAFAA, AURA, SHINY, NOOR, SOFT KISS"
-          className="hero-ken-burns absolute inset-0 h-full w-full object-cover object-center"
-        />
-        <div className="hero-vignette absolute inset-0" />
-        <div className="hero-grain pointer-events-none absolute inset-0" aria-hidden="true" />
-      </div>
-
-      <div className="hero-overlay absolute inset-0" />
-
-      <div className="relative mx-auto flex min-h-[100svh] max-w-6xl flex-col justify-end px-4 pb-20 pt-32 sm:px-6 lg:pb-28">
-        <p className="reveal text-xs font-semibold uppercase tracking-[0.28em] text-tg-gold">{t.hero.kicker}</p>
-        <h1 className="reveal reveal-d1 mt-5 max-w-4xl font-display text-balance text-5xl font-semibold leading-[1.02] text-tg-ivory sm:text-6xl lg:text-[5.25rem]">
-          {t.hero.title}
-        </h1>
-        <p className="reveal reveal-d2 mt-6 max-w-lg text-base leading-relaxed text-tg-ivory/80 sm:text-lg">
-          {t.hero.subtitle}
-        </p>
-
-        <div className="reveal reveal-d2 mt-10 flex flex-wrap gap-3">
+    <section className="relative overflow-hidden bg-tg-cream dark:bg-neutral-900">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-tg-green">{t.hero.kicker}</p>
+          <h1 className="mt-4 font-display text-4xl font-semibold leading-tight text-earth dark:text-neutral-100 sm:text-5xl lg:text-6xl">
+            {t.hero.title}
+          </h1>
+          <p className="mt-4 max-w-md text-base leading-relaxed text-earth-soft dark:text-neutral-400">
+            {t.hero.subtitle}
+          </p>
+          <p className="mt-3 text-sm text-earth-soft/80 dark:text-neutral-500">
+            {t.hero.from} {formatPrice(minPrice)}
+          </p>
           <a
-            href="#produits"
-            className="inline-flex items-center gap-2 rounded-full bg-tg-ivory px-7 py-3.5 text-sm font-semibold tracking-wide text-tg-green transition hover:bg-white hover:shadow-[0_8px_32px_rgba(250,248,244,0.25)]"
+            href="#skin"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-tg-green px-7 py-3.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
           >
-            {t.hero.cta1}
+            {t.hero.cta}
             <ArrowRight className="h-4 w-4" />
-          </a>
-          <a
-            href="#traceabilite"
-            className="inline-flex items-center rounded-full border border-tg-ivory/25 bg-tg-ivory/5 px-7 py-3.5 text-sm font-semibold tracking-wide text-tg-ivory backdrop-blur-sm transition hover:border-tg-ivory/50 hover:bg-tg-ivory/10"
-          >
-            {t.hero.cta2}
           </a>
         </div>
 
-        <div className="reveal reveal-d2 mt-16 hidden items-end justify-between border-t border-tg-ivory/15 pt-6 sm:flex">
-          <p className="max-w-xs text-xs leading-relaxed tracking-wide text-tg-ivory/55">{t.hero.scrollHint}</p>
-          <div className="hero-scroll-indicator flex flex-col items-center gap-2" aria-hidden="true">
-            <span className="h-10 w-px bg-gradient-to-b from-transparent via-tg-gold/60 to-transparent" />
-          </div>
+        <div className="relative flex justify-center lg:justify-end">
+          <img
+            src="/brand/logo-full.png"
+            alt="Tallow & Go"
+            className="max-h-72 w-auto object-contain sm:max-h-96"
+          />
         </div>
       </div>
     </section>

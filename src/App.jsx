@@ -1,12 +1,11 @@
-import Commitments from './components/Commitments'
-import BenefitsBar from './components/BenefitsBar'
-import Contact from './components/Contact'
+import BundlesSection from './components/BundlesSection'
+import CartDrawer from './components/CartDrawer'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Hero from './components/Hero'
-import Products from './components/Products'
-import Story from './components/Story'
-import Traceability from './components/Traceability'
+import RoutinesSection from './components/RoutinesSection'
+import UniverseNav from './components/UniverseNav'
+import UniverseSection from './components/UniverseSection'
 
 export default function App() {
   return (
@@ -14,14 +13,17 @@ export default function App() {
       <Header />
       <main>
         <Hero />
-        <BenefitsBar />
-        <Products />
-        <Traceability />
-        <Commitments />
-        <Story />
-        <Contact />
+        <UniverseNav />
+        <UniverseSection universeId="skin" />
+        <UniverseSection universeId="body" />
+        <UniverseSection universeId="essentials" />
+        <UniverseSection universeId="nomades" />
+        <UniverseSection universeId="home" />
+        <RoutinesSection />
+        <BundlesSection />
       </main>
       <Footer />
+      <CartDrawer />
     </div>
   )
 }

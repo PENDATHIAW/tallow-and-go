@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { CartProvider } from './context/CartContext'
 import { LocaleProvider } from './context/LocaleContext'
 import { ThemeProvider } from './context/ThemeContext'
 import './index.css'
@@ -9,7 +10,9 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ThemeProvider>
       <LocaleProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </LocaleProvider>
     </ThemeProvider>
   </StrictMode>,

@@ -1,0 +1,66 @@
+import { routines, getRoutineProducts } from '../data/catalog'
+import { formatPrice } from '../lib/format'
+import { useCart } from '../context/CartContext'
+import { useLocale } from '../context/LocaleContext'
+
+export default function RoutinesSection() {
+  const { locale, t } = useLocale()
+  const { addRoutine } = useCart()
+
+  return (
+    <section id="routines" className="section-padding scroll-mt-20 bg-cream dark:bg-neutral-900">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 max-w-xl">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.routines.kicker}</p>
+          <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
+            {t.routines.title}
+          </h2>
+        </div>
+
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {routines.map((routine) => {
+            const prods = getRoutineProducts(routine.id)
+            const total = prods.reduce((s, p) => s + p.price, 0)
+            const info = t.routines.items[routine.id]
+
+            return (
+              <article
+                key={routine.id}
+                className="flex flex-col rounded-2xl border border-cream-dark bg-white-warm p-5 dark:border-neutral-800 dark:bg-neutral-950"
+              >
+                <h3 className="font-display text-xl font-semibold text-earth dark:text-neutral-100">{info.title}</h3>
+                <p className="mt-1 text-sm text-earth-soft dark:text-neutral-400">{info.desc}</p>
+
+                <ol className="mt-4 flex-1 space-y-2">
+                  {prods.map((p, i) => (
+                    <li key={p.id} className="flex items-center gap-3 text-sm">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-tg-green/10 text-xs font-bold text-tg-green">
+                        {i + 1}
+                      </span>
+                      <span className="text-earth-soft dark:text-neutral-300">
+                        <span className="font-semibold text-earth dark:text-neutral-100">{p.name}</span>
+                        {' — '}
+                        {p.tagline[locale]}
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+
+                <div className="mt-5 flex items-center justify-between gap-3 border-t border-cream-dark pt-4 dark:border-neutral-800">
+                  <span className="text-sm font-semibold text-earth dark:text-neutral-100">{formatPrice(total)}</span>
+                  <button
+                    type="button"
+                    onClick={() => addRoutine(routine.productIds)}
+                    className="rounded-full bg-tg-green px-4 py-2 text-xs font-semibold text-tg-ivory transition hover:bg-tg-green-light"
+                  >
+                    {t.routines.addAll}
+                  </button>
+                </div>
+              </article>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
