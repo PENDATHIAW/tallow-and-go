@@ -3,9 +3,14 @@ import ShopLayout from './layouts/ShopLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminLogin from './pages/admin/AdminLogin'
 import BundlesPage from './pages/BundlesPage'
+import DeliveryPage from './pages/DeliveryPage'
+import FaqPage from './pages/FaqPage'
 import HomePage from './pages/HomePage'
+import LegalPage from './pages/LegalPage'
 import NotFoundPage from './pages/NotFoundPage'
+import OrderPage from './pages/OrderPage'
 import ProductPage from './pages/ProductPage'
+import QuizPage from './pages/QuizPage'
 import RoutinesPage from './pages/RoutinesPage'
 import UniversePage from './pages/UniversePage'
 
@@ -19,6 +24,13 @@ export default function App() {
           <Route path="/produit/:productId" element={<ProductPage />} />
           <Route path="/routines" element={<RoutinesPage />} />
           <Route path="/coffrets" element={<BundlesPage />} />
+          <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/livraison" element={<DeliveryPage />} />
+          <Route path="/commande" element={<OrderPage />} />
+          <Route path="/cgv" element={<LegalPage />} />
+          <Route path="/retours" element={<LegalPage />} />
+          <Route path="/confidentialite" element={<LegalPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
         <Route path="/admin" element={<AdminLogin />} />

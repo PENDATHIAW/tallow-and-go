@@ -13,6 +13,7 @@ const navLinks = [
   { to: '/univers/nomades', key: 'nomades' },
   { to: '/routines', key: 'routines' },
   { to: '/coffrets', key: 'bundles' },
+  { to: '/quiz', key: 'quiz' },
 ]
 
 const navClass = ({ isActive }) =>
@@ -108,6 +109,18 @@ export default function Header() {
                 </NavLink>
               </li>
             ))}
+            <li>
+              <button
+                type="button"
+                onClick={() => {
+                  switchLocale(locale === 'fr' ? 'en' : 'fr')
+                  setOpen(false)
+                }}
+                className="text-sm font-medium text-earth-soft"
+              >
+                {locale === 'fr' ? 'English (EN)' : 'Français (FR)'}
+              </button>
+            </li>
           </ul>
         </nav>
       ) : null}

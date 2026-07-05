@@ -3,6 +3,7 @@ import { bundles, getProduct } from '../data/catalog'
 
 const CartContext = createContext()
 const STORAGE_KEY = 'tg-cart'
+const ORDER_KEY = 'tg-last-order'
 
 function loadCart() {
   try {
@@ -13,11 +14,29 @@ function loadCart() {
   }
 }
 
+function loadLastOrder() {
+  try {
+    const raw = sessionStorage.getItem(ORDER_KEY)
+    return raw ? JSON.parse(raw) : null
+  } catch {
+    return null
+  }
+}
+
 export function CartProvider({ children }) {
   const [items, setItems] = useState(loadCart)
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState('cart')
-  const [lastOrder, setLastOrder] = useState(null)
+  const [lastOrder, setLastOrderState] = useState(loadLastOrder)
+
+  const setLastOrder = (order) => {
+    setLastOrderState(order)
+    if (order) {
+      sessionStorage.setItem(ORDER_KEY, JSON.stringify(order))
+    } else {
+      sessionStorage.removeItem(ORDER_KEY)
+    }
+  }
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(items))

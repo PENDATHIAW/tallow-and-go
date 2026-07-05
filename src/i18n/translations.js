@@ -9,6 +9,7 @@ export const translations = {
       nomades: 'Nomades',
       routines: 'Routines',
       bundles: 'Coffrets',
+      quiz: 'Quiz rituel',
     },
     pages: {
       home: 'Accueil',
@@ -95,6 +96,9 @@ export const translations = {
       orderOk: 'Commande validée avec succès !',
       orderNumber: 'N° commande',
       payment: 'Paiement',
+      shippingFrom: 'Livraison dès',
+      shippingAtCheckout: 'Calculée selon votre localité au checkout',
+      viewOrder: 'Voir le récapitulatif',
       paymentMethods: {
         wave: 'Wave',
         orange_money: 'Orange Money',
@@ -121,6 +125,7 @@ export const translations = {
       emailSent: 'Un récapitulatif a été envoyé à votre adresse email.',
       emailPendingForward: 'Commande enregistrée. Notre équipe vous enverra le récapitulatif par email sous peu.',
       whatsappConfirm: 'Notre équipe vous confirmera la commande par WhatsApp au numéro indiqué.',
+      phoneInvalid: 'Numéro sénégalais invalide (ex. 77 123 45 67).',
       successPayment: {
         waveTitle: 'Finalisez votre paiement Wave',
         orangeTitle: 'Finalisez votre paiement Orange Money',
@@ -166,6 +171,34 @@ export const translations = {
       tagline: 'Nourrir · Clarifier · Rayonner',
       made: 'Fabriqué au Sénégal',
       contact: 'hello@tallowandgo.com',
+      shop: 'Boutique',
+      help: 'Aide',
+      legal: 'Informations légales',
+      faq: 'FAQ',
+      delivery: 'Livraison & paiement',
+      terms: 'CGV',
+      returns: 'Retours',
+      privacy: 'Confidentialité',
+    },
+    whatsapp: {
+      label: 'WhatsApp',
+      contact: 'Contacter sur WhatsApp',
+      sendOrder: 'Envoyer ma commande sur WhatsApp',
+    },
+    faq: {
+      stillQuestion: 'Une autre question ?',
+    },
+    delivery: {
+      feeRange: 'Frais de livraison :',
+    },
+    quiz: {
+      kicker: 'Quiz rituel',
+      homeTitle: 'Quel rituel pour vous ?',
+      homeLead: '3 questions — une recommandation sur mesure.',
+      homeCta: 'Faire le quiz',
+    },
+    order: {
+      pageTitle: 'Ma commande',
     },
   },
   en: {
@@ -178,6 +211,7 @@ export const translations = {
       nomades: 'Travel',
       routines: 'Routines',
       bundles: 'Sets',
+      quiz: 'Ritual quiz',
     },
     pages: {
       home: 'Home',
@@ -264,6 +298,9 @@ export const translations = {
       orderOk: 'Order confirmed successfully!',
       orderNumber: 'Order no.',
       payment: 'Payment',
+      shippingFrom: 'Shipping from',
+      shippingAtCheckout: 'Calculated by location at checkout',
+      viewOrder: 'View order summary',
       paymentMethods: {
         wave: 'Wave',
         orange_money: 'Orange Money',
@@ -290,6 +327,7 @@ export const translations = {
       emailSent: 'A summary has been sent to your email address.',
       emailPendingForward: 'Order saved. Our team will email you the summary shortly.',
       whatsappConfirm: 'Our team will confirm your order via WhatsApp at the number provided.',
+      phoneInvalid: 'Invalid Senegalese number (e.g. 77 123 45 67).',
       successPayment: {
         waveTitle: 'Complete your Wave payment',
         orangeTitle: 'Complete your Orange Money payment',
@@ -335,6 +373,34 @@ export const translations = {
       tagline: 'Nourish · Clarify · Glow',
       made: 'Made in Senegal',
       contact: 'hello@tallowandgo.com',
+      shop: 'Shop',
+      help: 'Help',
+      legal: 'Legal',
+      faq: 'FAQ',
+      delivery: 'Shipping & payment',
+      terms: 'Terms',
+      returns: 'Returns',
+      privacy: 'Privacy',
+    },
+    whatsapp: {
+      label: 'WhatsApp',
+      contact: 'Contact on WhatsApp',
+      sendOrder: 'Send my order on WhatsApp',
+    },
+    faq: {
+      stillQuestion: 'Another question?',
+    },
+    delivery: {
+      feeRange: 'Shipping fees:',
+    },
+    quiz: {
+      kicker: 'Ritual quiz',
+      homeTitle: 'Which ritual is for you?',
+      homeLead: '3 questions — a tailored recommendation.',
+      homeCta: 'Take the quiz',
+    },
+    order: {
+      pageTitle: 'My order',
     },
   },
 }

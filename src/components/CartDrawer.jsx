@@ -1,10 +1,15 @@
-import { Minus, Plus, X } from 'lucide-react'
+import { Minus, Plus, X, MessageCircle } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { localityGroups, getLocalityById } from '../data/localities'
+import { getBundleImage } from '../data/illustrationManifest'
 import { formatPrice } from '../lib/format'
 import { sendOrderNotifications } from '../lib/orderNotifications'
+import { isValidSenegalPhone, normalizeSenegalPhone } from '../lib/phone'
 import { getPaymentInstructions, getPaymentMethodLabel } from '../lib/payments'
+import { getShippingFeeRange } from '../lib/shipping'
 import { submitOrder } from '../lib/orders'
+import { buildOrderWhatsAppUrl } from '../lib/whatsapp'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
@@ -45,6 +50,14 @@ export default function CartDrawer() {
   const locality = getLocalityById(form.localityId)
   const shippingFee = locality?.shippingFee ?? 0
   const grandTotal = total + (step === 'recap' || step === 'form' ? shippingFee : 0)
+  const { min: minShipping } = getShippingFeeRange()
+
+  const getItemImage = (item) => {
+    if (item.type === 'bundle') {
+      return getBundleImage(item.id) ?? item.bundle?.image
+    }
+    return item.product?.image
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -52,9 +65,14 @@ export default function CartDrawer() {
       setError(locale === 'fr' ? 'Choisissez une localité.' : 'Choose a location.')
       return
     }
+    if (!isValidSenegalPhone(form.phone)) {
+      setError(t.checkout.phoneInvalid)
+      return
+    }
     setSubmitting(true)
     setError('')
 
+    const customer = { ...form, phone: normalizeSenegalPhone(form.phone) }
     const orderItems = resolved.map((item) => ({
       type: item.type,
       id: item.id,
@@ -64,7 +82,7 @@ export default function CartDrawer() {
     }))
 
     const result = await submitOrder({
-      customer: form,
+      customer,
       locality,
       items: orderItems,
       subtotal: total,
@@ -88,7 +106,7 @@ export default function CartDrawer() {
       total: total + shippingFee,
       paymentMethod: form.paymentMethod,
       locality,
-      customer: form,
+      customer,
       items: orderItems,
     })
     clearCart()
@@ -103,7 +121,7 @@ export default function CartDrawer() {
         total: total + shippingFee,
         paymentMethod: form.paymentMethod,
         locality,
-        customer: form,
+        customer,
         items: orderItems,
       },
       locale,
@@ -137,7 +155,12 @@ export default function CartDrawer() {
                     const subtitle =
                       item.type === 'bundle' ? item.bundle?.tagline?.[locale] : item.product?.tagline?.[locale]
                     return (
-                      <li key={`${item.type}-${item.id}`} className="flex gap-4 border-b border-cream-dark pb-4 dark:border-neutral-800">
+                      <li key={`${item.type}-${item.id}`} className="flex gap-3 border-b border-cream-dark pb-4 dark:border-neutral-800">
+                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[#f5efe6] dark:bg-neutral-900">
+                          {getItemImage(item) ? (
+                            <img src={getItemImage(item)} alt="" className="h-full w-full object-cover" />
+                          ) : null}
+                        </div>
                         <div className="flex-1">
                           <p className="font-semibold text-earth dark:text-neutral-100">{name}</p>
                           {subtitle ? <p className="text-xs text-earth-soft">{subtitle}</p> : null}
@@ -256,6 +279,16 @@ export default function CartDrawer() {
               {!lastOrder.customer.email ? (
                 <p className="text-earth-soft">{t.checkout.whatsappConfirm}</p>
               ) : null}
+
+              <a
+                href={buildOrderWhatsAppUrl(lastOrder, locale)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 text-sm font-semibold text-white"
+              >
+                <MessageCircle className="h-4 w-4" />
+                {t.whatsapp.sendOrder}
+              </a>
             </div>
           )}
         </div>
@@ -263,9 +296,14 @@ export default function CartDrawer() {
         <div className="border-t border-cream-dark px-5 py-5 dark:border-neutral-800">
           {step === 'cart' && (
             <>
-              <div className="mb-4 flex justify-between font-semibold">
-                <span>{t.cart.subtotal}</span>
-                <span>{formatPrice(total)}</span>
+              <div className="mb-4 space-y-1 text-sm">
+                <div className="flex justify-between font-semibold">
+                  <span>{t.cart.subtotal}</span>
+                  <span>{formatPrice(total)}</span>
+                </div>
+                <p className="text-xs text-earth-soft">
+                  {t.cart.shippingFrom} {formatPrice(minShipping)} · {t.cart.shippingAtCheckout}
+                </p>
               </div>
               {resolved.length > 0 ? (
                 <button type="button" onClick={openCheckout} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
@@ -292,9 +330,18 @@ export default function CartDrawer() {
           )}
 
           {step === 'recap' && lastOrder && (
-            <button type="button" onClick={closeCart} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
-              {t.cart.continue}
-            </button>
+            <>
+              <Link
+                to="/commande"
+                onClick={closeCart}
+                className="mb-3 block w-full rounded-full border border-cream-dark py-3 text-center text-sm font-semibold text-earth-soft dark:border-neutral-700"
+              >
+                {t.cart.viewOrder}
+              </Link>
+              <button type="button" onClick={closeCart} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
+                {t.cart.continue}
+              </button>
+            </>
           )}
         </div>
       </aside>

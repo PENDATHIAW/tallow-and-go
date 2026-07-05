@@ -104,8 +104,22 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-tg-green px-4 py-8 text-center sm:px-6">
-        <p className="text-sm font-medium text-tg-ivory sm:text-base">{content.deliveryBanner}</p>
+      <section className="bg-tg-green px-4 py-10 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div>
+            <h2 className="font-display text-2xl font-semibold text-tg-ivory">{t.quiz.homeTitle}</h2>
+            <p className="mt-1 text-sm text-tg-ivory/80">{t.quiz.homeLead}</p>
+          </div>
+          <Link
+            to="/quiz"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-tg-ivory px-6 py-3 text-sm font-semibold text-tg-green"
+          >
+            {t.quiz.homeCta} <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <p className="mx-auto mt-8 max-w-2xl border-t border-tg-ivory/20 pt-6 text-center text-sm font-medium text-tg-ivory/90">
+          {content.deliveryBanner}
+        </p>
       </section>
     </>
   )
