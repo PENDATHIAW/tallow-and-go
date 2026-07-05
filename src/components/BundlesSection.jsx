@@ -3,21 +3,23 @@ import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
-export default function BundlesSection() {
+export default function BundlesSection({ compact = false }) {
   const { locale, t } = useLocale()
   const { addBundle } = useCart()
 
   return (
-    <section id="bundles" className="section-padding scroll-mt-20">
+    <section id={compact ? undefined : 'bundles'} className={compact ? '' : 'section-padding scroll-mt-20'}>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 max-w-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.bundles.kicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
-            {t.bundles.title}
-          </h2>
-        </div>
+        {!compact ? (
+          <div className="mb-10 max-w-xl px-4 sm:px-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.bundles.kicker}</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
+              {t.bundles.title}
+            </h2>
+          </div>
+        ) : null}
 
-        <div className="grid gap-6 sm:grid-cols-2">
+        <div className={`grid gap-6 sm:grid-cols-2 ${compact ? '' : 'px-4 sm:px-6'}`}>
           {bundles.map((bundle) => (
             <article
               key={bundle.id}

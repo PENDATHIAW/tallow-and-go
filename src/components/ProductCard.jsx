@@ -1,42 +1,39 @@
+import { Link } from 'react-router-dom'
 import { formatPrice } from '../lib/format'
+import { getProductPath } from '../data/routes'
 import { useLocale } from '../context/LocaleContext'
 import { useCart } from '../context/CartContext'
 
-export default function ProductCard({ product, onSelect }) {
+export default function ProductCard({ product, onSelect, linkMode = false }) {
   const { locale, t } = useLocale()
   const { addProduct } = useCart()
+  const productPath = getProductPath(product.id)
+
+  const TitleWrap = linkMode ? Link : 'button'
+  const titleProps = linkMode
+    ? { to: productPath, className: 'text-left block' }
+    : { type: 'button', onClick: () => onSelect?.(product), className: 'text-left' }
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-cream-dark/80 bg-white-warm transition hover:-translate-y-1 hover:border-tg-green/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-950">
-      <button type="button" onClick={() => onSelect(product)} className="text-left">
-        <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#f5efe6] p-3 dark:bg-neutral-900">
-          <img
-            src={product.image}
-            alt={product.name}
-            loading="lazy"
-            className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-[1.02]"
-          />
-          {product.featured ? (
-            <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">
-              {t.shop.bestSeller}
-            </span>
-          ) : null}
-          {product.nomade ? (
-            <span className="absolute right-3 top-3 rounded-full bg-tg-gold/90 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-white">
-              {t.shop.nomade}
-            </span>
-          ) : null}
-        </div>
-      </button>
+      {linkMode ? (
+        <Link to={productPath} className="block">
+          <ProductImage product={product} t={t} />
+        </Link>
+      ) : (
+        <button type="button" onClick={() => onSelect?.(product)} className="text-left">
+          <ProductImage product={product} t={t} />
+        </button>
+      )}
 
       <div className="flex flex-1 flex-col p-4">
-        <button type="button" onClick={() => onSelect(product)} className="text-left">
+        <TitleWrap {...titleProps}>
           <p className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-tg-green">{product.name}</p>
           <h3 className="mt-1 font-display text-lg font-semibold leading-tight text-earth dark:text-neutral-100">
             {product.tagline[locale]}
           </h3>
           <p className="mt-1 text-xs text-earth-soft dark:text-neutral-500">{product.size}</p>
-        </button>
+        </TitleWrap>
 
         <p className="mt-3 flex-1 text-xs leading-relaxed text-earth-soft dark:text-neutral-400">
           {product.description[locale]}
@@ -47,13 +44,22 @@ export default function ProductCard({ product, onSelect }) {
             {formatPrice(product.price)}
           </span>
           <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={() => onSelect(product)}
-              className="rounded-full border border-cream-dark px-3 py-1.5 text-xs font-semibold text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700"
-            >
-              {t.shop.view}
-            </button>
+            {linkMode ? (
+              <Link
+                to={productPath}
+                className="rounded-full border border-cream-dark px-3 py-1.5 text-xs font-semibold text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700"
+              >
+                {t.shop.view}
+              </Link>
+            ) : (
+              <button
+                type="button"
+                onClick={() => onSelect?.(product)}
+                className="rounded-full border border-cream-dark px-3 py-1.5 text-xs font-semibold text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700"
+              >
+                {t.shop.view}
+              </button>
+            )}
             <button
               type="button"
               onClick={() => addProduct(product.id)}
@@ -65,5 +71,28 @@ export default function ProductCard({ product, onSelect }) {
         </div>
       </div>
     </article>
+  )
+}
+
+function ProductImage({ product, t }) {
+  return (
+    <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#f5efe6] p-3 dark:bg-neutral-900">
+      <img
+        src={product.image}
+        alt={product.name}
+        loading="lazy"
+        className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-[1.02]"
+      />
+      {product.featured ? (
+        <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">
+          {t.shop.bestSeller}
+        </span>
+      ) : null}
+      {product.nomade ? (
+        <span className="absolute right-3 top-3 rounded-full bg-tg-gold/90 px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-white">
+          {t.shop.nomade}
+        </span>
+      ) : null}
+    </div>
   )
 }

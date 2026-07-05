@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { products } from '../data/catalog'
 import { formatPrice } from '../lib/format'
 import { useLocale } from '../context/LocaleContext'
@@ -21,13 +22,13 @@ export default function Hero() {
           <p className="mt-3 text-sm text-earth-soft/80 dark:text-neutral-500">
             {t.hero.from} {formatPrice(minPrice)}
           </p>
-          <a
-            href="#skin"
+          <Link
+            to="/univers/visage"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-tg-green px-7 py-3.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
           >
             {t.hero.cta}
             <ArrowRight className="h-4 w-4" />
-          </a>
+          </Link>
         </div>
 
         <div className="relative flex justify-center lg:justify-end">

@@ -1,17 +1,24 @@
 import { Menu, Moon, ShoppingBag, Sun, X } from 'lucide-react'
 import { useState } from 'react'
+import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 import { useTheme } from '../context/ThemeContext'
 
 const navLinks = [
-  { href: '#skin', key: 'skin' },
-  { href: '#body', key: 'body' },
-  { href: '#essentials', key: 'essentials' },
-  { href: '#nomades', key: 'nomades' },
-  { href: '#routines', key: 'routines' },
-  { href: '#bundles', key: 'bundles' },
+  { to: '/', key: 'home', end: true },
+  { to: '/univers/visage', key: 'skin' },
+  { to: '/univers/corps', key: 'body' },
+  { to: '/univers/essentiels', key: 'essentials' },
+  { to: '/univers/nomades', key: 'nomades' },
+  { to: '/routines', key: 'routines' },
+  { to: '/coffrets', key: 'bundles' },
 ]
+
+const navClass = ({ isActive }) =>
+  `text-sm font-medium transition hover:text-tg-green dark:text-neutral-300 ${
+    isActive ? 'text-tg-green' : 'text-earth-soft'
+  }`
 
 export default function Header() {
   const [open, setOpen] = useState(false)
@@ -22,7 +29,7 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-50 glass border-b border-cream-dark/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
-        <a href="#" className="flex items-center gap-3">
+        <Link to="/" className="flex items-center gap-3">
           <img src="/brand/logo-monogram.png" alt="" className="h-9 w-9 rounded-full object-cover" />
           <span>
             <span className="block font-display text-lg font-semibold leading-none tracking-wide text-earth dark:text-neutral-100">
@@ -32,17 +39,13 @@ export default function Header() {
               {t.header.tagline}
             </span>
           </span>
-        </a>
+        </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-5 lg:flex">
           {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-earth-soft transition hover:text-tg-green dark:text-neutral-300"
-            >
+            <NavLink key={link.to} to={link.to} end={link.end} className={navClass}>
               {t.nav[link.key]}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -94,14 +97,15 @@ export default function Header() {
         <nav className="border-t border-cream-dark bg-white-warm px-4 py-4 lg:hidden dark:border-neutral-800 dark:bg-neutral-950">
           <ul className="space-y-3">
             {navLinks.map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
-                  className="block text-base font-medium text-earth-soft"
+              <li key={link.to}>
+                <NavLink
+                  to={link.to}
+                  end={link.end}
+                  className={navClass}
                   onClick={() => setOpen(false)}
                 >
                   {t.nav[link.key]}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>

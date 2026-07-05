@@ -3,22 +3,25 @@ import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
-export default function RoutinesSection() {
+export default function RoutinesSection({ compact = false }) {
   const { locale, t } = useLocale()
   const { addRoutine } = useCart()
+  const list = compact ? routines.slice(0, 3) : routines
 
   return (
-    <section id="routines" className="section-padding scroll-mt-20 bg-cream dark:bg-neutral-900">
+    <section id={compact ? undefined : 'routines'} className={`${compact ? '' : 'section-padding scroll-mt-20'} bg-cream dark:bg-neutral-900`}>
       <div className="mx-auto max-w-6xl">
-        <div className="mb-10 max-w-xl">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.routines.kicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
-            {t.routines.title}
-          </h2>
-        </div>
+        {!compact ? (
+          <div className="mb-10 max-w-xl px-4 sm:px-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.routines.kicker}</p>
+            <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100 sm:text-4xl">
+              {t.routines.title}
+            </h2>
+          </div>
+        ) : null}
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {routines.map((routine) => {
+        <div className={`grid gap-5 sm:grid-cols-2 lg:grid-cols-3 ${compact ? '' : 'px-4 sm:px-6'}`}>
+          {list.map((routine) => {
             const prods = getRoutineProducts(routine.id)
             const total = prods.reduce((s, p) => s + p.price, 0)
             const info = t.routines.items[routine.id]
