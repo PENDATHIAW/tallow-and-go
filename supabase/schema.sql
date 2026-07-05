@@ -134,21 +134,26 @@ begin
 end;
 $$;
 
--- Seed localités (extrait — compléter via dashboard si besoin)
+-- Seed localités — réexécutable : met à jour les tarifs sans erreur
 insert into public.localities (id, name_fr, name_en, zone_group, shipping_fee) values
-  ('plateau', 'Plateau', 'Plateau', 'dakar-2000', 2000),
+  ('yoff', 'Yoff', 'Yoff', 'dakar-1500', 1500),
+  ('mermoz', 'Mermoz / Sacré-Cœur', 'Mermoz / Sacré-Cœur', 'dakar-1500', 2000),
+  ('plateau', 'Plateau', 'Plateau', 'dakar-2000', 3000),
   ('medina', 'Médina', 'Médina', 'dakar-2000', 2000),
   ('fann', 'Fann / Point E / Amitié', 'Fann / Point E / Amitié', 'dakar-2000', 2000),
-  ('yoff', 'Yoff', 'Yoff', 'dakar-1500', 1500),
-  ('mermoz', 'Mermoz / Sacré-Cœur', 'Mermoz / Sacré-Cœur', 'dakar-1500', 1500),
-  ('pikine', 'Pikine', 'Pikine', 'dakar-3500', 3500),
-  ('guediawaye', 'Guédiawaye', 'Guédiawaye', 'dakar-3500', 3500),
-  ('rufisque', 'Rufisque', 'Rufisque', 'rufisque-4000', 4000),
-  ('thies', 'Thiès', 'Thiès', 'thies-mbour', 3000),
-  ('mbour', 'Mbour / Saly', 'Mbour / Saly', 'thies-mbour', 3000),
+  ('pikine', 'Pikine', 'Pikine', 'dakar-3000', 3000),
+  ('guediawaye', 'Guédiawaye', 'Guédiawaye', 'dakar-3500', 2500),
+  ('rufisque', 'Rufisque', 'Rufisque', 'rufisque-4000', 3000),
+  ('thies', 'Thiès', 'Thiès', 'thies-mbour', 4000),
+  ('mbour', 'Mbour / Saly', 'Mbour / Saly', 'thies-mbour', 4000),
   ('saint-louis', 'Saint-Louis', 'Saint-Louis', 'regions', 5000),
   ('autre-region', 'Autre localité régionale', 'Other regional location', 'regions', 5000)
-on conflict (id) do nothing;
+on conflict (id) do update set
+  name_fr = excluded.name_fr,
+  name_en = excluded.name_en,
+  zone_group = excluded.zone_group,
+  shipping_fee = excluded.shipping_fee,
+  active = true;
 
 grant execute on function public.admin_check to anon, authenticated;
 grant execute on function public.admin_get_orders to anon, authenticated;

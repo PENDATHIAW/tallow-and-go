@@ -1,22 +1,22 @@
-/** Localités et frais de livraison (FCFA) — Dakar/Rufisque basés sur tarifs marché local */
+/** Localités et frais de livraison (FCFA) — tarif par localité */
 export const localityGroups = [
   {
     id: 'dakar-1500',
     shippingFee: 1500,
-    label: { fr: 'Dakar — Proche (1 500 F)', en: 'Dakar — Near (1,500 F)' },
+    label: { fr: 'Dakar — Proche', en: 'Dakar — Near' },
     localities: [
-      { id: 'yoff', name: { fr: 'Yoff', en: 'Yoff' } },
-      { id: 'mermoz', name: { fr: 'Mermoz / Sacré-Cœur', en: 'Mermoz / Sacré-Cœur' } },
+      { id: 'yoff', name: { fr: 'Yoff', en: 'Yoff' }, shippingFee: 1500 },
+      { id: 'mermoz', name: { fr: 'Mermoz / Sacré-Cœur', en: 'Mermoz / Sacré-Cœur' }, shippingFee: 2000 },
     ],
   },
   {
     id: 'dakar-2000',
     shippingFee: 2000,
-    label: { fr: 'Dakar — Centre (2 000 F)', en: 'Dakar — Center (2,000 F)' },
+    label: { fr: 'Dakar — Centre', en: 'Dakar — Center' },
     localities: [
-      { id: 'plateau', name: { fr: 'Plateau', en: 'Plateau' } },
-      { id: 'medina', name: { fr: 'Médina', en: 'Médina' } },
-      { id: 'fann', name: { fr: 'Fann / Point E / Amitié', en: 'Fann / Point E / Amitié' } },
+      { id: 'plateau', name: { fr: 'Plateau', en: 'Plateau' }, shippingFee: 3000 },
+      { id: 'medina', name: { fr: 'Médina', en: 'Médina' }, shippingFee: 2000 },
+      { id: 'fann', name: { fr: 'Fann / Point E / Amitié', en: 'Fann / Point E / Amitié' }, shippingFee: 2000 },
       { id: 'hlm', name: { fr: 'HLM / Grand Dakar', en: 'HLM / Grand Dakar' } },
       { id: 'liberte', name: { fr: 'Liberté / Sicap', en: 'Liberté / Sicap' } },
       { id: 'dieuppeul', name: { fr: 'Dieuppeul / Derklé', en: 'Dieuppeul / Derklé' } },
@@ -38,10 +38,10 @@ export const localityGroups = [
   {
     id: 'dakar-3500',
     shippingFee: 3500,
-    label: { fr: 'Dakar — Banlieue (3 500 F)', en: 'Dakar — Suburbs (3,500 F)' },
+    label: { fr: 'Dakar — Banlieue', en: 'Dakar — Suburbs' },
     localities: [
-      { id: 'pikine', name: { fr: 'Pikine', en: 'Pikine' } },
-      { id: 'guediawaye', name: { fr: 'Guédiawaye', en: 'Guédiawaye' } },
+      { id: 'pikine', name: { fr: 'Pikine', en: 'Pikine' }, shippingFee: 3000 },
+      { id: 'guediawaye', name: { fr: 'Guédiawaye', en: 'Guédiawaye' }, shippingFee: 2500 },
       { id: 'parcelles', name: { fr: 'Parcelles Assainies', en: 'Parcelles Assainies' } },
       { id: 'thiaroye-gare', name: { fr: 'Thiaroye Gare', en: 'Thiaroye Gare' } },
     ],
@@ -49,9 +49,9 @@ export const localityGroups = [
   {
     id: 'rufisque-4000',
     shippingFee: 4000,
-    label: { fr: 'Rufisque & environs (4 000 F)', en: 'Rufisque area (4,000 F)' },
+    label: { fr: 'Rufisque & environs', en: 'Rufisque area' },
     localities: [
-      { id: 'rufisque', name: { fr: 'Rufisque', en: 'Rufisque' } },
+      { id: 'rufisque', name: { fr: 'Rufisque', en: 'Rufisque' }, shippingFee: 3000 },
       { id: 'keur-massar', name: { fr: 'Keur Massar', en: 'Keur Massar' } },
       { id: 'mbao', name: { fr: 'Mbao', en: 'Mbao' } },
       { id: 'yeumbeul', name: { fr: 'Yeumbeul / Malika', en: 'Yeumbeul / Malika' } },
@@ -60,8 +60,8 @@ export const localityGroups = [
   },
   {
     id: 'thies-mbour',
-    shippingFee: 3000,
-    label: { fr: 'Thiès & Mbour (3 000 F)', en: 'Thiès & Mbour (3,000 F)' },
+    shippingFee: 4000,
+    label: { fr: 'Thiès & Mbour (4 000 F)', en: 'Thiès & Mbour (4,000 F)' },
     localities: [
       { id: 'thies', name: { fr: 'Thiès', en: 'Thiès' } },
       { id: 'mbour', name: { fr: 'Mbour / Saly', en: 'Mbour / Saly' } },
@@ -90,7 +90,7 @@ export function getAllLocalities() {
     group.localities.map((loc) => ({
       ...loc,
       groupId: group.id,
-      shippingFee: group.shippingFee,
+      shippingFee: loc.shippingFee ?? group.shippingFee,
       groupLabel: group.label,
     })),
   )
