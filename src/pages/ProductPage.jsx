@@ -4,6 +4,7 @@ import { Sparkles } from 'lucide-react'
 import Breadcrumb from '../components/Breadcrumb'
 import PageMeta from '../components/PageMeta'
 import ProductCard from '../components/ProductCard'
+import OptimizedImage from '../components/OptimizedImage'
 import ProductTrustStrip from '../components/ProductTrustStrip'
 import ShopCtaBand from '../components/ShopCtaBand'
 import { productPageExtras } from '../data/pageContent'
@@ -72,10 +73,15 @@ export default function ProductPage() {
 
           <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
             <div className="overflow-hidden rounded-3xl border border-cream-dark bg-[#f5efe6] dark:border-neutral-800 dark:bg-neutral-900">
-              <img
+              <OptimizedImage
                 src={product.image}
                 alt={product.name}
-                className="aspect-[4/5] w-full object-contain p-4"
+                size="full"
+                fit="contain"
+                className="aspect-[4/5] p-4"
+                wrapperClassName="w-full"
+                priority
+                loading="eager"
               />
             </div>
 

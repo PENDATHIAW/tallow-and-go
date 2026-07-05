@@ -55,6 +55,9 @@ export default function Hero() {
               alt="Tallow & Go"
               fit="contain"
               className="aspect-[4/5] w-full"
+              size="full"
+              priority
+              loading="eager"
               fallback={
                 <img src="/brand/logo-full.png" alt="Tallow & Go" className="mx-auto max-h-80 object-contain" />
               }

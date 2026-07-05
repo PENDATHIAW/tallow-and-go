@@ -50,6 +50,50 @@ export const homeHowItWorks = {
   },
 }
 
+export const homeIngredients = {
+  fr: {
+    kicker: 'Ingrédients nobles',
+    title: 'Ce que vous mettez sur votre peau',
+    lead: 'Des actifs choisis pour nourrir, apaiser et protéger — sans liste interminable ni compromis sur la qualité.',
+    items: [
+      { name: 'Suif purifié', desc: 'Lipides proches du sébum humain — nourrit en profondeur, renforce la barrière cutanée.' },
+      { name: 'Beurre de karité', desc: 'Apaise les peaux sèches et sensibles, texture fondante sous le climat tropical.' },
+      { name: 'Huiles végétales', desc: 'Jojoba, moringa, rose musquée, nigelle — sélectionnées pour leurs bienfaits ciblés.' },
+      { name: 'Actifs doux', desc: 'Niacinamide, panthénol, vitamine E — efficacité sans agresser les peaux métissées.' },
+      { name: 'SPF minéral', desc: 'Protection solaire sans traces blanches, pensée pour les peaux foncées.' },
+      { name: 'Zéro superflu', desc: 'Pas de parfum agressif, pas de colorant inutile — l\'essentiel, rien de plus.' },
+    ],
+  },
+  en: {
+    kicker: 'Noble ingredients',
+    title: 'What you put on your skin',
+    lead: 'Actives chosen to nourish, soothe and protect — no endless list, no compromise on quality.',
+    items: [
+      { name: 'Purified tallow', desc: 'Lipids close to human sebum — deep nourishment, stronger skin barrier.' },
+      { name: 'Shea butter', desc: 'Soothes dry sensitive skin, melting texture in tropical climates.' },
+      { name: 'Botanical oils', desc: 'Jojoba, moringa, rosehip, black seed — selected for targeted benefits.' },
+      { name: 'Gentle actives', desc: 'Niacinamide, panthenol, vitamin E — effective without irritating melanin-rich skin.' },
+      { name: 'Mineral SPF', desc: 'Sun protection without white cast, designed for deep skin tones.' },
+      { name: 'Nothing extra', desc: 'No harsh fragrance, no useless colorants — essentials only.' },
+    ],
+  },
+}
+
+export const homeFounderQuote = {
+  fr: {
+    quote:
+      'J\'ai créé Tallow & Go parce que nos peaux méritent des soins qui nourrissent vraiment — sans brûler, sans masquer, sans compromis. Chaque formule est pensée à Dakar, pour vous.',
+    name: 'Penda Thiaw',
+    role: 'Fondatrice & esthéticienne · Tallow & Go',
+  },
+  en: {
+    quote:
+      'I created Tallow & Go because our skin deserves care that truly nourishes — without stinging, masking or compromise. Every formula is designed in Dakar, for you.',
+    name: 'Penda Thiaw',
+    role: 'Founder & esthetician · Tallow & Go',
+  },
+}
+
 export const homeContent = {
   fr: {
     whyTitle: 'Pourquoi Tallow & Go ?',

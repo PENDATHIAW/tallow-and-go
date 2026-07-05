@@ -10,6 +10,7 @@ import { getPaymentInstructions, getPaymentMethodLabel } from '../lib/payments'
 import { getShippingFeeRange } from '../lib/shipping'
 import { submitOrder } from '../lib/orders'
 import { openOrderWhatsApp } from '../lib/whatsapp'
+import OptimizedImage from './OptimizedImage'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
@@ -158,7 +159,14 @@ export default function CartDrawer() {
                       <li key={`${item.type}-${item.id}`} className="flex gap-3 border-b border-cream-dark pb-4 dark:border-neutral-800">
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[#f5efe6] dark:bg-neutral-900">
                           {getItemImage(item) ? (
-                            <img src={getItemImage(item)} alt="" className="h-full w-full object-contain p-1" />
+                            <OptimizedImage
+                              src={getItemImage(item)}
+                              alt=""
+                              size="card"
+                              fit="contain"
+                              className="p-1"
+                              wrapperClassName="h-full w-full"
+                            />
                           ) : null}
                         </div>
                         <div className="flex-1">

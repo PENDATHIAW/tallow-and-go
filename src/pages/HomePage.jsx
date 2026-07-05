@@ -5,6 +5,8 @@ import Hero from '../components/Hero'
 import TrustBar from '../components/TrustBar'
 import HomeStats from '../components/HomeStats'
 import HomeStory from '../components/HomeStory'
+import HomeIngredients from '../components/HomeIngredients'
+import HomeFounderQuote from '../components/HomeFounderQuote'
 import HomeTestimonials from '../components/HomeTestimonials'
 import HomeHowItWorks from '../components/HomeHowItWorks'
 import NewsletterBand from '../components/NewsletterBand'
@@ -16,6 +18,7 @@ import IllustrationImage from '../components/IllustrationImage'
 import { illustrations } from '../data/illustrations'
 import { useShopConfig } from '../context/ShopConfigContext'
 import { useLocale } from '../context/LocaleContext'
+import { getHomePreloadImages, preloadImages } from '../lib/images'
 
 export default function HomePage() {
   const { locale, t } = useLocale()
@@ -24,6 +27,7 @@ export default function HomePage() {
 
   useEffect(() => {
     document.title = `Tallow & Go — ${heroContent.title ?? t.hero.title}`
+    preloadImages(getHomePreloadImages())
   }, [heroContent.title, t.hero.title])
 
   return (
@@ -60,6 +64,7 @@ export default function HomePage() {
               name={illustrations.pages.homeWhy}
               alt={homeContent.whyTitle}
               fit="contain"
+              size="card"
               className="aspect-[4/3] w-full p-2"
               fallback={null}
             />
@@ -69,13 +74,17 @@ export default function HomePage() {
 
       <HomeStory title={homeContent.storyTitle} lead={homeContent.storyLead} points={homeContent.storyPoints} />
 
+      <HomeIngredients />
+
+      <HomeFounderQuote />
+
       <section className="section-padding">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.featuredTitle}</h2>
           <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.featuredLead}</p>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {featured.map((product) => (
-              <ProductCard key={product.id} product={product} linkMode />
+            {featured.map((product, index) => (
+              <ProductCard key={product.id} product={product} linkMode priority={index < 2} />
             ))}
           </div>
         </div>

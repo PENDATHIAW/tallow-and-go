@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom'
+import OptimizedImage from './OptimizedImage'
 import { formatPrice } from '../lib/format'
 import { getProductPath } from '../data/routes'
 import { useLocale } from '../context/LocaleContext'
 import { useCart } from '../context/CartContext'
 
-export default function ProductCard({ product, onSelect, linkMode = false }) {
+export default function ProductCard({ product, onSelect, linkMode = false, priority = false }) {
   const { locale, t } = useLocale()
   const { addProduct } = useCart()
   const productPath = getProductPath(product.id)
@@ -18,11 +19,11 @@ export default function ProductCard({ product, onSelect, linkMode = false }) {
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-cream-dark/80 bg-white-warm transition hover:-translate-y-1 hover:border-tg-green/20 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-950">
       {linkMode ? (
         <Link to={productPath} className="block">
-          <ProductImage product={product} t={t} />
+          <ProductImage product={product} t={t} priority={priority} />
         </Link>
       ) : (
         <button type="button" onClick={() => onSelect?.(product)} className="text-left">
-          <ProductImage product={product} t={t} />
+          <ProductImage product={product} t={t} priority={priority} />
         </button>
       )}
 
@@ -74,14 +75,18 @@ export default function ProductCard({ product, onSelect, linkMode = false }) {
   )
 }
 
-function ProductImage({ product, t }) {
+function ProductImage({ product, t, priority = false }) {
   return (
     <div className="relative aspect-[4/5] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
-      <img
+      <OptimizedImage
         src={product.image}
         alt={product.name}
-        loading="lazy"
-        className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-[1.02]"
+        size="card"
+        fit="contain"
+        className="p-2 transition duration-500 group-hover:scale-[1.02]"
+        wrapperClassName="h-full w-full"
+        priority={priority}
+        loading={priority ? 'eager' : 'lazy'}
       />
       {product.featured ? (
         <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">

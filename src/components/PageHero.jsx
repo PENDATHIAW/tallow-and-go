@@ -21,6 +21,9 @@ export default function PageHero({ kicker, title, subtitle, image, imageAlt = ''
               name={image}
               alt={imageAlt}
               fit={imageFit}
+              size="full"
+              priority
+              loading="eager"
               fallback={
                 <div className="flex h-full items-center justify-center p-6">
                   <img src="/brand/logo-full.png" alt="" className="max-h-32 opacity-40" />
