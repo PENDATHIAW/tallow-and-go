@@ -6,6 +6,8 @@ import TrustBar from '../components/TrustBar'
 import HomeStats from '../components/HomeStats'
 import HomeStory from '../components/HomeStory'
 import HomeTestimonials from '../components/HomeTestimonials'
+import HomeHowItWorks from '../components/HomeHowItWorks'
+import NewsletterBand from '../components/NewsletterBand'
 import UniverseNavCards from '../components/UniverseNavCards'
 import ProductCard from '../components/ProductCard'
 import RoutinesSection from '../components/RoutinesSection'
@@ -80,6 +82,10 @@ export default function HomePage() {
       </section>
 
       <HomeTestimonials testimonials={homeContent.testimonials} />
+
+      <HomeHowItWorks />
+
+      <NewsletterBand />
 
       <section className="section-padding bg-cream dark:bg-neutral-900">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">

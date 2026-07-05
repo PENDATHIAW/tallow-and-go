@@ -25,6 +25,31 @@ export const trustPillars = {
   ],
 }
 
+export const homeHowItWorks = {
+  fr: {
+    kicker: 'Simple & humain',
+    title: 'Commander en 3 gestes',
+    lead: 'Pas de compte obligatoire — vous choisissez, vous payez comme vous voulez, on vous livre avec le sourire.',
+    steps: [
+      { title: 'Choisissez vos soins', desc: 'Parcourez les univers, le quiz ou les coffrets. Ajoutez au panier en un clic.' },
+      { title: 'Validez votre commande', desc: 'Indiquez votre localité, téléphone et mode de paiement (Wave, OM ou espèces).' },
+      { title: 'Suivi WhatsApp', desc: 'Notre équipe confirme, prépare et livre — vous pouvez nous écrire à tout moment.' },
+    ],
+    cta: 'Voir livraison & paiement',
+  },
+  en: {
+    kicker: 'Simple & human',
+    title: 'Order in 3 steps',
+    lead: 'No account required — pick your products, pay your way, we deliver with care.',
+    steps: [
+      { title: 'Choose your care', desc: 'Browse categories, take the quiz or explore gift sets. Add to cart in one click.' },
+      { title: 'Confirm your order', desc: 'Enter your area, phone and payment method (Wave, Orange Money or cash).' },
+      { title: 'WhatsApp follow-up', desc: 'Our team confirms, prepares and delivers — message us anytime.' },
+    ],
+    cta: 'See delivery & payment',
+  },
+}
+
 export const homeContent = {
   fr: {
     whyTitle: 'Pourquoi Tallow & Go ?',

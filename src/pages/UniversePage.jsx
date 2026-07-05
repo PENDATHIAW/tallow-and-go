@@ -3,6 +3,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import ProductCard from '../components/ProductCard'
+import ShopCtaBand from '../components/ShopCtaBand'
 import { getUniverseHeroImage, universePageContent } from '../data/pageContent'
 import { getUniverseIdFromSlug, getUniversePath } from '../data/routes'
 import { useLocale } from '../context/LocaleContext'
@@ -95,6 +96,15 @@ export default function UniversePage() {
           </div>
         </div>
       </section>
+
+      <ShopCtaBand
+        title={t.quiz.homeTitle}
+        lead={content.tip}
+        primaryTo="/quiz"
+        primaryLabel={t.quiz.homeCta}
+        secondaryTo="/routines"
+        secondaryLabel={t.pages.seeAllRoutines}
+      />
     </>
   )
 }

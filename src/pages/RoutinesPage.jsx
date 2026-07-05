@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import RoutinesSection from '../components/RoutinesSection'
+import ShopCtaBand from '../components/ShopCtaBand'
 import { routinesPageContent } from '../data/pageContent'
 import { illustrations } from '../data/illustrations'
 import { useLocale } from '../context/LocaleContext'
@@ -30,6 +31,15 @@ export default function RoutinesPage() {
         </div>
         <RoutinesSection />
       </section>
+
+      <ShopCtaBand
+        title={t.nav.bundles}
+        lead={content.tip}
+        primaryTo="/coffrets"
+        primaryLabel={t.pages.seeAllBundles}
+        secondaryTo="/"
+        secondaryLabel={t.pages.backHome}
+      />
     </>
   )
 }

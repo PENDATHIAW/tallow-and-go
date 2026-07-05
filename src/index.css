@@ -29,6 +29,10 @@
     scroll-behavior: smooth;
   }
 
+  #product-top {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     @apply bg-tg-ivory text-earth font-body antialiased transition-colors duration-500;
   }
