@@ -4,7 +4,7 @@ import ContentSection, { FaqItem } from '../components/ContentSection'
 import PageHero from '../components/PageHero'
 import PageMeta from '../components/PageMeta'
 import { faqContent } from '../data/siteContent'
-import { buildSupportWhatsAppUrl } from '../lib/whatsapp'
+import { openSupportWhatsApp } from '../lib/whatsapp'
 import { useLocale } from '../context/LocaleContext'
 
 export default function FaqPage() {
@@ -25,9 +25,13 @@ export default function FaqPage() {
           </div>
           <p className="mt-10 text-center text-sm text-earth-soft">
             {t.faq.stillQuestion}{' '}
-            <a href={buildSupportWhatsAppUrl(locale)} target="_blank" rel="noopener noreferrer" className="font-semibold text-tg-green">
+            <button
+              type="button"
+              onClick={() => openSupportWhatsApp(locale)}
+              className="font-semibold text-tg-green underline-offset-2 hover:underline"
+            >
               {t.whatsapp.label}
-            </a>
+            </button>
           </p>
         </div>
       </section>

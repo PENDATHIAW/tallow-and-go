@@ -3,29 +3,31 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import Hero from '../components/Hero'
 import TrustBar from '../components/TrustBar'
+import HomeStats from '../components/HomeStats'
+import HomeStory from '../components/HomeStory'
+import HomeTestimonials from '../components/HomeTestimonials'
 import UniverseNavCards from '../components/UniverseNavCards'
 import ProductCard from '../components/ProductCard'
 import RoutinesSection from '../components/RoutinesSection'
 import BundlesSection from '../components/BundlesSection'
-import { enrichProduct } from '../data/productExtras'
-import { products } from '../data/catalog'
-import { homeContent } from '../data/pageContent'
-import { illustrations } from '../data/illustrations'
-import { useLocale } from '../context/LocaleContext'
 import IllustrationImage from '../components/IllustrationImage'
+import { illustrations } from '../data/illustrations'
+import { useShopConfig } from '../context/ShopConfigContext'
+import { useLocale } from '../context/LocaleContext'
 
 export default function HomePage() {
   const { locale, t } = useLocale()
-  const content = homeContent[locale] ?? homeContent.fr
-  const featured = products.filter((p) => p.featured).slice(0, 4).map(enrichProduct)
+  const { catalog, homeContent, heroContent } = useShopConfig()
+  const featured = catalog.products.filter((p) => p.featured).slice(0, 4)
 
   useEffect(() => {
-    document.title = `Tallow & Go — ${t.hero.title}`
-  }, [t.hero.title])
+    document.title = `Tallow & Go — ${heroContent.title ?? t.hero.title}`
+  }, [heroContent.title, t.hero.title])
 
   return (
     <>
       <Hero />
+      <HomeStats stats={homeContent.stats} />
       <TrustBar />
 
       <section className="section-padding">
@@ -40,10 +42,10 @@ export default function HomePage() {
       <section className="section-padding bg-cream dark:bg-neutral-900">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
           <div>
-            <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.whyTitle}</h2>
-            <p className="mt-4 text-base leading-relaxed text-earth-soft dark:text-neutral-400">{content.whyLead}</p>
+            <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.whyTitle}</h2>
+            <p className="mt-4 text-base leading-relaxed text-earth-soft dark:text-neutral-400">{homeContent.whyLead}</p>
             <ul className="mt-6 grid gap-3 sm:grid-cols-1">
-              {content.whyPoints.map((point) => (
+              {homeContent.whyPoints.map((point) => (
                 <li key={point} className="flex gap-3 rounded-xl border border-cream-dark bg-white-warm p-4 text-sm text-earth-soft dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300">
                   <span className="text-tg-green">✓</span>
                   {point}
@@ -51,21 +53,24 @@ export default function HomePage() {
               ))}
             </ul>
           </div>
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl">
+          <div className="overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950">
             <IllustrationImage
               name={illustrations.pages.homeWhy}
-              alt={content.whyTitle}
-              fit="cover"
+              alt={homeContent.whyTitle}
+              fit="contain"
+              className="aspect-[4/3] w-full p-2"
               fallback={null}
             />
           </div>
         </div>
       </section>
 
+      <HomeStory title={homeContent.storyTitle} lead={homeContent.storyLead} points={homeContent.storyPoints} />
+
       <section className="section-padding">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.featuredTitle}</h2>
-          <p className="mt-2 max-w-xl text-sm text-earth-soft">{content.featuredLead}</p>
+          <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.featuredTitle}</h2>
+          <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.featuredLead}</p>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((product) => (
               <ProductCard key={product.id} product={product} linkMode />
@@ -74,12 +79,14 @@ export default function HomePage() {
         </div>
       </section>
 
+      <HomeTestimonials testimonials={homeContent.testimonials} />
+
       <section className="section-padding bg-cream dark:bg-neutral-900">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.routinesTeaserTitle}</h2>
-              <p className="mt-2 max-w-xl text-sm text-earth-soft">{content.routinesTeaserLead}</p>
+              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.routinesTeaserTitle}</h2>
+              <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.routinesTeaserLead}</p>
             </div>
             <Link to="/routines" className="inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
               {t.pages.seeAllRoutines} <ArrowRight className="h-4 w-4" />
@@ -93,8 +100,8 @@ export default function HomePage() {
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
             <div>
-              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.bundlesTeaserTitle}</h2>
-              <p className="mt-2 max-w-xl text-sm text-earth-soft">{content.bundlesTeaserLead}</p>
+              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.bundlesTeaserTitle}</h2>
+              <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.bundlesTeaserLead}</p>
             </div>
             <Link to="/coffrets" className="inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
               {t.pages.seeAllBundles} <ArrowRight className="h-4 w-4" />
@@ -118,7 +125,7 @@ export default function HomePage() {
           </Link>
         </div>
         <p className="mx-auto mt-8 max-w-2xl border-t border-tg-ivory/20 pt-6 text-center text-sm font-medium text-tg-ivory/90">
-          {content.deliveryBanner}
+          {homeContent.deliveryBanner}
         </p>
       </section>
     </>

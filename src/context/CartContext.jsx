@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { bundles, getProduct } from '../data/catalog'
+import { useShopConfig } from './ShopConfigContext'
 
 const CartContext = createContext()
 const STORAGE_KEY = 'tg-cart'
@@ -24,6 +24,8 @@ function loadLastOrder() {
 }
 
 export function CartProvider({ children }) {
+  const { catalog } = useShopConfig()
+  const { bundles, getProduct } = catalog
   const [items, setItems] = useState(loadCart)
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState('cart')
@@ -117,7 +119,7 @@ export function CartProvider({ children }) {
         const product = getProduct(item.id)
         return { ...item, product, unitPrice: product?.price ?? 0 }
       }),
-    [items],
+    [items, bundles, getProduct],
   )
 
   const total = resolved.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0)

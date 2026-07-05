@@ -4,7 +4,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import PageMeta from '../components/PageMeta'
 import { getPaymentMethodLabel } from '../lib/payments'
 import { formatPrice } from '../lib/format'
-import { buildOrderWhatsAppUrl } from '../lib/whatsapp'
+import { openOrderWhatsApp } from '../lib/whatsapp'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
@@ -15,8 +15,6 @@ export default function OrderPage() {
   if (!lastOrder) {
     return <Navigate to="/" replace />
   }
-
-  const whatsappUrl = buildOrderWhatsAppUrl(lastOrder, locale)
 
   return (
     <section className="section-padding">
@@ -54,15 +52,14 @@ export default function OrderPage() {
             </p>
           </div>
 
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            type="button"
+            onClick={() => openOrderWhatsApp(lastOrder, locale)}
             className="mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3.5 text-sm font-semibold text-white"
           >
             <MessageCircle className="h-4 w-4" />
             {t.whatsapp.sendOrder}
-          </a>
+          </button>
 
           <Link to="/" className="mt-4 block text-center text-sm font-semibold text-tg-green">
             {t.pages.backHome}

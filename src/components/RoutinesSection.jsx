@@ -1,11 +1,13 @@
-import { routines, getRoutineProducts } from '../data/catalog'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 
 export default function RoutinesSection({ compact = false }) {
   const { locale, t } = useLocale()
   const { addRoutine } = useCart()
+  const { catalog } = useShopConfig()
+  const { routines, getRoutineProducts } = catalog
   const list = compact ? routines.slice(0, 3) : routines
 
   return (

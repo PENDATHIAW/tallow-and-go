@@ -2,12 +2,12 @@ import { useEffect } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import ProductCard from '../components/ProductCard'
-import { getProduct, getProductsByUniverse, products } from '../data/catalog'
 import { productPageExtras } from '../data/pageContent'
 import { getUniversePath } from '../data/routes'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 
 function DetailSection({ title, children }) {
   return (
@@ -22,6 +22,8 @@ export default function ProductPage() {
   const { productId } = useParams()
   const { locale, t } = useLocale()
   const { addProduct } = useCart()
+  const { catalog } = useShopConfig()
+  const { getProduct, getProductsByUniverse, products } = catalog
   const product = getProduct(productId)
   const extras = productPageExtras[locale] ?? productPageExtras.fr
 
@@ -57,7 +59,7 @@ export default function ProductPage() {
             <img
               src={product.image}
               alt={product.name}
-              className="aspect-[4/5] w-full object-cover"
+              className="aspect-[4/5] w-full object-contain p-2"
             />
           </div>
 

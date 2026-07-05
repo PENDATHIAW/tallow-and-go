@@ -2,6 +2,8 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import ShopLayout from './layouts/ShopLayout'
 import AdminDashboard from './pages/admin/AdminDashboard'
 import AdminLogin from './pages/admin/AdminLogin'
+import AdminProducts from './pages/admin/AdminProducts'
+import AdminContent from './pages/admin/AdminContent'
 import BundlesPage from './pages/BundlesPage'
 import DeliveryPage from './pages/DeliveryPage'
 import FaqPage from './pages/FaqPage'
@@ -35,6 +37,8 @@ export default function App() {
         </Route>
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/products" element={<AdminProducts />} />
+        <Route path="/admin/content" element={<AdminContent />} />
         <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </BrowserRouter>

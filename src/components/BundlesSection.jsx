@@ -1,13 +1,15 @@
-import { bundles } from '../data/catalog'
 import { getBundleImage } from '../data/illustrationManifest'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 import IllustrationImage from './IllustrationImage'
 
 export default function BundlesSection({ compact = false }) {
   const { locale, t } = useLocale()
   const { addBundle } = useCart()
+  const { catalog } = useShopConfig()
+  const { bundles } = catalog
 
   return (
     <section id={compact ? undefined : 'bundles'} className={compact ? '' : 'section-padding scroll-mt-20'}>
@@ -31,7 +33,7 @@ export default function BundlesSection({ compact = false }) {
                 <IllustrationImage
                   name={getBundleImage(bundle.id) ?? bundle.image}
                   alt={bundle.name}
-                  fit="cover"
+                  fit="contain"
                   fallback={
                     <div className="flex h-full items-center justify-center p-3">
                       <img src={bundle.image} alt={bundle.name} className="max-h-full max-w-full object-contain" />

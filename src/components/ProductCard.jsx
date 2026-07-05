@@ -81,7 +81,7 @@ function ProductImage({ product, t }) {
         src={product.image}
         alt={product.name}
         loading="lazy"
-        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+        className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-[1.02]"
       />
       {product.featured ? (
         <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">

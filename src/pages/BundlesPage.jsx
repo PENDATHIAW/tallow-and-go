@@ -2,14 +2,16 @@ import { useEffect } from 'react'
 import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import BundlesSection from '../components/BundlesSection'
-import { bundles, getProduct } from '../data/catalog'
 import { bundlesPageContent } from '../data/pageContent'
 import { illustrations } from '../data/illustrations'
 import { formatPrice } from '../lib/format'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 
 export default function BundlesPage() {
   const { locale, t } = useLocale()
+  const { catalog } = useShopConfig()
+  const { bundles, getProduct } = catalog
   const content = bundlesPageContent[locale] ?? bundlesPageContent.fr
 
   useEffect(() => {

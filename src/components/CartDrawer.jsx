@@ -9,7 +9,7 @@ import { isValidSenegalPhone, normalizeSenegalPhone } from '../lib/phone'
 import { getPaymentInstructions, getPaymentMethodLabel } from '../lib/payments'
 import { getShippingFeeRange } from '../lib/shipping'
 import { submitOrder } from '../lib/orders'
-import { buildOrderWhatsAppUrl } from '../lib/whatsapp'
+import { openOrderWhatsApp } from '../lib/whatsapp'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 
@@ -158,7 +158,7 @@ export default function CartDrawer() {
                       <li key={`${item.type}-${item.id}`} className="flex gap-3 border-b border-cream-dark pb-4 dark:border-neutral-800">
                         <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-[#f5efe6] dark:bg-neutral-900">
                           {getItemImage(item) ? (
-                            <img src={getItemImage(item)} alt="" className="h-full w-full object-cover" />
+                            <img src={getItemImage(item)} alt="" className="h-full w-full object-contain p-1" />
                           ) : null}
                         </div>
                         <div className="flex-1">
@@ -280,15 +280,14 @@ export default function CartDrawer() {
                 <p className="text-earth-soft">{t.checkout.whatsappConfirm}</p>
               ) : null}
 
-              <a
-                href={buildOrderWhatsAppUrl(lastOrder, locale)}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => openOrderWhatsApp(lastOrder, locale)}
                 className="flex w-full items-center justify-center gap-2 rounded-full bg-[#25D366] py-3 text-sm font-semibold text-white"
               >
                 <MessageCircle className="h-4 w-4" />
                 {t.whatsapp.sendOrder}
-              </a>
+              </button>
             </div>
           )}
         </div>

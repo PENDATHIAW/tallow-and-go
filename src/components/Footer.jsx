@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { buildSupportWhatsAppUrl } from '../lib/whatsapp'
+import { openSupportWhatsApp } from '../lib/whatsapp'
 import { useLocale } from '../context/LocaleContext'
 
 export default function Footer() {
@@ -31,9 +31,13 @@ export default function Footer() {
             <nav className="mt-3 flex flex-col gap-2">
               <Link to="/faq" className="text-sm text-tg-ivory/80 hover:text-white">{t.footer.faq}</Link>
               <Link to="/livraison" className="text-sm text-tg-ivory/80 hover:text-white">{t.footer.delivery}</Link>
-              <a href={buildSupportWhatsAppUrl(locale)} target="_blank" rel="noopener noreferrer" className="text-sm text-tg-ivory/80 hover:text-white">
+              <button
+                type="button"
+                onClick={() => openSupportWhatsApp(locale)}
+                className="text-left text-sm text-tg-ivory/80 hover:text-white"
+              >
                 {t.whatsapp.label}
-              </a>
+              </button>
               <a href={`mailto:${t.footer.contact}`} className="text-sm text-tg-ivory/80 hover:text-white">{t.footer.contact}</a>
             </nav>
           </div>

@@ -20,13 +20,13 @@ export default function UniverseNavCards({ compact = false }) {
               <IllustrationImage
                 name={illustrations.universes[u.id]}
                 alt={t.universes[u.id].title}
-                fit="cover"
+                fit="contain"
                 className="transition duration-500 group-hover:scale-105"
                 fallback={
                   <img
                     src={u.image}
                     alt=""
-                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-105"
                   />
                 }
               />

@@ -5,14 +5,16 @@ import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import PageMeta from '../components/PageMeta'
 import ProductCard from '../components/ProductCard'
-import { bundles, getProduct } from '../data/catalog'
 import { getQuizRecommendation, quizContent } from '../data/siteContent'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 
 export default function QuizPage() {
   const { locale, t } = useLocale()
+  const { catalog } = useShopConfig()
+  const { bundles, getProduct } = catalog
   const { addRoutine, addBundle } = useCart()
   const content = quizContent[locale] ?? quizContent.fr
   const [step, setStep] = useState(0)

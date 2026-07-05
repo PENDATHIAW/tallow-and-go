@@ -3,14 +3,16 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import ProductCard from '../components/ProductCard'
-import { getProductsByUniverse } from '../data/catalog'
 import { getUniverseHeroImage, universePageContent } from '../data/pageContent'
 import { getUniverseIdFromSlug, getUniversePath } from '../data/routes'
 import { useLocale } from '../context/LocaleContext'
+import { useShopConfig } from '../context/ShopConfigContext'
 
 export default function UniversePage() {
   const { slug } = useParams()
   const { locale, t } = useLocale()
+  const { catalog } = useShopConfig()
+  const { getProductsByUniverse } = catalog
   const universeId = getUniverseIdFromSlug(slug)
   const content = universeId ? universePageContent[universeId]?.[locale] : null
   const items = universeId ? getProductsByUniverse(universeId) : []
