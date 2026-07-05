@@ -1,7 +1,9 @@
 import { bundles } from '../data/catalog'
+import { getBundleImage } from '../data/illustrationManifest'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
+import IllustrationImage from './IllustrationImage'
 
 export default function BundlesSection({ compact = false }) {
   const { locale, t } = useLocale()
@@ -25,8 +27,17 @@ export default function BundlesSection({ compact = false }) {
               key={bundle.id}
               className="overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950"
             >
-              <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#f5efe6] p-3 dark:bg-neutral-900">
-                <img src={bundle.image} alt={bundle.name} className="max-h-full max-w-full object-contain" />
+              <div className="relative aspect-[4/5] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
+                <IllustrationImage
+                  name={getBundleImage(bundle.id) ?? bundle.image}
+                  alt={bundle.name}
+                  fit="cover"
+                  fallback={
+                    <div className="flex h-full items-center justify-center p-3">
+                      <img src={bundle.image} alt={bundle.name} className="max-h-full max-w-full object-contain" />
+                    </div>
+                  }
+                />
               </div>
               <div className="p-5">
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-tg-green">{bundle.name}</p>

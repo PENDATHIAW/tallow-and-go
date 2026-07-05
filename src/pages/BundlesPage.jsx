@@ -4,6 +4,7 @@ import PageHero from '../components/PageHero'
 import BundlesSection from '../components/BundlesSection'
 import { bundles, getProduct } from '../data/catalog'
 import { bundlesPageContent } from '../data/pageContent'
+import { illustrations } from '../data/illustrations'
 import { formatPrice } from '../lib/format'
 import { useLocale } from '../context/LocaleContext'
 
@@ -21,7 +22,7 @@ export default function BundlesPage() {
         kicker={t.bundles.kicker}
         title={t.bundles.title}
         subtitle={content.intro}
-        image="/illustrations/coffrets-hero.jpg"
+        image={illustrations.pages.bundles}
         imageAlt={t.bundles.title}
       />
       <section className="section-padding pt-0">

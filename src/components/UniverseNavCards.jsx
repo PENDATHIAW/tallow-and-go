@@ -1,6 +1,8 @@
 import { Link } from 'react-router-dom'
+import { illustrations } from '../data/illustrations'
 import { universeCards } from '../data/pageContent'
 import { useLocale } from '../context/LocaleContext'
+import IllustrationImage from './IllustrationImage'
 
 export default function UniverseNavCards({ compact = false }) {
   const { t } = useLocale()
@@ -15,10 +17,18 @@ export default function UniverseNavCards({ compact = false }) {
             className="group overflow-hidden rounded-2xl border border-cream-dark bg-tg-ivory transition hover:border-tg-green/30 hover:shadow-lg dark:border-neutral-800 dark:bg-neutral-900"
           >
             <div className="aspect-[4/3] overflow-hidden bg-tg-cream dark:bg-neutral-800">
-              <img
-                src={u.image}
-                alt=""
-                className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+              <IllustrationImage
+                name={illustrations.universes[u.id]}
+                alt={t.universes[u.id].title}
+                fit="cover"
+                className="transition duration-500 group-hover:scale-105"
+                fallback={
+                  <img
+                    src={u.image}
+                    alt=""
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                  />
+                }
               />
             </div>
             <div className="p-4">

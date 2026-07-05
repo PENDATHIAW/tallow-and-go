@@ -1,4 +1,5 @@
 import { enrichProduct } from './productExtras'
+import { getBundleImage } from './illustrationManifest'
 
 export const universes = [
   {
@@ -377,6 +378,13 @@ export const routines = [
 export function getProduct(id) {
   const product = products.find((p) => p.id === id)
   return product ? enrichProduct(product) : undefined
+}
+
+export function getBundle(id) {
+  const bundle = bundles.find((b) => b.id === id)
+  if (!bundle) return undefined
+  const image = getBundleImage(id)
+  return image ? { ...bundle, image } : bundle
 }
 
 export function getProductsByUniverse(universeId) {

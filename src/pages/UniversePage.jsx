@@ -4,7 +4,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import ProductCard from '../components/ProductCard'
 import { getProductsByUniverse } from '../data/catalog'
-import { universePageContent } from '../data/pageContent'
+import { getUniverseHeroImage, universePageContent } from '../data/pageContent'
 import { getUniverseIdFromSlug, getUniversePath } from '../data/routes'
 import { useLocale } from '../context/LocaleContext'
 
@@ -31,7 +31,7 @@ export default function UniversePage() {
         kicker={t.universes[universeId].title}
         title={t.universes[universeId].title}
         subtitle={content.intro}
-        image={content.heroImage}
+        image={getUniverseHeroImage(universeId)}
         imageAlt={t.universes[universeId].title}
       />
 

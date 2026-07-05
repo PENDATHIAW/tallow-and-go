@@ -10,7 +10,9 @@ import BundlesSection from '../components/BundlesSection'
 import { enrichProduct } from '../data/productExtras'
 import { products } from '../data/catalog'
 import { homeContent } from '../data/pageContent'
+import { illustrations } from '../data/illustrations'
 import { useLocale } from '../context/LocaleContext'
+import IllustrationImage from '../components/IllustrationImage'
 
 export default function HomePage() {
   const { locale, t } = useLocale()
@@ -36,17 +38,27 @@ export default function HomePage() {
       </section>
 
       <section className="section-padding bg-cream dark:bg-neutral-900">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.whyTitle}</h2>
-          <p className="mt-4 max-w-3xl text-base leading-relaxed text-earth-soft dark:text-neutral-400">{content.whyLead}</p>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
-            {content.whyPoints.map((point) => (
-              <li key={point} className="flex gap-3 rounded-xl border border-cream-dark bg-white-warm p-4 text-sm text-earth-soft dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300">
-                <span className="text-tg-green">✓</span>
-                {point}
-              </li>
-            ))}
-          </ul>
+        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
+          <div>
+            <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.whyTitle}</h2>
+            <p className="mt-4 text-base leading-relaxed text-earth-soft dark:text-neutral-400">{content.whyLead}</p>
+            <ul className="mt-6 grid gap-3 sm:grid-cols-1">
+              {content.whyPoints.map((point) => (
+                <li key={point} className="flex gap-3 rounded-xl border border-cream-dark bg-white-warm p-4 text-sm text-earth-soft dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300">
+                  <span className="text-tg-green">✓</span>
+                  {point}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl">
+            <IllustrationImage
+              name={illustrations.pages.homeWhy}
+              alt={content.whyTitle}
+              fit="cover"
+              fallback={null}
+            />
+          </div>
         </div>
       </section>
 

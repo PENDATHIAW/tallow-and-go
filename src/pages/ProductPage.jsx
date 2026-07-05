@@ -53,8 +53,12 @@ export default function ProductPage() {
         />
 
         <div className="grid gap-10 lg:grid-cols-2">
-          <div className="flex aspect-square items-center justify-center rounded-2xl bg-[#f5efe6] p-6 dark:bg-neutral-900">
-            <img src={product.image} alt={product.name} className="max-h-full max-w-full object-contain" />
+          <div className="overflow-hidden rounded-2xl bg-[#f5efe6] dark:bg-neutral-900">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="aspect-[4/5] w-full object-cover"
+            />
           </div>
 
           <div>

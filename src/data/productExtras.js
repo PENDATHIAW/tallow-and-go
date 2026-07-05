@@ -1,4 +1,5 @@
 /** Bienfaits détaillés, composition et mode d'emploi — source PDF + visuels officiels */
+import { getProductImage } from './illustrationManifest'
 export const productExtras = {
   safaa: {
     composition: {
@@ -214,11 +215,16 @@ export const productExtras = {
 
 export function enrichProduct(product) {
   const extra = productExtras[product.id]
-  if (!extra) return product
+  const lifestyle = getProductImage(product.id)
   return {
     ...product,
-    benefits: extra.benefits,
-    composition: extra.composition,
-    usage: extra.usage,
+    ...(lifestyle ? { image: lifestyle } : {}),
+    ...(extra
+      ? {
+          benefits: extra.benefits,
+          composition: extra.composition,
+          usage: extra.usage,
+        }
+      : {}),
   }
 }

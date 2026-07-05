@@ -1,5 +1,13 @@
 import { universes } from './catalog'
+import { getPageImage } from './illustrationManifest'
 import { getUniversePath } from './routes'
+
+const universePageKeys = {
+  skin: 'universe-visage',
+  body: 'universe-corps',
+  essentials: 'universe-essentiels',
+  nomades: 'universe-nomades',
+}
 
 /** Contenu éditorial riche — remplace les images par /public/illustrations/ quand disponibles */
 export const trustPillars = {
@@ -183,7 +191,8 @@ export const universePageContent = {
 
 export function getUniverseHeroImage(universeId) {
   const u = universes.find((x) => x.id === universeId)
-  return universePageContent[universeId]?.fr?.heroImage ?? u?.image ?? '/brand/logo-full.png'
+  const pageKey = universePageKeys[universeId]
+  return getPageImage(pageKey) ?? u?.image ?? '/brand/logo-full.png'
 }
 
 export const routinesPageContent = {
@@ -235,6 +244,6 @@ export const productPageExtras = {
 
 export const universeCards = universes.map((u) => ({
   id: u.id,
-  image: u.image,
+  image: getUniverseHeroImage(u.id),
   path: getUniversePath(u.id),
 }))

@@ -76,12 +76,12 @@ export default function ProductCard({ product, onSelect, linkMode = false }) {
 
 function ProductImage({ product, t }) {
   return (
-    <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[#f5efe6] p-3 dark:bg-neutral-900">
+    <div className="relative aspect-[4/5] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
       <img
         src={product.image}
         alt={product.name}
         loading="lazy"
-        className="max-h-full max-w-full object-contain transition duration-500 group-hover:scale-[1.02]"
+        className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
       />
       {product.featured ? (
         <span className="absolute left-3 top-3 rounded-full bg-tg-green px-2.5 py-1 text-[0.6rem] font-bold uppercase tracking-wider text-tg-ivory">

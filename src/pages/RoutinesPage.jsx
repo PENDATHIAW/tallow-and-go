@@ -3,6 +3,7 @@ import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import RoutinesSection from '../components/RoutinesSection'
 import { routinesPageContent } from '../data/pageContent'
+import { illustrations } from '../data/illustrations'
 import { useLocale } from '../context/LocaleContext'
 
 export default function RoutinesPage() {
@@ -19,7 +20,7 @@ export default function RoutinesPage() {
         kicker={t.routines.kicker}
         title={t.routines.title}
         subtitle={content.intro}
-        image="/illustrations/routines-hero.jpg"
+        image={illustrations.pages.routines}
         imageAlt={t.routines.title}
       />
       <section className="section-padding pt-0">
