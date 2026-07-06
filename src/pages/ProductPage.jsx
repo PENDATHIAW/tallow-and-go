@@ -60,6 +60,7 @@ export default function ProductPage() {
         title={`${product.name} — ${product.tagline[locale]}`}
         description={product.description[locale]}
         path={`/produit/${product.id}`}
+        image={product.image}
       />
 
       <section className="section-padding-compact pt-8 pb-24 sm:pt-12 lg:pb-16" id="product-top">

@@ -1,11 +1,12 @@
 import { Link, NavLink, Navigate } from 'react-router-dom'
-import { LayoutDashboard, LogOut, Package, PenLine, Store } from 'lucide-react'
+import { LayoutDashboard, ImageIcon, LogOut, Package, PenLine, Store } from 'lucide-react'
 import { getAdminCredentials, logoutAdmin } from '../../lib/admin'
 import { useLocale } from '../../context/LocaleContext'
 
 const navItems = [
   { to: '/admin/dashboard', icon: LayoutDashboard, labelKey: 'navOrders' },
   { to: '/admin/products', icon: Package, labelKey: 'navProducts' },
+  { to: '/admin/media', icon: ImageIcon, labelKey: 'navMedia' },
   { to: '/admin/content', icon: PenLine, labelKey: 'navContent' },
 ]
 

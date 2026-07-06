@@ -16,7 +16,7 @@ function loadCart() {
 
 function loadLastOrder() {
   try {
-    const raw = sessionStorage.getItem(ORDER_KEY)
+    const raw = localStorage.getItem(ORDER_KEY) ?? sessionStorage.getItem(ORDER_KEY)
     return raw ? JSON.parse(raw) : null
   } catch {
     return null
@@ -34,8 +34,10 @@ export function CartProvider({ children }) {
   const setLastOrder = (order) => {
     setLastOrderState(order)
     if (order) {
+      localStorage.setItem(ORDER_KEY, JSON.stringify(order))
       sessionStorage.setItem(ORDER_KEY, JSON.stringify(order))
     } else {
+      localStorage.removeItem(ORDER_KEY)
       sessionStorage.removeItem(ORDER_KEY)
     }
   }

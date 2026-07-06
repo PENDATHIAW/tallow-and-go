@@ -41,6 +41,7 @@ export default function BundlePage() {
         title={`${bundle.name} — ${bundle.tagline[locale]}`}
         description={bundle.description[locale]}
         path={`/coffret/${bundle.id}`}
+        image={bundle.image}
       />
 
       <section className="section-padding-compact pt-8 sm:pt-12">
@@ -109,7 +110,19 @@ export default function BundlePage() {
                     ))}
                   </ul>
                 </div>
-              ) : null}
+              ) : (
+                <div className="mt-6">
+                  <p className="text-xs font-semibold uppercase tracking-wider text-earth/60">{t.bundles.includes}</p>
+                  <ul className="mt-3 space-y-2">
+                    {(content.edenIncludes ?? []).map((item) => (
+                      <li key={item} className="flex gap-2 rounded-xl border border-cream-dark px-4 py-3 text-sm text-earth-soft dark:border-neutral-800">
+                        <span className="text-tg-green">✓</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl border border-cream-dark bg-cream/30 p-5 dark:border-neutral-800 dark:bg-neutral-900/40">
                 <span className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">

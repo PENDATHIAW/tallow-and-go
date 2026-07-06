@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { ArrowRight, Mail } from 'lucide-react'
-import { subscribeNewsletter } from '../lib/supabase'
+import { subscribeNewsletter, isSupabaseConfigured } from '../lib/supabase'
 import { useLocale } from '../context/LocaleContext'
 
 export default function NewsletterBand() {
@@ -8,6 +8,8 @@ export default function NewsletterBand() {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState('')
   const [loading, setLoading] = useState(false)
+
+  if (!isSupabaseConfigured) return null
 
   const handleSubmit = async (e) => {
     e.preventDefault()

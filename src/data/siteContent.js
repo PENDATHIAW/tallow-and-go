@@ -212,6 +212,8 @@ export const quizContent = {
     cta: 'Voir ma routine',
     restart: 'Recommencer',
     addRoutine: 'Ajouter la routine au panier',
+    viewRoutine: 'Voir toutes les routines',
+    viewBundle: 'Voir le coffret',
     viewProducts: 'Voir les produits',
     resultTitle: 'Votre rituel recommandé',
     questions: [
@@ -254,6 +256,8 @@ export const quizContent = {
     cta: 'See my routine',
     restart: 'Start over',
     addRoutine: 'Add routine to cart',
+    viewRoutine: 'See all routines',
+    viewBundle: 'View gift set',
     viewProducts: 'View products',
     resultTitle: 'Your recommended ritual',
     questions: [

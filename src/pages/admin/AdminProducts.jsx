@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import AdminLayout from '../../components/admin/AdminLayout'
+import ImagePicker from '../../components/admin/ImagePicker'
 import { products, bundles } from '../../data/catalog'
 import { enrichProduct } from '../../data/productExtras'
 import { getBundleImage } from '../../data/illustrationManifest'
@@ -26,6 +28,8 @@ function baseBundle(id) {
 
 export default function AdminProducts() {
   const { t } = useLocale()
+  const [searchParams] = useSearchParams()
+  const prefillImage = searchParams.get('image')
   const { refresh } = useShopConfig()
   const credentials = getAdminCredentials()
   const [overrides, setOverrides] = useState({ products: {}, bundles: {} })
@@ -58,7 +62,7 @@ export default function AdminProducts() {
     const base = item.base
     setForm({
       price: ov?.price ?? base?.price ?? '',
-      image_url: ov?.image_url ?? base?.image ?? '',
+      image_url: prefillImage ?? ov?.image_url ?? base?.image ?? '',
       name: ov?.name ?? base?.name ?? '',
       tagline_fr: ov?.tagline_fr ?? base?.tagline?.fr ?? '',
       tagline_en: ov?.tagline_en ?? base?.tagline?.en ?? '',
@@ -67,7 +71,7 @@ export default function AdminProducts() {
       featured: ov?.featured ?? base?.featured ?? false,
       active: ov?.active ?? true,
     })
-  }, [selectedId, tab, overrides, catalogList])
+  }, [selectedId, tab, overrides, catalogList, prefillImage])
 
   const handleSave = async (e) => {
     e.preventDefault()
@@ -139,6 +143,14 @@ export default function AdminProducts() {
             </div>
           ) : null}
 
+          <div className="mb-6">
+            <ImagePicker
+              label={t.admin.fieldImage}
+              value={form.image_url}
+              onChange={(image_url) => setForm({ ...form, image_url })}
+            />
+          </div>
+
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t.admin.fieldPrice}>
               <input
@@ -146,14 +158,6 @@ export default function AdminProducts() {
                 min="0"
                 value={form.price}
                 onChange={(e) => setForm({ ...form, price: e.target.value })}
-                className={inputClass}
-              />
-            </Field>
-            <Field label={t.admin.fieldImage}>
-              <input
-                value={form.image_url}
-                onChange={(e) => setForm({ ...form, image_url: e.target.value })}
-                placeholder="/products/....png"
                 className={inputClass}
               />
             </Field>

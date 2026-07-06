@@ -1,22 +1,33 @@
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import ShopLayout from './layouts/ShopLayout'
-import AdminDashboard from './pages/admin/AdminDashboard'
-import AdminLogin from './pages/admin/AdminLogin'
-import AdminProducts from './pages/admin/AdminProducts'
-import AdminContent from './pages/admin/AdminContent'
-import BundlesPage from './pages/BundlesPage'
-import BundlePage from './pages/BundlePage'
-import DeliveryPage from './pages/DeliveryPage'
-import FaqPage from './pages/FaqPage'
 import HomePage from './pages/HomePage'
 import ShopPage from './pages/ShopPage'
+import UniversePage from './pages/UniversePage'
+import ProductPage from './pages/ProductPage'
+import RoutinesPage from './pages/RoutinesPage'
+import BundlesPage from './pages/BundlesPage'
+import BundlePage from './pages/BundlePage'
+import QuizPage from './pages/QuizPage'
+import FaqPage from './pages/FaqPage'
+import DeliveryPage from './pages/DeliveryPage'
+import OrderPage from './pages/OrderPage'
 import LegalPage from './pages/LegalPage'
 import NotFoundPage from './pages/NotFoundPage'
-import OrderPage from './pages/OrderPage'
-import ProductPage from './pages/ProductPage'
-import QuizPage from './pages/QuizPage'
-import RoutinesPage from './pages/RoutinesPage'
-import UniversePage from './pages/UniversePage'
+
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'))
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
+const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'))
+const AdminContent = lazy(() => import('./pages/admin/AdminContent'))
+const AdminMedia = lazy(() => import('./pages/admin/AdminMedia'))
+
+function AdminFallback() {
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-tg-cream text-sm text-earth-soft">
+      Chargement…
+    </div>
+  )
+}
 
 export default function App() {
   return (
@@ -39,10 +50,46 @@ export default function App() {
           <Route path="/confidentialite" element={<LegalPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-        <Route path="/admin" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-        <Route path="/admin/products" element={<AdminProducts />} />
-        <Route path="/admin/content" element={<AdminContent />} />
+        <Route
+          path="/admin"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <AdminLogin />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/dashboard"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <AdminDashboard />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/products"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <AdminProducts />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/content"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <AdminContent />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/admin/media"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <AdminMedia />
+            </Suspense>
+          }
+        />
         <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
       </Routes>
     </BrowserRouter>

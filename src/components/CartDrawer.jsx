@@ -9,7 +9,7 @@ import { isValidSenegalPhone, normalizeSenegalPhone } from '../lib/phone'
 import { getPaymentInstructions, getPaymentMethodLabel } from '../lib/payments'
 import { getShippingFeeRange } from '../lib/shipping'
 import { submitOrder } from '../lib/orders'
-import { openOrderWhatsApp } from '../lib/whatsapp'
+import { openOrderWhatsApp, openSupportWhatsApp } from '../lib/whatsapp'
 import OptimizedImage from './OptimizedImage'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
@@ -150,7 +150,8 @@ export default function CartDrawer() {
               {resolved.length === 0 ? (
                 <p className="text-center text-sm text-earth-soft">{t.cart.empty}</p>
               ) : (
-                <ul className="space-y-4">
+                <>
+                  <ul className="space-y-4">
                   {resolved.map((item) => {
                     const name = item.type === 'bundle' ? item.bundle?.name : item.product?.name
                     const subtitle =
@@ -189,7 +190,19 @@ export default function CartDrawer() {
                       </li>
                     )
                   })}
-                </ul>
+                  </ul>
+                  <div className="mt-6 rounded-xl border border-cream-dark bg-cream/40 p-4 dark:border-neutral-800 dark:bg-neutral-900/50">
+                    <p className="text-xs font-semibold uppercase tracking-wider text-tg-green">{t.cart.trustTitle}</p>
+                    <ul className="mt-3 space-y-2 text-xs text-earth-soft dark:text-neutral-400">
+                      {t.cart.trustPoints.map((point) => (
+                        <li key={point} className="flex gap-2">
+                          <span className="text-tg-green">✓</span>
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
               )}
             </>
           )}
@@ -245,6 +258,14 @@ export default function CartDrawer() {
                   {t.cart.shipping} : <strong>{formatPrice(shippingFee)}</strong>
                 </p>
               ) : null}
+              <div className="rounded-xl border border-cream-dark bg-cream/40 p-4 dark:border-neutral-800 dark:bg-neutral-900/50">
+                <p className="text-xs font-semibold uppercase tracking-wider text-tg-green">{t.cart.trustTitle}</p>
+                <ul className="mt-2 space-y-1.5 text-xs text-earth-soft">
+                  {t.cart.trustPoints.slice(0, 3).map((point) => (
+                    <li key={point}>✓ {point}</li>
+                  ))}
+                </ul>
+              </div>
               {error ? <p className="text-sm text-red-600">{error}</p> : null}
             </form>
           )}
@@ -313,9 +334,19 @@ export default function CartDrawer() {
                 </p>
               </div>
               {resolved.length > 0 ? (
-                <button type="button" onClick={openCheckout} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
-                  {t.cart.confirm}
-                </button>
+                <>
+                  <button type="button" onClick={openCheckout} className="block w-full rounded-full bg-tg-green py-3.5 text-sm font-semibold text-tg-ivory">
+                    {t.cart.confirm}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openSupportWhatsApp(locale)}
+                    className="mt-3 flex w-full items-center justify-center gap-2 text-sm font-medium text-tg-green"
+                  >
+                    <MessageCircle className="h-4 w-4" />
+                    {t.cart.needHelp}
+                  </button>
+                </>
               ) : null}
             </>
           )}

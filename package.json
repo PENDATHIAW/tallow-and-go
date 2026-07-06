@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "sync-images": "node scripts/sync-product-images.mjs",
     "optimize-images": "node scripts/optimize-images.mjs",
-    "build": "npm run optimize-images && vite build",
+    "build": "npm run sync-images && npm run optimize-images && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },

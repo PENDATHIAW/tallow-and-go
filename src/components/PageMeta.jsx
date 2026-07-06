@@ -1,25 +1,34 @@
 import { useEffect } from 'react'
 
 const SITE = 'Tallow & Go'
+const SITE_URL = 'https://tallow-and-go.vercel.app'
 const DEFAULT_DESC =
-  'Cosmétiques premium au suif purifié, formulés au Sénégal. Livraison Dakar et régions.'
+  'Cosmétiques premium au suif purifié, formulés au Sénégal. Livraison partout au Sénégal.'
 
-export default function PageMeta({ title, description = DEFAULT_DESC, path = '' }) {
+function absoluteUrl(path) {
+  if (!path) return `${SITE_URL}/brand/logo-full.png`
+  if (path.startsWith('http')) return path
+  return `${SITE_URL}${path.startsWith('/') ? path : `/${path}`}`
+}
+
+export default function PageMeta({ title, description = DEFAULT_DESC, path = '', image }) {
   useEffect(() => {
     document.title = title ? `${title} — ${SITE}` : `${SITE} — Cosmétiques naturels au suif`
 
-    const descTag = document.querySelector('meta[name="description"]')
-    if (descTag) descTag.setAttribute('content', description)
-
-    const ogTitle = document.querySelector('meta[property="og:title"]')
-    const ogDesc = document.querySelector('meta[property="og:description"]')
-    const ogUrl = document.querySelector('meta[property="og:url"]')
-    if (ogTitle) ogTitle.setAttribute('content', document.title)
-    if (ogDesc) ogDesc.setAttribute('content', description)
-    if (ogUrl && path) {
-      ogUrl.setAttribute('content', `${window.location.origin}${path}`)
+    const setMeta = (selector, content) => {
+      const el = document.querySelector(selector)
+      if (el && content) el.setAttribute('content', content)
     }
-  }, [title, description, path])
+
+    setMeta('meta[name="description"]', description)
+    setMeta('meta[property="og:title"]', document.title)
+    setMeta('meta[property="og:description"]', description)
+    setMeta('meta[property="og:image"]', absoluteUrl(image))
+    setMeta('meta[name="twitter:image"]', absoluteUrl(image))
+    if (path) setMeta('meta[property="og:url"]', `${SITE_URL}${path}`)
+  }, [title, description, path, image])
 
   return null
 }
+
+export { absoluteUrl as metaAbsoluteUrl }

@@ -338,6 +338,13 @@ export const bundlesPageContent = {
       'Relief Dry Oil le matin pour l\'élasticité, COMFY et Relief Balm le soir pour apaiser — un rituel maternité complet.',
     edenDetail:
       'Coquillages, pot-pourri, objets nomades et Eden Drops : une expérience sensorielle à offrir ou à s\'offrir.',
+    edenIncludes: [
+      'Coquillages décoratifs',
+      'Pot-pourri parfumé signature',
+      'Eden Drops — parfum d\'ambiance',
+      'Objets nomades & tag parfumé',
+      'Format cadeau prêt à offrir',
+    ],
   },
   en: {
     intro:
@@ -346,6 +353,13 @@ export const bundlesPageContent = {
       'Relief Dry Oil in the morning for elasticity, COMFY and Relief Balm in the evening to soothe — a complete maternity ritual.',
     edenDetail:
       'Shells, potpourri, travel objects and Eden Drops: a sensorial experience to give or keep.',
+    edenIncludes: [
+      'Decorative shells',
+      'Signature scented potpourri',
+      'Eden Drops — ambient fragrance',
+      'Travel objects & scented tag',
+      'Gift-ready presentation',
+    ],
   },
 }
 

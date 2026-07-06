@@ -5,6 +5,10 @@ import Breadcrumb from '../components/Breadcrumb'
 import PageHero from '../components/PageHero'
 import PageMeta from '../components/PageMeta'
 import ProductCard from '../components/ProductCard'
+import OptimizedImage from '../components/OptimizedImage'
+import IllustrationImage from '../components/IllustrationImage'
+import { getBundleImage } from '../data/illustrationManifest'
+import { getBundlePath } from '../data/routes'
 import { getQuizRecommendation, quizContent } from '../data/siteContent'
 import { formatPrice } from '../lib/format'
 import { useCart } from '../context/CartContext'
@@ -87,11 +91,38 @@ export default function QuizPage() {
               <p className="mt-2 text-sm leading-relaxed text-earth-soft">{result.description}</p>
 
               {bundle ? (
-                <div className="mt-8 rounded-2xl border border-cream-dark bg-cream/40 p-6 dark:border-neutral-800">
-                  <p className="font-display text-xl font-semibold">{bundle.name}</p>
-                  <p className="mt-1 text-sm text-earth-soft">{bundle.description[locale]}</p>
-                  <p className="mt-3 font-semibold">{formatPrice(bundle.price)}</p>
-                </div>
+                <Link
+                  to={getBundlePath(bundle.id)}
+                  className="group mt-8 block overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
+                    <IllustrationImage
+                      name={getBundleImage(bundle.id) ?? bundle.image}
+                      alt={bundle.name}
+                      fit="cover"
+                      size="card"
+                      wrapperClassName="h-full w-full"
+                      className="transition duration-500 group-hover:scale-[1.02]"
+                      fallback={
+                        <OptimizedImage
+                          src={bundle.image}
+                          alt={bundle.name}
+                          fit="cover"
+                          size="card"
+                          wrapperClassName="h-full w-full"
+                        />
+                      }
+                    />
+                  </div>
+                  <div className="p-6">
+                    <p className="font-display text-xl font-semibold group-hover:text-tg-green">{bundle.name}</p>
+                    <p className="mt-1 text-sm text-earth-soft">{bundle.description[locale]}</p>
+                    <p className="mt-3 font-semibold">{formatPrice(bundle.price)}</p>
+                    <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-tg-green">
+                      {content.viewBundle} <ArrowRight className="h-4 w-4" />
+                    </span>
+                  </div>
+                </Link>
               ) : null}
 
               {products.length > 0 ? (
@@ -112,7 +143,7 @@ export default function QuizPage() {
                   <ArrowRight className="h-4 w-4" />
                 </button>
                 <Link to="/routines" className="rounded-full border border-cream-dark px-6 py-3 text-sm font-semibold text-earth-soft dark:border-neutral-700">
-                  {content.viewProducts}
+                  {content.viewRoutine}
                 </Link>
                 <button type="button" onClick={restart} className="text-sm underline text-earth-soft">
                   {content.restart}
