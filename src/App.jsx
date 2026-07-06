@@ -8,6 +8,7 @@ import BundlesPage from './pages/BundlesPage'
 import DeliveryPage from './pages/DeliveryPage'
 import FaqPage from './pages/FaqPage'
 import HomePage from './pages/HomePage'
+import ShopPage from './pages/ShopPage'
 import LegalPage from './pages/LegalPage'
 import NotFoundPage from './pages/NotFoundPage'
 import OrderPage from './pages/OrderPage'
@@ -22,6 +23,7 @@ export default function App() {
       <Routes>
         <Route element={<ShopLayout />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/boutique" element={<ShopPage />} />
           <Route path="/univers/:slug" element={<UniversePage />} />
           <Route path="/produit/:productId" element={<ProductPage />} />
           <Route path="/routines" element={<RoutinesPage />} />

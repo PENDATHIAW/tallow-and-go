@@ -9,7 +9,7 @@ export default function TrustBar() {
   const pillars = trustPillars[locale] ?? trustPillars.fr
 
   return (
-    <section className="border-y border-cream-dark bg-white-warm py-10 dark:border-neutral-800 dark:bg-neutral-950">
+    <section className="border-y border-cream-dark bg-white-warm py-8 dark:border-neutral-800 dark:bg-neutral-950">
       <div className="mx-auto grid max-w-6xl gap-6 px-4 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
         {pillars.map((p, index) => {
           const Icon = icons[index] ?? Leaf

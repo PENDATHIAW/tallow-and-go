@@ -18,17 +18,20 @@ export default function Footer() {
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-tg-ivory/60">{t.footer.shop}</p>
             <nav className="mt-3 flex flex-col gap-2">
+              <Link to="/boutique" className="text-sm font-medium text-tg-ivory/90 hover:text-white">{t.nav.shopAll}</Link>
               <Link to="/univers/visage" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.skin}</Link>
               <Link to="/univers/corps" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.body}</Link>
+              <Link to="/univers/essentiels" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.essentials}</Link>
+              <Link to="/univers/nomades" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.nomades}</Link>
               <Link to="/routines" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.routines}</Link>
               <Link to="/coffrets" className="text-sm text-tg-ivory/80 hover:text-white">{t.nav.bundles}</Link>
-              <Link to="/quiz" className="text-sm text-tg-ivory/80 hover:text-white">{t.quiz.kicker}</Link>
             </nav>
           </div>
 
           <div>
             <p className="text-xs font-semibold uppercase tracking-wider text-tg-ivory/60">{t.footer.help}</p>
             <nav className="mt-3 flex flex-col gap-2">
+              <Link to="/quiz" className="text-sm text-tg-ivory/80 hover:text-white">{t.quiz.kicker}</Link>
               <Link to="/faq" className="text-sm text-tg-ivory/80 hover:text-white">{t.footer.faq}</Link>
               <Link to="/livraison" className="text-sm text-tg-ivory/80 hover:text-white">{t.footer.delivery}</Link>
               <button

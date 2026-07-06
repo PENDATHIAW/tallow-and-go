@@ -7,6 +7,7 @@ import ProductCard from '../components/ProductCard'
 import OptimizedImage from '../components/OptimizedImage'
 import ProductTrustStrip from '../components/ProductTrustStrip'
 import ShopCtaBand from '../components/ShopCtaBand'
+import StickyProductBar from '../components/StickyProductBar'
 import { productPageExtras } from '../data/pageContent'
 import { getUniversePath } from '../data/routes'
 import { formatPrice } from '../lib/format'
@@ -61,18 +62,19 @@ export default function ProductPage() {
         path={`/produit/${product.id}`}
       />
 
-      <section className="section-padding pt-8 sm:pt-12" id="product-top">
+      <section className="section-padding-compact pt-8 pb-24 sm:pt-12 lg:pb-16" id="product-top">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Breadcrumb
             items={[
               { label: t.pages.home, href: '/' },
+              { label: t.nav.shop, href: '/boutique' },
               { label: t.universes[product.universe].title, href: getUniversePath(product.universe) },
               { label: product.name },
             ]}
           />
 
           <div className="mt-8 grid gap-10 lg:grid-cols-2 lg:items-start">
-            <div className="overflow-hidden rounded-3xl border border-cream-dark bg-[#f5efe6] dark:border-neutral-800 dark:bg-neutral-900">
+            <div className="overflow-hidden rounded-3xl border border-cream-dark bg-[#f5efe6] dark:border-neutral-800 dark:bg-neutral-900 lg:sticky lg:top-24">
               <OptimizedImage
                 src={product.image}
                 alt={product.name}
@@ -110,6 +112,20 @@ export default function ProductPage() {
               <p className="mt-4 text-base leading-relaxed text-earth-soft dark:text-neutral-400">
                 {product.description[locale]}
               </p>
+
+              <div className="mt-6 flex flex-wrap items-center gap-4 rounded-2xl border border-cream-dark bg-cream/30 p-5 dark:border-neutral-800 dark:bg-neutral-900/40">
+                <span className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">
+                  {formatPrice(product.price)}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => addProduct(product.id)}
+                  className="rounded-full bg-tg-green px-8 py-3.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
+                >
+                  {extras.addToCart}
+                </button>
+              </div>
+              <p className="mt-3 text-xs text-earth-soft">{extras.priceNote}</p>
 
               <ProductTrustStrip />
 
@@ -155,27 +171,19 @@ export default function ProductPage() {
                 </DetailSection>
               ) : null}
 
-              <div className="mt-8 flex flex-wrap items-center gap-4 rounded-2xl border border-cream-dark bg-cream/30 p-5 dark:border-neutral-800 dark:bg-neutral-900/40">
-                <span className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">
-                  {formatPrice(product.price)}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => addProduct(product.id)}
-                  className="rounded-full bg-tg-green px-8 py-3.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
-                >
-                  {extras.addToCart}
-                </button>
+              <div className="mt-6 flex flex-wrap gap-4 text-sm">
+                <Link to={getUniversePath(product.universe)} className="font-semibold text-tg-green">
+                  ← {extras.backToUniverse} {t.universes[product.universe].title}
+                </Link>
+                <Link to="/boutique" className="font-semibold text-earth-soft hover:text-tg-green">
+                  {t.shop.viewAll}
+                </Link>
               </div>
-              <p className="mt-3 text-xs text-earth-soft">{extras.priceNote}</p>
-              <Link to={getUniversePath(product.universe)} className="mt-4 inline-block text-sm font-semibold text-tg-green">
-                ← {extras.backToUniverse} {t.universes[product.universe].title}
-              </Link>
             </div>
           </div>
 
           {nomadeRelated.length > 0 ? (
-            <div className="mt-20 border-t border-cream-dark pt-16 dark:border-neutral-800">
+            <div className="mt-16 border-t border-cream-dark pt-12 dark:border-neutral-800">
               <h2 className="font-display text-2xl font-semibold text-earth dark:text-neutral-100">{extras.relatedTitle}</h2>
               <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {nomadeRelated.map((p) => (
@@ -187,13 +195,15 @@ export default function ProductPage() {
         </div>
       </section>
 
+      <StickyProductBar product={product} />
+
       <ShopCtaBand
-        title={t.quiz.homeTitle}
-        lead={t.quiz.homeLead}
-        primaryTo="/quiz"
-        primaryLabel={t.quiz.homeCta}
-        secondaryTo={getUniversePath(product.universe)}
-        secondaryLabel={`${extras.backToUniverse} ${t.universes[product.universe].title}`}
+        title={extras.ctaTitle}
+        lead={extras.ctaLead}
+        primaryTo="/boutique"
+        primaryLabel={t.shop.viewAll}
+        secondaryTo="/quiz"
+        secondaryLabel={t.quiz.homeCta}
       />
     </>
   )

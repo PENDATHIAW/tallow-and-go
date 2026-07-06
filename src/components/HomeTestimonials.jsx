@@ -4,7 +4,7 @@ export default function HomeTestimonials({ testimonials }) {
   if (!testimonials?.length) return null
 
   return (
-    <section className="section-padding bg-earth text-tg-ivory">
+    <section className="section-padding-compact bg-earth text-tg-ivory">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-gold">Témoignages</p>
         <h2 className="mt-3 font-display text-3xl font-semibold">Elles nous font confiance</h2>

@@ -16,7 +16,7 @@ export default function Hero() {
       <div className="pointer-events-none absolute -right-20 top-10 h-72 w-72 rounded-full bg-tg-green/10 blur-3xl" />
       <div className="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-tg-gold/10 blur-3xl" />
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-24">
+      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-20">
         <div>
           <p className="inline-flex items-center gap-2 rounded-full bg-tg-green/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">
             <Sparkles className="h-3.5 w-3.5" />
@@ -29,11 +29,11 @@ export default function Hero() {
             {heroContent.subtitle ?? t.hero.subtitle}
           </p>
           <p className="mt-3 text-sm font-medium text-tg-green">
-            {t.hero.from} {formatPrice(minPrice)}
+            {t.hero.from} {formatPrice(minPrice)} · {t.hero.deliveryNote}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
-              to="/univers/visage"
+              to="/boutique"
               className="inline-flex items-center gap-2 rounded-full bg-tg-green px-7 py-3.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
             >
               {heroContent.cta ?? t.hero.cta}

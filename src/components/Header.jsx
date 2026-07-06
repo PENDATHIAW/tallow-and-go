@@ -1,19 +1,24 @@
-import { Menu, Moon, ShoppingBag, Sun, X } from 'lucide-react'
-import { useState } from 'react'
+import { ChevronDown, Menu, Moon, ShoppingBag, Sun, X } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 import { useTheme } from '../context/ThemeContext'
 
-const navLinks = [
+const primaryLinks = [
   { to: '/', key: 'home', end: true },
+  { to: '/boutique', key: 'shop' },
+  { to: '/routines', key: 'routines' },
+  { to: '/coffrets', key: 'bundles' },
+  { to: '/quiz', key: 'quiz' },
+]
+
+const shopLinks = [
+  { to: '/boutique', key: 'shopAll' },
   { to: '/univers/visage', key: 'skin' },
   { to: '/univers/corps', key: 'body' },
   { to: '/univers/essentiels', key: 'essentials' },
   { to: '/univers/nomades', key: 'nomades' },
-  { to: '/routines', key: 'routines' },
-  { to: '/coffrets', key: 'bundles' },
-  { to: '/quiz', key: 'quiz' },
 ]
 
 const navClass = ({ isActive }) =>
@@ -23,9 +28,22 @@ const navClass = ({ isActive }) =>
 
 export default function Header() {
   const [open, setOpen] = useState(false)
+  const [shopOpen, setShopOpen] = useState(false)
+  const shopRef = useRef(null)
   const { locale, switchLocale, t } = useLocale()
   const { theme, toggle } = useTheme()
   const { count, setOpen: setCartOpen } = useCart()
+
+  useEffect(() => {
+    if (!shopOpen) return undefined
+    const close = (event) => {
+      if (shopRef.current && !shopRef.current.contains(event.target)) {
+        setShopOpen(false)
+      }
+    }
+    document.addEventListener('click', close)
+    return () => document.removeEventListener('click', close)
+  }, [shopOpen])
 
   return (
     <header className="sticky top-0 z-50 glass border-b border-cream-dark/80">
@@ -43,8 +61,37 @@ export default function Header() {
         </Link>
 
         <nav className="hidden items-center gap-5 lg:flex">
-          {navLinks.map((link) => (
-            <NavLink key={link.to} to={link.to} end={link.end} className={navClass}>
+          <NavLink to="/" end className={navClass}>
+            {t.nav.home}
+          </NavLink>
+
+          <div className="relative" ref={shopRef}>
+            <button
+              type="button"
+              onClick={() => setShopOpen((v) => !v)}
+              className="inline-flex items-center gap-1 text-sm font-medium text-earth-soft transition hover:text-tg-green dark:text-neutral-300"
+            >
+              {t.nav.shop}
+              <ChevronDown className={`h-4 w-4 transition ${shopOpen ? 'rotate-180' : ''}`} />
+            </button>
+            {shopOpen ? (
+              <div className="absolute left-0 top-full z-50 mt-2 min-w-[12rem] rounded-2xl border border-cream-dark bg-white-warm py-2 shadow-lg dark:border-neutral-800 dark:bg-neutral-950">
+                {shopLinks.map((link) => (
+                  <NavLink
+                    key={link.to}
+                    to={link.to}
+                    className="block px-4 py-2.5 text-sm text-earth-soft transition hover:bg-tg-green/5 hover:text-tg-green dark:text-neutral-300"
+                    onClick={() => setShopOpen(false)}
+                  >
+                    {t.nav[link.key]}
+                  </NavLink>
+                ))}
+              </div>
+            ) : null}
+          </div>
+
+          {primaryLinks.slice(2).map((link) => (
+            <NavLink key={link.to} to={link.to} className={navClass}>
               {t.nav[link.key]}
             </NavLink>
           ))}
@@ -96,15 +143,25 @@ export default function Header() {
 
       {open ? (
         <nav className="border-t border-cream-dark bg-white-warm px-4 py-4 lg:hidden dark:border-neutral-800 dark:bg-neutral-950">
-          <ul className="space-y-3">
-            {navLinks.map((link) => (
+          <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-wider text-earth/50">{t.nav.shop}</p>
+          <ul className="mb-4 space-y-2 border-b border-cream-dark pb-4 dark:border-neutral-800">
+            {shopLinks.map((link) => (
               <li key={link.to}>
-                <NavLink
-                  to={link.to}
-                  end={link.end}
-                  className={navClass}
-                  onClick={() => setOpen(false)}
-                >
+                <NavLink to={link.to} className={navClass} onClick={() => setOpen(false)}>
+                  {t.nav[link.key]}
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+          <ul className="space-y-3">
+            <li>
+              <NavLink to="/" end className={navClass} onClick={() => setOpen(false)}>
+                {t.nav.home}
+              </NavLink>
+            </li>
+            {primaryLinks.slice(2).map((link) => (
+              <li key={link.to}>
+                <NavLink to={link.to} className={navClass} onClick={() => setOpen(false)}>
                   {t.nav[link.key]}
                 </NavLink>
               </li>

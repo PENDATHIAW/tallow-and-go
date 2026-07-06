@@ -3,7 +3,7 @@ import { illustrations } from '../data/illustrations'
 
 export default function HomeStory({ title, lead, points }) {
   return (
-    <section className="section-padding overflow-hidden">
+    <section className="section-padding-compact overflow-hidden bg-cream dark:bg-neutral-900">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
         <div className="order-2 lg:order-1">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">Notre histoire</p>

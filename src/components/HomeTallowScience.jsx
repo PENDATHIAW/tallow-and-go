@@ -8,7 +8,7 @@ export default function HomeTallowScience() {
   const content = homeTallowScience[locale] ?? homeTallowScience.fr
 
   return (
-    <section className="section-padding bg-white-warm dark:bg-neutral-950">
+    <section className="section-padding-compact bg-white-warm dark:bg-neutral-950">
       <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
         <div className="overflow-hidden rounded-3xl">
           <IllustrationImage

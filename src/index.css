@@ -33,6 +33,10 @@
     scroll-margin-top: 5rem;
   }
 
+  #produits-phares {
+    scroll-margin-top: 5rem;
+  }
+
   body {
     @apply bg-tg-ivory text-earth font-body antialiased transition-colors duration-500;
   }
@@ -61,6 +65,10 @@
 
   .section-padding {
     @apply px-5 py-24 sm:px-8 lg:px-12 lg:py-32;
+  }
+
+  .section-padding-compact {
+    @apply px-5 py-14 sm:px-8 lg:px-12 lg:py-20;
   }
 
   .reveal {

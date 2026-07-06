@@ -355,12 +355,16 @@ export const productPageExtras = {
     backToUniverse: 'Retour à l\'univers',
     addToCart: 'Ajouter au panier',
     priceNote: 'Prix TTC · Livraison calculée au checkout',
+    ctaTitle: 'Continuez votre sélection',
+    ctaLead: 'Explorez la boutique ou laissez le quiz vous guider vers votre rituel idéal.',
   },
   en: {
     relatedTitle: 'You may also like',
     backToUniverse: 'Back to category',
     addToCart: 'Add to cart',
     priceNote: 'Price incl. tax · Shipping calculated at checkout',
+    ctaTitle: 'Continue shopping',
+    ctaLead: 'Explore the shop or let the quiz guide you to your ideal ritual.',
   },
 }
 

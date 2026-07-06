@@ -38,18 +38,28 @@ export default function UniversePage() {
         imageAlt={t.universes[universeId].title}
       />
 
-      <section className="section-padding">
+      <section className="section-padding-compact pt-0">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Breadcrumb
             items={[
               { label: t.pages.home, href: '/' },
+              { label: t.nav.shop, href: '/boutique' },
               { label: t.universes[universeId].title },
             ]}
           />
 
-          <div className="grid gap-8 lg:grid-cols-3">
+          <h2 className="mt-8 font-display text-2xl font-semibold text-earth dark:text-neutral-100">
+            {t.pages.productsInUniverse} ({items.length})
+          </h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {items.map((product, index) => (
+              <ProductCard key={product.id} product={product} linkMode priority={index < 4} />
+            ))}
+          </div>
+
+          <div className="mt-14 grid gap-8 border-t border-cream-dark pt-12 lg:grid-cols-3 dark:border-neutral-800">
             <div className="lg:col-span-2">
-              <h2 className="font-display text-2xl font-semibold text-earth dark:text-neutral-100">{t.pages.highlights}</h2>
+              <h3 className="font-display text-xl font-semibold text-earth dark:text-neutral-100">{t.pages.highlights}</h3>
               <ul className="mt-4 space-y-3">
                 {content.highlights.map((h) => (
                   <li key={h} className="flex gap-3 text-sm leading-relaxed text-earth-soft dark:text-neutral-300">
@@ -72,16 +82,13 @@ export default function UniversePage() {
             </aside>
           </div>
 
-          <h2 className="mt-14 font-display text-2xl font-semibold text-earth dark:text-neutral-100">
-            {t.pages.productsInUniverse} ({items.length})
-          </h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {items.map((product) => (
-              <ProductCard key={product.id} product={product} linkMode />
-            ))}
-          </div>
-
-          <div className="mt-14 flex flex-wrap gap-3">
+          <div className="mt-12 flex flex-wrap gap-3">
+            <Link
+              to="/boutique"
+              className="rounded-full border border-cream-dark px-4 py-2 text-sm font-medium text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700"
+            >
+              {t.nav.shopAll} →
+            </Link>
             {Object.keys(universePageContent)
               .filter((id) => id !== universeId)
               .map((id) => (
@@ -98,12 +105,12 @@ export default function UniversePage() {
       </section>
 
       <ShopCtaBand
-        title={t.quiz.homeTitle}
+        title={t.universe.ctaTitle}
         lead={content.tip}
-        primaryTo="/quiz"
-        primaryLabel={t.quiz.homeCta}
-        secondaryTo="/routines"
-        secondaryLabel={t.pages.seeAllRoutines}
+        primaryTo="/routines"
+        primaryLabel={t.pages.seeAllRoutines}
+        secondaryTo="/quiz"
+        secondaryLabel={t.quiz.homeCta}
       />
     </>
   )

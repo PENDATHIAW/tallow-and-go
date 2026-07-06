@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import Hero from '../components/Hero'
 import TrustBar from '../components/TrustBar'
-import HomeStats from '../components/HomeStats'
 import HomeStory from '../components/HomeStory'
 import HomeIngredients from '../components/HomeIngredients'
 import HomeTallowScience from '../components/HomeTallowScience'
@@ -15,8 +14,7 @@ import UniverseNavCards from '../components/UniverseNavCards'
 import ProductCard from '../components/ProductCard'
 import RoutinesSection from '../components/RoutinesSection'
 import BundlesSection from '../components/BundlesSection'
-import IllustrationImage from '../components/IllustrationImage'
-import { illustrations } from '../data/illustrations'
+import SectionHeader from '../components/SectionHeader'
 import { useShopConfig } from '../context/ShopConfigContext'
 import { useLocale } from '../context/LocaleContext'
 import { getHomePreloadImages, preloadImages } from '../lib/images'
@@ -34,57 +32,22 @@ export default function HomePage() {
   return (
     <>
       <Hero />
-      <HomeStats stats={homeContent.stats} />
+
       <TrustBar />
 
-      <HomeTallowScience />
-
-      <section className="section-padding">
+      {/* 1 — Produits phares : entrée directe dans le parcours d'achat */}
+      <section id="produits-phares" className="section-padding-compact scroll-mt-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.pages.universesKicker}</p>
-          <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100">{t.pages.universesTitle}</h2>
-          <p className="mt-2 max-w-2xl text-sm text-earth-soft dark:text-neutral-400">{t.pages.universesLead}</p>
-        </div>
-        <UniverseNavCards compact />
-      </section>
-
-      <section className="section-padding bg-cream dark:bg-neutral-900">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:items-center">
-          <div>
-            <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.whyTitle}</h2>
-            <p className="mt-4 text-base leading-relaxed text-earth-soft dark:text-neutral-400">{homeContent.whyLead}</p>
-            <ul className="mt-6 grid gap-3 sm:grid-cols-1">
-              {homeContent.whyPoints.map((point) => (
-                <li key={point} className="flex gap-3 rounded-xl border border-cream-dark bg-white-warm p-4 text-sm text-earth-soft dark:border-neutral-800 dark:bg-neutral-950 dark:text-neutral-300">
-                  <span className="text-tg-green">✓</span>
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950">
-            <IllustrationImage
-              name={illustrations.pages.homeWhy}
-              alt={homeContent.whyTitle}
-              fit="cover"
-              size="card"
-              className="aspect-[4/3] w-full"
-              fallback={null}
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <SectionHeader
+              kicker={t.shop.kicker}
+              title={homeContent.featuredTitle}
+              lead={homeContent.featuredLead}
             />
+            <Link to="/boutique" className="inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
+              {t.shop.viewAll} <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
-        </div>
-      </section>
-
-      <HomeStory title={homeContent.storyTitle} lead={homeContent.storyLead} points={homeContent.storyPoints} />
-
-      <HomeIngredients />
-
-      <HomeFounderQuote />
-
-      <section className="section-padding">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.featuredTitle}</h2>
-          <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.featuredLead}</p>
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {featured.map((product, index) => (
               <ProductCard key={product.id} product={product} linkMode priority={index < 2} />
@@ -93,56 +56,94 @@ export default function HomePage() {
         </div>
       </section>
 
-      <HomeTestimonials testimonials={homeContent.testimonials} />
+      {/* 2 — Univers : navigation par intention */}
+      <section className="section-padding-compact bg-cream dark:bg-neutral-900">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <SectionHeader
+            kicker={t.pages.universesKicker}
+            title={t.pages.universesTitle}
+            lead={t.pages.universesLead}
+          />
+        </div>
+        <UniverseNavCards compact />
+      </section>
 
+      {/* 3 — Comment commander : rassurer tôt */}
       <HomeHowItWorks />
 
+      {/* 4 — Routines & coffrets : panier moyen */}
+      <section className="section-padding-compact bg-white-warm dark:bg-neutral-950">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6">
+          <div className="grid gap-12 lg:grid-cols-2">
+            <div>
+              <SectionHeader
+                kicker={t.routines.kicker}
+                title={homeContent.routinesTeaserTitle}
+                lead={homeContent.routinesTeaserLead}
+              />
+              <div className="mt-6">
+                <RoutinesSection compact />
+              </div>
+              <Link to="/routines" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
+                {t.pages.seeAllRoutines} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+            <div>
+              <SectionHeader
+                kicker={t.bundles.kicker}
+                title={homeContent.bundlesTeaserTitle}
+                lead={homeContent.bundlesTeaserLead}
+              />
+              <div className="mt-6">
+                <BundlesSection compact />
+              </div>
+              <Link to="/coffrets" className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
+                {t.pages.seeAllBundles} <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 5 — Preuve sociale */}
+      <HomeTestimonials testimonials={homeContent.testimonials} />
+
+      {/* 6 — Éducation (un seul bloc approfondi) */}
+      <HomeTallowScience />
+
+      {/* 7 — Marque */}
+      <HomeStory title={homeContent.storyTitle} lead={homeContent.storyLead} points={homeContent.storyPoints} />
+      <HomeFounderQuote />
+
+      {/* 8 — Ingrédients (second plan) */}
+      <HomeIngredients />
+
+      {/* 9 — Newsletter */}
       <NewsletterBand />
 
-      <section className="section-padding bg-cream dark:bg-neutral-900">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.routinesTeaserTitle}</h2>
-              <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.routinesTeaserLead}</p>
-            </div>
-            <Link to="/routines" className="inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
-              {t.pages.seeAllRoutines} <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <RoutinesSection compact />
-        </div>
-      </section>
-
-      <section className="section-padding">
-        <div className="mx-auto max-w-6xl px-4 sm:px-6">
-          <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <h2 className="font-display text-3xl font-semibold text-earth dark:text-neutral-100">{homeContent.bundlesTeaserTitle}</h2>
-              <p className="mt-2 max-w-xl text-sm text-earth-soft">{homeContent.bundlesTeaserLead}</p>
-            </div>
-            <Link to="/coffrets" className="inline-flex items-center gap-2 text-sm font-semibold text-tg-green">
-              {t.pages.seeAllBundles} <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <BundlesSection compact />
-        </div>
-      </section>
-
-      <section className="bg-tg-green px-4 py-10 sm:px-6">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center sm:flex-row sm:justify-between sm:text-left">
+      {/* 10 — CTA final */}
+      <section className="bg-tg-green px-4 py-12 sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center lg:flex-row lg:justify-between lg:text-left">
           <div>
-            <h2 className="font-display text-2xl font-semibold text-tg-ivory">{t.quiz.homeTitle}</h2>
-            <p className="mt-1 text-sm text-tg-ivory/80">{t.quiz.homeLead}</p>
+            <h2 className="font-display text-2xl font-semibold text-tg-ivory">{t.home.finalCtaTitle}</h2>
+            <p className="mt-2 max-w-xl text-sm text-tg-ivory/80">{t.home.finalCtaLead}</p>
           </div>
-          <Link
-            to="/quiz"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-tg-ivory px-6 py-3 text-sm font-semibold text-tg-green"
-          >
-            {t.quiz.homeCta} <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Link
+              to="/boutique"
+              className="inline-flex items-center gap-2 rounded-full bg-tg-ivory px-6 py-3 text-sm font-semibold text-tg-green"
+            >
+              {t.shop.viewAll} <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              to="/quiz"
+              className="inline-flex items-center gap-2 rounded-full border border-tg-ivory/40 px-6 py-3 text-sm font-semibold text-tg-ivory"
+            >
+              {t.quiz.homeCta}
+            </Link>
+          </div>
         </div>
-        <p className="mx-auto mt-8 max-w-2xl border-t border-tg-ivory/20 pt-6 text-center text-sm font-medium text-tg-ivory/90">
+        <p className="mx-auto mt-8 max-w-2xl border-t border-tg-ivory/20 pt-6 text-center text-sm text-tg-ivory/90">
           {homeContent.deliveryBanner}
         </p>
       </section>

@@ -2,6 +2,7 @@ export const translations = {
   fr: {
     nav: {
       shop: 'Boutique',
+      shopAll: 'Tous les produits',
       home: 'Accueil',
       skin: 'Visage',
       body: 'Corps',
@@ -38,8 +39,13 @@ export const translations = {
       kicker: 'Soins au suif purifié',
       title: 'Nourrir · Clarifier · Rayonner',
       subtitle: 'Cosmétiques premium formulés au Sénégal.',
-      cta: 'Découvrir la boutique',
+      cta: 'Voir la boutique',
       from: 'À partir de',
+      deliveryNote: 'Livraison partout au Sénégal',
+    },
+    home: {
+      finalCtaTitle: 'Prête à commencer votre rituel ?',
+      finalCtaLead: 'Parcourez la boutique, composez votre panier et recevez vos soins partout au Sénégal.',
     },
     universes: {
       skin: { title: 'Visage', desc: 'Nettoyage, soin jour & nuit, protection.' },
@@ -48,9 +54,18 @@ export const translations = {
       nomades: { title: 'Nomades', desc: 'Formats compacts, partout avec vous.' },
       home: { title: 'Maison', desc: 'Ambiance & lifestyle.' },
     },
+    universe: {
+      ctaTitle: 'Complétez votre rituel',
+    },
     shop: {
       kicker: 'Boutique',
       title: 'Tous les produits',
+      lead: '14 soins au suif purifié — filtrez par univers ou parcourez la collection complète.',
+      viewAll: 'Voir toute la boutique',
+      filterAll: 'Tout',
+      productCount: 'produit',
+      productCountPlural: 'produits',
+      quizLead: 'Pas sûre par où commencer ? Le quiz vous oriente en 30 secondes.',
       add: 'Ajouter',
       view: 'Voir',
       bestSeller: 'Favori',
@@ -253,6 +268,7 @@ export const translations = {
   en: {
     nav: {
       shop: 'Shop',
+      shopAll: 'All products',
       home: 'Home',
       skin: 'Face',
       body: 'Body',
@@ -291,6 +307,11 @@ export const translations = {
       subtitle: 'Premium cosmetics formulated in Senegal.',
       cta: 'Shop the collection',
       from: 'From',
+      deliveryNote: 'Delivery across Senegal',
+    },
+    home: {
+      finalCtaTitle: 'Ready to start your ritual?',
+      finalCtaLead: 'Browse the shop, build your cart and receive your treatments anywhere in Senegal.',
     },
     universes: {
       skin: { title: 'Face', desc: 'Cleanse, day & night care, protection.' },
@@ -299,9 +320,18 @@ export const translations = {
       nomades: { title: 'Travel', desc: 'Compact formats, on the go.' },
       home: { title: 'Home', desc: 'Ambiance & lifestyle.' },
     },
+    universe: {
+      ctaTitle: 'Complete your ritual',
+    },
     shop: {
       kicker: 'Shop',
       title: 'All products',
+      lead: '14 tallow-based treatments — filter by category or browse the full collection.',
+      viewAll: 'View full shop',
+      filterAll: 'All',
+      productCount: 'product',
+      productCountPlural: 'products',
+      quizLead: 'Not sure where to start? The quiz guides you in 30 seconds.',
       add: 'Add',
       view: 'View',
       bestSeller: 'Favorite',

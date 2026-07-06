@@ -8,7 +8,7 @@ export default function HomeHowItWorks() {
   const content = homeHowItWorks[locale] ?? homeHowItWorks.fr
 
   return (
-    <section className="section-padding bg-white-warm dark:bg-neutral-950">
+    <section className="section-padding-compact bg-white-warm dark:bg-neutral-950">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{content.kicker}</p>
         <h2 className="mt-3 font-display text-3xl font-semibold text-earth dark:text-neutral-100">{content.title}</h2>
