@@ -1,6 +1,6 @@
 import IllustrationImage from './IllustrationImage'
 
-export default function PageHero({ kicker, title, subtitle, image, imageAlt = '', imageFit = 'contain' }) {
+export default function PageHero({ kicker, title, subtitle, image, imageAlt = '', imageFit = 'cover' }) {
   return (
     <section className="relative overflow-hidden bg-tg-cream dark:bg-neutral-900">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 sm:px-6 lg:grid-cols-2 lg:items-center lg:py-16">

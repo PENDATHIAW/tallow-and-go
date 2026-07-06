@@ -35,12 +35,12 @@ export const productExtras = {
       en: ['Purified tallow', 'Niacinamide', 'Azelaic acid', 'Panthenol', 'Vitamin E'],
     },
     usage: {
-      fr: 'Appliquer localement sur les zones à imperfections, matin et/ou soir.',
-      en: 'Apply locally on blemish areas, morning and/or evening.',
+      fr: 'Appliquer sur l\'ensemble du visage propre, matin et/ou soir. Masser jusqu\'à pénétration.',
+      en: 'Apply to the entire clean face, morning and/or evening. Massage until absorbed.',
     },
     benefits: {
-      fr: ['Atténue les imperfections', 'Unifie le teint', 'Texture légère non grasse'],
-      en: ['Reduces blemishes', 'Evens complexion', 'Light non-greasy texture'],
+      fr: ['Atténue les imperfections', 'Unifie le teint sur tout le visage', 'Texture légère non grasse'],
+      en: ['Reduces blemishes', 'Evens complexion across the face', 'Light non-greasy texture'],
     },
   },
   noor: {

@@ -77,9 +77,9 @@ export default function ProductPage() {
                 src={product.image}
                 alt={product.name}
                 size="full"
-                fit="contain"
-                className="aspect-[4/5] p-4"
-                wrapperClassName="w-full"
+                fit="cover"
+                className="aspect-[4/5]"
+                wrapperClassName="aspect-[4/5] w-full"
                 priority
                 loading="eager"
               />

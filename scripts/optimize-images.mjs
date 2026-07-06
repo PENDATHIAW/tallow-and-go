@@ -9,9 +9,10 @@ import sharp from 'sharp'
 
 const ROOT = path.resolve('public')
 const DIRS = ['products', 'illustrations', 'brand', 'bundles']
-const FULL_MAX = 1400
-const CARD_MAX = 520
-const WEBP_QUALITY = 82
+const FULL_MAX = 1200
+const CARD_MAX = 400
+const WEBP_QUALITY = 80
+const CARD_QUALITY = 70
 
 async function collectFiles(dir) {
   const entries = await readdir(dir, { withFileTypes: true })
@@ -34,7 +35,7 @@ async function optimizeFile(filePath) {
   const cardPath = `${base}-sm.webp`
 
   const sourceStat = await stat(filePath)
-  if (existsSync(webpPath) && existsSync(cardPath)) {
+  if (existsSync(webpPath) && existsSync(cardPath) && process.env.FORCE_IMAGES !== '1') {
     const webpStat = await stat(webpPath)
     const cardStat = await stat(cardPath)
     if (webpStat.mtimeMs >= sourceStat.mtimeMs && cardStat.mtimeMs >= sourceStat.mtimeMs) {
@@ -62,7 +63,7 @@ async function optimizeFile(filePath) {
   await sharp(filePath)
     .rotate()
     .resize({ width: CARD_MAX, withoutEnlargement: true })
-    .webp({ quality: 78, effort: 4 })
+    .webp({ quality: CARD_QUALITY, effort: 4 })
     .toFile(cardPath)
 
   const before = (await stat(filePath)).size

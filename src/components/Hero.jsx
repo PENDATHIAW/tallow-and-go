@@ -49,13 +49,14 @@ export default function Hero() {
         </div>
 
         <div className="relative flex justify-center lg:justify-end">
-          <div className="relative w-full max-w-md overflow-hidden rounded-3xl border border-cream-dark bg-white-warm p-4 shadow-xl dark:border-neutral-800 dark:bg-neutral-900">
+          <div className="relative w-full max-w-md overflow-hidden rounded-3xl shadow-xl">
             <IllustrationImage
               name={illustrations.pages.homeWhy}
               alt="Tallow & Go"
-              fit="contain"
-              className="aspect-[4/5] w-full"
+              fit="cover"
               size="full"
+              className="aspect-[4/5] w-full"
+              wrapperClassName="aspect-[4/5] w-full"
               priority
               loading="eager"
               fallback={

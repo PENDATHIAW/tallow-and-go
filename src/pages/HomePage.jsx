@@ -6,6 +6,7 @@ import TrustBar from '../components/TrustBar'
 import HomeStats from '../components/HomeStats'
 import HomeStory from '../components/HomeStory'
 import HomeIngredients from '../components/HomeIngredients'
+import HomeTallowScience from '../components/HomeTallowScience'
 import HomeFounderQuote from '../components/HomeFounderQuote'
 import HomeTestimonials from '../components/HomeTestimonials'
 import HomeHowItWorks from '../components/HomeHowItWorks'
@@ -36,6 +37,8 @@ export default function HomePage() {
       <HomeStats stats={homeContent.stats} />
       <TrustBar />
 
+      <HomeTallowScience />
+
       <section className="section-padding">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <p className="text-xs font-semibold uppercase tracking-[0.24em] text-tg-green">{t.pages.universesKicker}</p>
@@ -63,9 +66,9 @@ export default function HomePage() {
             <IllustrationImage
               name={illustrations.pages.homeWhy}
               alt={homeContent.whyTitle}
-              fit="contain"
+              fit="cover"
               size="card"
-              className="aspect-[4/3] w-full p-2"
+              className="aspect-[4/3] w-full"
               fallback={null}
             />
           </div>

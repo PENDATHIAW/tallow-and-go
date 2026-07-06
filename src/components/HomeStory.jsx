@@ -19,7 +19,14 @@ export default function HomeStory({ title, lead, points }) {
           </ul>
         </div>
         <div className="order-1 overflow-hidden rounded-3xl border border-cream-dark bg-cream dark:border-neutral-800 dark:bg-neutral-950 lg:order-2">
-          <IllustrationImage name={illustrations.pages.routines} alt={title} fit="contain" className="aspect-[4/3] w-full" />
+          <IllustrationImage
+            name={illustrations.pages.routines}
+            alt={title}
+            fit="cover"
+            size="full"
+            className="aspect-[4/3] w-full"
+            wrapperClassName="aspect-[4/3] w-full"
+          />
         </div>
       </div>
     </section>

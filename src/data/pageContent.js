@@ -12,13 +12,13 @@ const universePageKeys = {
 /** Contenu éditorial riche — remplace les images par /public/illustrations/ quand disponibles */
 export const trustPillars = {
   fr: [
-    { title: 'Suif purifié', desc: 'Base lipidique proche de la peau, formulée et fabriquée au Sénégal.' },
+    { title: 'Suif purifié', desc: 'Lipides proches de votre peau — nourrit, répare la barrière cutanée, sans film gras.' },
     { title: 'Ingrédients nobles', desc: 'Beurre de karité, huiles végétales, actifs choisis avec exigence.' },
     { title: 'Sans compromis', desc: 'Formules pensées pour peaux métissées, sensibles et climat tropical.' },
     { title: 'Livraison Dakar', desc: 'Expédition soignée — tarifs selon votre localité dès 1 500 F.' },
   ],
   en: [
-    { title: 'Purified tallow', desc: 'Skin-compatible lipid base, formulated and made in Senegal.' },
+    { title: 'Purified tallow', desc: 'Lipids close to your skin — nourishes, repairs the barrier, no greasy film.' },
     { title: 'Noble ingredients', desc: 'Shea butter, botanical oils, carefully selected actives.' },
     { title: 'No compromise', desc: 'Formulas designed for melanin-rich, sensitive skin in tropical climates.' },
     { title: 'Dakar delivery', desc: 'Careful shipping — rates from 1,500 F depending on your area.' },
@@ -79,18 +79,71 @@ export const homeIngredients = {
   },
 }
 
+export const homeTallowScience = {
+  fr: {
+    kicker: 'La science du suif',
+    title: 'Pourquoi le suif de bœuf change la donne',
+    lead:
+      'Le suif purifié (beef tallow) est riche en acides gras proches de ceux de notre peau. Il nourrit en profondeur, répare la barrière cutanée et apaise — sans film gras ni sensation collante.',
+    points: [
+      {
+        title: 'Compatible avec votre peau',
+        desc: 'Sa composition lipidique ressemble au sébum naturel : la peau reconnaît le suif et l\'absorbe mieux qu\'une crème synthétique.',
+      },
+      {
+        title: 'Barrière cutanée renforcée',
+        desc: 'Il limite la perte en eau, protège contre le dessèchement et aide la peau à se défendre — idéal sous le soleil et la climatisation.',
+      },
+      {
+        title: 'Nourrit sans étouffer',
+        desc: 'Texture fondante, fini confortable. Convient aux peaux mixtes, sensibles et métissées — même par forte chaleur.',
+      },
+      {
+        title: 'Formules professionnelles',
+        desc: 'Chaque soin Tallow & Go est développé avec des professionnels de la cosmétique, testé et fabriqué au Sénégal avec exigence.',
+      },
+    ],
+    trustLine: 'Des soins sérieux, transparents et pensés pour vous faire confiance — pas des promesses vides.',
+  },
+  en: {
+    kicker: 'Tallow science',
+    title: 'Why beef tallow makes a difference',
+    lead:
+      'Purified beef tallow is rich in fatty acids close to your skin\'s own. It nourishes deeply, repairs the skin barrier and soothes — without a greasy film or sticky feel.',
+    points: [
+      {
+        title: 'Skin-compatible',
+        desc: 'Its lipid profile resembles natural sebum: your skin recognizes tallow and absorbs it better than many synthetic creams.',
+      },
+      {
+        title: 'Stronger skin barrier',
+        desc: 'It reduces water loss, protects against dryness and helps skin defend itself — ideal under sun and air conditioning.',
+      },
+      {
+        title: 'Nourishes without suffocating',
+        desc: 'Melting texture, comfortable finish. Suited to combination, sensitive and melanin-rich skin — even in hot weather.',
+      },
+      {
+        title: 'Professional formulas',
+        desc: 'Every Tallow & Go treatment is developed with cosmetic professionals, tested and made in Senegal with care.',
+      },
+    ],
+    trustLine: 'Serious, transparent care you can trust — not empty promises.',
+  },
+}
+
 export const homeFounderQuote = {
   fr: {
     quote:
-      'J\'ai créé Tallow & Go parce que nos peaux méritent des soins qui nourrissent vraiment — sans brûler, sans masquer, sans compromis. Chaque formule est pensée à Dakar, pour vous.',
+      'J\'ai lancé Tallow & Go pour offrir à nos peaux des soins qui nourrissent vraiment — sans brûler, sans masquer. Nos formules sont développées avec des professionnels, fabriquées ici, et pensées pour vous accompagner au quotidien.',
     name: 'Penda Thiaw',
-    role: 'Fondatrice & esthéticienne · Tallow & Go',
+    role: 'Fondatrice · Tallow & Go',
   },
   en: {
     quote:
-      'I created Tallow & Go because our skin deserves care that truly nourishes — without stinging, masking or compromise. Every formula is designed in Dakar, for you.',
+      'I started Tallow & Go to give our skin care that truly nourishes — without stinging or masking. Our formulas are developed with professionals, made here, and designed for your daily ritual.',
     name: 'Penda Thiaw',
-    role: 'Founder & esthetician · Tallow & Go',
+    role: 'Founder · Tallow & Go',
   },
 }
 
@@ -98,12 +151,12 @@ export const homeContent = {
   fr: {
     whyTitle: 'Pourquoi Tallow & Go ?',
     whyLead:
-      'Le suif purifié nourrit la peau en profondeur sans film gras. Nos formules associent savoir-faire local, textures sensorielles et routines simples — du visage au corps, pour toute la famille.',
+      'Le suif de bœuf purifié nourrit la peau en profondeur grâce à des lipides proches des vôtres. Nos formules — développées avec des professionnels de la cosmétique — associent textures sensorielles et routines simples pour toute la famille, sous le soleil sénégalais.',
     whyPoints: [
-      'Textures fondantes adaptées aux peaux foncées et mixtes',
+      'Formules développées avec des professionnels, fabriquées au Sénégal',
+      'Textures fondantes adaptées aux peaux foncées, mixtes et sensibles',
       'Routines courtes : matin, nuit, hebdo — sans surcharger votre salle de bain',
-      'Formats nomades pour le sac, le bureau et les voyages',
-      'Commande en ligne, livraison au Sénégal et suivi par notre équipe',
+      'Commande en ligne, livraison nationale et suivi humain par WhatsApp',
     ],
     featuredTitle: 'Les favoris de la maison',
     featuredLead: 'Les produits les plus demandés pour débuter ou compléter votre rituel.',
@@ -116,12 +169,12 @@ export const homeContent = {
   en: {
     whyTitle: 'Why Tallow & Go?',
     whyLead:
-      'Purified tallow nourishes deeply without a greasy film. Our formulas blend local know-how, sensorial textures and simple routines — face to body, for the whole family.',
+      'Purified beef tallow nourishes deeply with lipids close to your own. Our formulas — developed with cosmetic professionals — blend sensorial textures and simple routines for the whole family, under the Senegalese sun.',
     whyPoints: [
-      'Melting textures suited to deep and combination skin tones',
-      'Short routines: morning, night, weekly — without cluttering your bathroom',
-      'Travel formats for bag, office and trips',
-      'Order online, delivery in Senegal with support from our team',
+      'Formulas developed with professionals, made in Senegal',
+      'Melting textures for deep, combination and sensitive skin',
+      'Short routines: morning, night, weekly — without bathroom clutter',
+      'Order online, nationwide delivery and human follow-up on WhatsApp',
     ],
     featuredTitle: 'House favorites',
     featuredLead: 'Our most-loved products to start or complete your ritual.',

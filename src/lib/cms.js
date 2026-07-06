@@ -16,11 +16,11 @@ export const defaultHomeExtras = {
     ],
     storyTitle: 'Née à Dakar, pensée pour votre peau',
     storyLead:
-      'Tallow & Go est la maison de Penda — esthéticienne et fondatrice. Chaque formule associe suif purifié, textures sensorielles et routines simples pour nourrir sans compromis sous le soleil sénégalais.',
+      'Tallow & Go, c\'est la maison de Penda. Nos soins sont formulés avec des professionnels de la cosmétique, fabriqués au Sénégal, et pensés pour nourrir les peaux métissées sans compromis — du visage au corps.',
     storyPoints: [
-      'Formulation artisanale et exigeante',
-      'Textures qui fondent sans film gras',
-      'Routines courtes, efficaces, adaptées au climat tropical',
+      'Formules développées avec des professionnels de la cosmétique',
+      'Suif purifié : nourrit, répare, apaise — sans film gras',
+      'Routines simples, efficaces, adaptées au climat tropical',
     ],
     testimonials: [
       {
@@ -49,11 +49,11 @@ export const defaultHomeExtras = {
     ],
     storyTitle: 'Born in Dakar, made for your skin',
     storyLead:
-      'Tallow & Go is Penda\'s house — esthetician and founder. Every formula blends purified tallow, sensorial textures and simple routines to nourish without compromise under the Senegalese sun.',
+      'Tallow & Go is Penda\'s house. Our treatments are formulated with cosmetic professionals, made in Senegal, and designed to nourish melanin-rich skin without compromise — face to body.',
     storyPoints: [
-      'Artisanal, demanding formulation',
-      'Melting textures without a greasy film',
-      'Short, effective routines for tropical climates',
+      'Formulas developed with cosmetic professionals',
+      'Purified tallow: nourishes, repairs, soothes — no greasy film',
+      'Simple, effective routines for tropical climates',
     ],
     testimonials: [
       {

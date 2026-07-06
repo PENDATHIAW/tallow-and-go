@@ -4,6 +4,7 @@ import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 import { useShopConfig } from '../context/ShopConfigContext'
 import IllustrationImage from './IllustrationImage'
+import OptimizedImage from './OptimizedImage'
 
 export default function BundlesSection({ compact = false }) {
   const { locale, t } = useLocale()
@@ -33,11 +34,17 @@ export default function BundlesSection({ compact = false }) {
                 <IllustrationImage
                   name={getBundleImage(bundle.id) ?? bundle.image}
                   alt={bundle.name}
-                  fit="contain"
+                  fit="cover"
+                  size="card"
+                  wrapperClassName="h-full w-full"
                   fallback={
-                    <div className="flex h-full items-center justify-center p-3">
-                      <img src={bundle.image} alt={bundle.name} className="max-h-full max-w-full object-contain" />
-                    </div>
+                    <OptimizedImage
+                      src={bundle.image}
+                      alt={bundle.name}
+                      fit="cover"
+                      size="card"
+                      wrapperClassName="h-full w-full"
+                    />
                   }
                 />
               </div>

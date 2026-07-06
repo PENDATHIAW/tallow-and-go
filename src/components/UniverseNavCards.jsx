@@ -3,6 +3,7 @@ import { illustrations } from '../data/illustrations'
 import { universeCards } from '../data/pageContent'
 import { useLocale } from '../context/LocaleContext'
 import IllustrationImage from './IllustrationImage'
+import OptimizedImage from './OptimizedImage'
 
 export default function UniverseNavCards({ compact = false }) {
   const { t } = useLocale()
@@ -20,13 +21,18 @@ export default function UniverseNavCards({ compact = false }) {
               <IllustrationImage
                 name={illustrations.universes[u.id]}
                 alt={t.universes[u.id].title}
-                fit="contain"
-                className="transition duration-500 group-hover:scale-105"
+                fit="cover"
+                size="card"
+                className="h-full w-full transition duration-500 group-hover:scale-105"
+                wrapperClassName="h-full w-full"
                 fallback={
-                  <img
+                  <OptimizedImage
                     src={u.image}
                     alt=""
-                    className="h-full w-full object-contain p-2 transition duration-500 group-hover:scale-105"
+                    fit="cover"
+                    size="card"
+                    className="h-full w-full transition duration-500 group-hover:scale-105"
+                    wrapperClassName="h-full w-full"
                   />
                 }
               />

@@ -76,12 +76,12 @@ export const products = [
     routine: null,
     featured: false,
     description: {
-      fr: 'Soin ciblé imperfections et marques.',
-      en: 'Targeted care for blemishes and marks.',
+      fr: 'Crème corrective pour tout le visage — imperfections, marques et teint irrégulier.',
+      en: 'Corrective cream for the whole face — blemishes, marks and uneven tone.',
     },
     benefits: {
-      fr: ['Atténue les imperfections', 'Unifie le teint', 'Texture légère'],
-      en: ['Reduces blemishes', 'Evens tone', 'Light texture'],
+      fr: ['Atténue les imperfections', 'Unifie le teint', 'S\'applique sur tout le visage'],
+      en: ['Reduces blemishes', 'Evens tone', 'For the entire face'],
     },
   },
   {
