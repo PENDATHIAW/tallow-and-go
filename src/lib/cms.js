@@ -10,17 +10,17 @@ export const defaultHomeExtras = {
   fr: {
     stats: [
       { value: '14+', label: 'soins au suif purifié' },
-      { value: '100%', label: 'formules pensées peaux métissées' },
+      { value: '100%', label: 'tous types de peau' },
       { value: 'Dakar', label: 'fabriqué & livré au Sénégal' },
       { value: '24 h', label: 'réponse WhatsApp & suivi commande' },
     ],
     storyTitle: 'Née à Dakar, pensée pour votre peau',
     storyLead:
-      'Tallow & Go, c\'est la maison de Penda. Nos soins sont formulés avec des professionnels de la cosmétique, fabriqués au Sénégal, et pensés pour nourrir les peaux métissées sans compromis — du visage au corps.',
+      'Tallow & Go est une marque sénégalaise. Nos soins sont formulés avec des professionnels de la cosmétique, à partir d\'un suif de bœufs élevés au Sénégal et nourris 100 % à l\'herbe — pour tous les types de peau, du visage au corps.',
     storyPoints: [
-      'Formules développées avec des professionnels de la cosmétique',
-      'Suif purifié : nourrit, répare, apaise — sans film gras',
-      'Routines simples, efficaces, adaptées au climat tropical',
+      'Suif 100 % sénégalais · bœufs nourris à l\'herbe',
+      'Formules pour tous les types de peau',
+      'Développées avec des professionnels de la cosmétique',
     ],
     testimonials: [
       {
@@ -43,17 +43,17 @@ export const defaultHomeExtras = {
   en: {
     stats: [
       { value: '14+', label: 'tallow-based treatments' },
-      { value: '100%', label: 'formulas for melanin-rich skin' },
+      { value: '100%', label: 'all skin types' },
       { value: 'Dakar', label: 'made & delivered in Senegal' },
       { value: '24 h', label: 'WhatsApp reply & order follow-up' },
     ],
     storyTitle: 'Born in Dakar, made for your skin',
     storyLead:
-      'Tallow & Go is Penda\'s house. Our treatments are formulated with cosmetic professionals, made in Senegal, and designed to nourish melanin-rich skin without compromise — face to body.',
+      'Tallow & Go is a Senegalese brand. Our treatments are formulated with cosmetic professionals, from tallow of cattle raised in Senegal and fed 100% grass — for all skin types, face to body.',
     storyPoints: [
-      'Formulas developed with cosmetic professionals',
-      'Purified tallow: nourishes, repairs, soothes — no greasy film',
-      'Simple, effective routines for tropical climates',
+      '100% Senegalese tallow · grass-fed cattle',
+      'Formulas for all skin types',
+      'Developed with cosmetic professionals',
     ],
     testimonials: [
       {

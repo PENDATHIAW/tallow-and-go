@@ -118,8 +118,8 @@ export const products = [
     routine: { id: 'matin-eclat', step: 3 },
     featured: false,
     description: {
-      fr: 'Protection minérale, sans traces sur peaux foncées.',
-      en: 'Mineral protection, no white cast on dark skin.',
+      fr: 'Protection minérale SPF50+, sans traces — tous types de peau.',
+      en: 'SPF50+ mineral protection, no white cast — all skin types.',
     },
     benefits: {
       fr: ['SPF50+ minéral', 'Sans traces blanches', 'Nourrit & apaise'],

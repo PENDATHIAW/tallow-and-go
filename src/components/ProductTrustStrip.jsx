@@ -1,16 +1,17 @@
-import { Leaf, ShieldCheck, Truck } from 'lucide-react'
+import { Leaf, ShieldCheck, Truck, Users } from 'lucide-react'
 import { useLocale } from '../context/LocaleContext'
 
 export default function ProductTrustStrip() {
   const { t } = useLocale()
   const items = [
-    { icon: Leaf, label: t.product.trustNatural },
+    { icon: Leaf, label: t.product.trustTallow },
+    { icon: Users, label: t.product.trustAllSkin },
     { icon: Truck, label: t.product.trustDelivery },
     { icon: ShieldCheck, label: t.product.trustPayment },
   ]
 
   return (
-    <ul className="mt-6 grid gap-3 sm:grid-cols-3">
+    <ul className="mt-6 grid gap-3 sm:grid-cols-2">
       {items.map(({ icon: Icon, label }) => (
         <li
           key={label}

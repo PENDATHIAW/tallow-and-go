@@ -12,16 +12,16 @@ const universePageKeys = {
 /** Contenu éditorial riche — remplace les images par /public/illustrations/ quand disponibles */
 export const trustPillars = {
   fr: [
-    { title: 'Suif purifié', desc: 'Lipides proches de votre peau — nourrit, répare la barrière cutanée, sans film gras.' },
-    { title: 'Ingrédients nobles', desc: 'Beurre de karité, huiles végétales, actifs choisis avec exigence.' },
-    { title: 'Sans compromis', desc: 'Formules pensées pour peaux métissées, sensibles et climat tropical.' },
-    { title: 'Livraison Dakar', desc: 'Expédition soignée — tarifs selon votre localité dès 1 500 F.' },
+    { title: 'Suif 100 % sénégalais', desc: 'Suif purifié issu de bœufs élevés au Sénégal, nourris 100 % à l\'herbe — filière locale et impact territorial.' },
+    { title: 'Tous types de peau', desc: 'Formules inclusives : sèche, mixte, sensible, mature — du visage au corps, pour toute la famille.' },
+    { title: 'Ingrédients nobles', desc: 'Beurre de karité, huiles végétales et actifs choisis avec des professionnels de la cosmétique.' },
+    { title: 'Livraison Sénégal', desc: 'Expédition soignée partout au pays — tarifs selon votre localité dès 1 500 F.' },
   ],
   en: [
-    { title: 'Purified tallow', desc: 'Lipids close to your skin — nourishes, repairs the barrier, no greasy film.' },
-    { title: 'Noble ingredients', desc: 'Shea butter, botanical oils, carefully selected actives.' },
-    { title: 'No compromise', desc: 'Formulas designed for melanin-rich, sensitive skin in tropical climates.' },
-    { title: 'Dakar delivery', desc: 'Careful shipping — rates from 1,500 F depending on your area.' },
+    { title: '100% Senegalese tallow', desc: 'Purified tallow from cattle raised in Senegal, 100% grass-fed — local supply chain and territorial impact.' },
+    { title: 'All skin types', desc: 'Inclusive formulas: dry, combination, sensitive, mature — face to body, for the whole family.' },
+    { title: 'Noble ingredients', desc: 'Shea butter, botanical oils and actives selected with cosmetic professionals.' },
+    { title: 'Senegal delivery', desc: 'Careful shipping nationwide — rates from 1,500 F depending on your area.' },
   ],
 }
 
@@ -56,11 +56,11 @@ export const homeIngredients = {
     title: 'Ce que vous mettez sur votre peau',
     lead: 'Des actifs choisis pour nourrir, apaiser et protéger — sans liste interminable ni compromis sur la qualité.',
     items: [
-      { name: 'Suif purifié', desc: 'Lipides proches du sébum humain — nourrit en profondeur, renforce la barrière cutanée.' },
+      { name: 'Suif purifié', desc: 'De bœufs élevés au Sénégal, nourris 100 % à l\'herbe — lipides proches de votre peau, barrière renforcée.' },
       { name: 'Beurre de karité', desc: 'Apaise les peaux sèches et sensibles, texture fondante sous le climat tropical.' },
       { name: 'Huiles végétales', desc: 'Jojoba, moringa, rose musquée, nigelle — sélectionnées pour leurs bienfaits ciblés.' },
-      { name: 'Actifs doux', desc: 'Niacinamide, panthénol, vitamine E — efficacité sans agresser les peaux métissées.' },
-      { name: 'SPF minéral', desc: 'Protection solaire sans traces blanches, pensée pour les peaux foncées.' },
+      { name: 'Actifs doux', desc: 'Niacinamide, panthénol, vitamine E — efficaces et respectueux de tous les types de peau.' },
+      { name: 'SPF minéral', desc: 'Protection solaire sans traces blanches — convient à toutes les carnations.' },
       { name: 'Zéro superflu', desc: 'Pas de parfum agressif, pas de colorant inutile — l\'essentiel, rien de plus.' },
     ],
   },
@@ -69,11 +69,11 @@ export const homeIngredients = {
     title: 'What you put on your skin',
     lead: 'Actives chosen to nourish, soothe and protect — no endless list, no compromise on quality.',
     items: [
-      { name: 'Purified tallow', desc: 'Lipids close to human sebum — deep nourishment, stronger skin barrier.' },
+      { name: 'Purified tallow', desc: 'From cattle raised in Senegal, 100% grass-fed — lipids close to your skin, stronger barrier.' },
       { name: 'Shea butter', desc: 'Soothes dry sensitive skin, melting texture in tropical climates.' },
       { name: 'Botanical oils', desc: 'Jojoba, moringa, rosehip, black seed — selected for targeted benefits.' },
-      { name: 'Gentle actives', desc: 'Niacinamide, panthenol, vitamin E — effective without irritating melanin-rich skin.' },
-      { name: 'Mineral SPF', desc: 'Sun protection without white cast, designed for deep skin tones.' },
+      { name: 'Gentle actives', desc: 'Niacinamide, panthenol, vitamin E — effective and respectful of all skin types.' },
+      { name: 'Mineral SPF', desc: 'Sun protection without white cast — suits every skin tone.' },
       { name: 'Nothing extra', desc: 'No harsh fragrance, no useless colorants — essentials only.' },
     ],
   },
@@ -84,8 +84,12 @@ export const homeTallowScience = {
     kicker: 'La science du suif',
     title: 'Pourquoi le suif de bœuf change la donne',
     lead:
-      'Le suif purifié (beef tallow) est riche en acides gras proches de ceux de notre peau. Il nourrit en profondeur, répare la barrière cutanée et apaise — sans film gras ni sensation collante.',
+      'Le suif purifié (beef tallow) provient de bœufs élevés au Sénégal, nourris 100 % à l\'herbe. Riche en acides gras proches de ceux de notre peau, il nourrit en profondeur, répare la barrière cutanée et apaise — sans film gras.',
     points: [
+      {
+        title: 'Ancrage territorial',
+        desc: 'Notre suif est obtenu auprès d\'éleveurs sénégalais, dans une filière locale transparente. Nourrir votre peau, c\'est aussi soutenir une agriculture d\'élevage responsable au Sénégal.',
+      },
       {
         title: 'Compatible avec votre peau',
         desc: 'Sa composition lipidique ressemble au sébum naturel : la peau reconnaît le suif et l\'absorbe mieux qu\'une crème synthétique.',
@@ -95,12 +99,8 @@ export const homeTallowScience = {
         desc: 'Il limite la perte en eau, protège contre le dessèchement et aide la peau à se défendre — idéal sous le soleil et la climatisation.',
       },
       {
-        title: 'Nourrit sans étouffer',
-        desc: 'Texture fondante, fini confortable. Convient aux peaux mixtes, sensibles et métissées — même par forte chaleur.',
-      },
-      {
-        title: 'Formules professionnelles',
-        desc: 'Chaque soin Tallow & Go est développé avec des professionnels de la cosmétique, testé et fabriqué au Sénégal avec exigence.',
+        title: 'Pour tous les types de peau',
+        desc: 'Texture fondante, fini confortable. Sèche, mixte, sensible ou mature — nos formules s\'adaptent à chaque peau, même par forte chaleur.',
       },
     ],
     trustLine: 'Des soins sérieux, transparents et pensés pour vous faire confiance — pas des promesses vides.',
@@ -109,8 +109,12 @@ export const homeTallowScience = {
     kicker: 'Tallow science',
     title: 'Why beef tallow makes a difference',
     lead:
-      'Purified beef tallow is rich in fatty acids close to your skin\'s own. It nourishes deeply, repairs the skin barrier and soothes — without a greasy film or sticky feel.',
+      'Purified beef tallow comes from cattle raised in Senegal, 100% grass-fed. Rich in fatty acids close to your skin\'s own, it nourishes deeply, repairs the barrier and soothes — without a greasy film.',
     points: [
+      {
+        title: 'Rooted in Senegal',
+        desc: 'Our tallow is sourced from Senegalese herders through a transparent local supply chain. Caring for your skin also supports responsible livestock farming in Senegal.',
+      },
       {
         title: 'Skin-compatible',
         desc: 'Its lipid profile resembles natural sebum: your skin recognizes tallow and absorbs it better than many synthetic creams.',
@@ -120,12 +124,8 @@ export const homeTallowScience = {
         desc: 'It reduces water loss, protects against dryness and helps skin defend itself — ideal under sun and air conditioning.',
       },
       {
-        title: 'Nourishes without suffocating',
-        desc: 'Melting texture, comfortable finish. Suited to combination, sensitive and melanin-rich skin — even in hot weather.',
-      },
-      {
-        title: 'Professional formulas',
-        desc: 'Every Tallow & Go treatment is developed with cosmetic professionals, tested and made in Senegal with care.',
+        title: 'For all skin types',
+        desc: 'Melting texture, comfortable finish. Dry, combination, sensitive or mature — our formulas adapt to every skin, even in hot weather.',
       },
     ],
     trustLine: 'Serious, transparent care you can trust — not empty promises.',
@@ -135,13 +135,13 @@ export const homeTallowScience = {
 export const homeFounderQuote = {
   fr: {
     quote:
-      'J\'ai lancé Tallow & Go pour offrir à nos peaux des soins qui nourrissent vraiment — sans brûler, sans masquer. Nos formules sont développées avec des professionnels, fabriquées ici, et pensées pour vous accompagner au quotidien.',
+      'J\'ai lancé Tallow & Go, marque sénégalaise, pour offrir des soins qui nourrissent vraiment — sans brûler, sans masquer. Nos formules sont développées avec des professionnels, à partir d\'un suif de bœufs élevés ici, nourris 100 % à l\'herbe.',
     name: 'Penda Thiaw',
     role: 'Fondatrice · Tallow & Go',
   },
   en: {
     quote:
-      'I started Tallow & Go to give our skin care that truly nourishes — without stinging or masking. Our formulas are developed with professionals, made here, and designed for your daily ritual.',
+      'I started Tallow & Go, a Senegalese brand, to offer care that truly nourishes — without stinging or masking. Our formulas are developed with professionals, from tallow of cattle raised here, 100% grass-fed.',
     name: 'Penda Thiaw',
     role: 'Founder · Tallow & Go',
   },
@@ -151,12 +151,12 @@ export const homeContent = {
   fr: {
     whyTitle: 'Pourquoi Tallow & Go ?',
     whyLead:
-      'Le suif de bœuf purifié nourrit la peau en profondeur grâce à des lipides proches des vôtres. Nos formules — développées avec des professionnels de la cosmétique — associent textures sensorielles et routines simples pour toute la famille, sous le soleil sénégalais.',
+      'Tallow & Go est une marque sénégalaise. Notre suif de bœuf purifié provient de bœufs élevés au Sénégal, nourris 100 % à l\'herbe. Des formules développées avec des professionnels, pour tous les types de peau — du visage au corps.',
     whyPoints: [
-      'Formules développées avec des professionnels, fabriquées au Sénégal',
-      'Textures fondantes adaptées aux peaux foncées, mixtes et sensibles',
-      'Routines courtes : matin, nuit, hebdo — sans surcharger votre salle de bain',
-      'Commande en ligne, livraison nationale et suivi humain par WhatsApp',
+      'Suif 100 % sénégalais · bœufs nourris à l\'herbe',
+      'Formules pour tous les types de peau, toute la famille',
+      'Développées avec des professionnels de la cosmétique',
+      'Fabriquées au Sénégal · livraison nationale & suivi WhatsApp',
     ],
     featuredTitle: 'Les favoris de la maison',
     featuredLead: 'Les produits les plus demandés pour débuter ou compléter votre rituel.',
@@ -169,12 +169,12 @@ export const homeContent = {
   en: {
     whyTitle: 'Why Tallow & Go?',
     whyLead:
-      'Purified beef tallow nourishes deeply with lipids close to your own. Our formulas — developed with cosmetic professionals — blend sensorial textures and simple routines for the whole family, under the Senegalese sun.',
+      'Tallow & Go is a Senegalese brand. Our purified beef tallow comes from cattle raised in Senegal, 100% grass-fed. Formulas developed with professionals, for all skin types — face to body.',
     whyPoints: [
-      'Formulas developed with professionals, made in Senegal',
-      'Melting textures for deep, combination and sensitive skin',
-      'Short routines: morning, night, weekly — without bathroom clutter',
-      'Order online, nationwide delivery and human follow-up on WhatsApp',
+      '100% Senegalese tallow · grass-fed cattle',
+      'Formulas for all skin types, whole family',
+      'Developed with cosmetic professionals',
+      'Made in Senegal · nationwide delivery & WhatsApp support',
     ],
     featuredTitle: 'House favorites',
     featuredLead: 'Our most-loved products to start or complete your ritual.',

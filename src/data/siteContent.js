@@ -4,12 +4,16 @@ export const faqContent = {
     subtitle: 'Tout ce qu\'il faut savoir avant de commander — produits, livraison et paiement.',
     items: [
       {
-        q: 'Le suif convient-il aux peaux noires et métissées ?',
-        a: 'Oui. Nos formules sont pensées pour les peaux melanin-rich, le climat tropical et les besoins spécifiques (SPF sans traces, textures non grasse).',
+        q: 'Le suif convient-il à tous les types de peau ?',
+        a: 'Oui. Le suif purifié est proche de la composition lipidique naturelle de la peau. Nos formules s\'adressent à tous les types de peau — sèche, mixte, sensible ou mature — et à toute la famille.',
+      },
+      {
+        q: 'D\'où vient le suif de bœuf utilisé ?',
+        a: 'Notre suif purifié provient de bœufs élevés au Sénégal, nourris 100 % à l\'herbe. C\'est une matière première locale, au cœur de notre ancrage territorial et de notre impact positif sur la filière d\'élevage sénégalaise.',
       },
       {
         q: 'SUNSAFE laisse-t-il des traces blanches ?',
-        a: 'Non. SUNSAFE est une crème solaire minérale SPF50+ formulée pour ne pas laisser de voile blanc sur les peaux foncées.',
+        a: 'Non. SUNSAFE est une crème solaire minérale SPF50+ formulée pour ne pas laisser de voile blanc — convient à toutes les carnations.',
       },
       {
         q: 'Puis-je utiliser les produits pendant la grossesse ?',
@@ -42,12 +46,16 @@ export const faqContent = {
     subtitle: 'Everything you need to know before ordering — products, shipping and payment.',
     items: [
       {
-        q: 'Is tallow suitable for dark and melanin-rich skin?',
-        a: 'Yes. Our formulas are designed for melanin-rich skin, tropical climates and specific needs (no white cast SPF, non-greasy textures).',
+        q: 'Is tallow suitable for all skin types?',
+        a: 'Yes. Purified tallow is close to the skin\'s natural lipid composition. Our formulas are for all skin types — dry, combination, sensitive or mature — and the whole family.',
+      },
+      {
+        q: 'Where does your beef tallow come from?',
+        a: 'Our purified tallow comes from cattle raised in Senegal, 100% grass-fed. It is a local ingredient at the heart of our territorial roots and positive impact on Senegalese livestock farming.',
       },
       {
         q: 'Does SUNSAFE leave a white cast?',
-        a: 'No. SUNSAFE is a mineral SPF50+ sunscreen formulated not to leave a white veil on dark skin tones.',
+        a: 'No. SUNSAFE is a mineral SPF50+ sunscreen formulated not to leave a white veil — suitable for every skin tone.',
       },
       {
         q: 'Can I use the products during pregnancy?',

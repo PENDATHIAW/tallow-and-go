@@ -1,5 +1,6 @@
 /** Bienfaits détaillés, composition et mode d'emploi — source PDF + visuels officiels */
 import { getProductImage } from './illustrationManifest'
+import { productStories } from './productStories'
 export const productExtras = {
   safaa: {
     composition: {
@@ -67,8 +68,8 @@ export const productExtras = {
       en: 'Apply generously before sun exposure. Reapply every 2 hours.',
     },
     benefits: {
-      fr: ['SPF50+ minéral', 'Sans traces sur peaux foncées', 'Nourrit & apaise', 'Protection UVA/UVB'],
-      en: ['SPF50+ mineral', 'No white cast on dark skin', 'Nourishes & soothes', 'UVA/UVB protection'],
+      fr: ['SPF50+ minéral', 'Sans traces blanches', 'Nourrit & apaise', 'Protection UVA/UVB · Tous types de peau'],
+      en: ['SPF50+ mineral', 'No white cast', 'Nourishes & soothes', 'UVA/UVB protection · All skin types'],
     },
   },
   nurture: {
@@ -224,6 +225,7 @@ export function enrichProduct(product) {
           benefits: extra.benefits,
           composition: extra.composition,
           usage: extra.usage,
+          story: productStories[product.id] ?? null,
         }
       : {}),
   }

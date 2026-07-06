@@ -113,6 +113,16 @@ export default function ProductPage() {
 
               <ProductTrustStrip />
 
+              {product.story?.[locale]?.length ? (
+                <div className="mt-6 space-y-3 rounded-2xl border border-cream-dark/80 bg-cream/30 p-5 dark:border-neutral-800 dark:bg-neutral-900/40">
+                  {product.story[locale].map((paragraph) => (
+                    <p key={paragraph.slice(0, 40)} className="text-sm leading-relaxed text-earth-soft dark:text-neutral-300">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              ) : null}
+
               {linkedRoutine ? (
                 <Link
                   to="/routines"
