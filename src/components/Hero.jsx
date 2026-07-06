@@ -2,14 +2,14 @@ import { ArrowRight, Sparkles } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import IllustrationImage from './IllustrationImage'
 import { illustrations } from '../data/illustrations'
-import { formatPrice } from '../lib/format'
+import { formatPrice, getLowestDisplayPrice } from '../lib/format'
 import { useShopConfig } from '../context/ShopConfigContext'
 import { useLocale } from '../context/LocaleContext'
 
 export default function Hero() {
   const { t } = useLocale()
   const { catalog, heroContent } = useShopConfig()
-  const minPrice = Math.min(...catalog.products.map((p) => p.price))
+  const minPrice = getLowestDisplayPrice(catalog.products)
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-tg-cream via-white-warm to-cream dark:from-neutral-900 dark:via-neutral-900 dark:to-neutral-950">
@@ -29,7 +29,7 @@ export default function Hero() {
             {heroContent.subtitle ?? t.hero.subtitle}
           </p>
           <p className="mt-3 text-sm font-medium text-tg-green">
-            {t.hero.from} {formatPrice(minPrice)} · {t.hero.deliveryNote}
+            {minPrice != null ? `${t.hero.from} ${formatPrice(minPrice)} · ` : ''}{t.hero.deliveryNote}
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link

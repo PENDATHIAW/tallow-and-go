@@ -89,6 +89,9 @@ export const translations = {
       kicker: 'Coffrets',
       title: 'Offrir ou s\'offrir',
       add: 'Ajouter le coffret',
+      view: 'Voir le coffret',
+      includes: 'Ce coffret inclut',
+      backToAll: 'Tous les coffrets',
     },
     product: {
       benefits: 'Bienfaits',
@@ -355,6 +358,9 @@ export const translations = {
       kicker: 'Sets',
       title: 'Gift or treat yourself',
       add: 'Add set',
+      view: 'View set',
+      includes: 'This set includes',
+      backToAll: 'All gift sets',
     },
     product: {
       benefits: 'Benefits',

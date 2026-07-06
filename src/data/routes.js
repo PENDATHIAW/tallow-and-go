@@ -19,3 +19,7 @@ export function getUniversePath(universeId) {
 export function getProductPath(productId) {
   return `/produit/${productId}`
 }
+
+export function getBundlePath(bundleId) {
+  return `/coffret/${bundleId}`
+}

@@ -5,6 +5,7 @@ import AdminLogin from './pages/admin/AdminLogin'
 import AdminProducts from './pages/admin/AdminProducts'
 import AdminContent from './pages/admin/AdminContent'
 import BundlesPage from './pages/BundlesPage'
+import BundlePage from './pages/BundlePage'
 import DeliveryPage from './pages/DeliveryPage'
 import FaqPage from './pages/FaqPage'
 import HomePage from './pages/HomePage'
@@ -28,6 +29,7 @@ export default function App() {
           <Route path="/produit/:productId" element={<ProductPage />} />
           <Route path="/routines" element={<RoutinesPage />} />
           <Route path="/coffrets" element={<BundlesPage />} />
+          <Route path="/coffret/:bundleId" element={<BundlePage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/livraison" element={<DeliveryPage />} />

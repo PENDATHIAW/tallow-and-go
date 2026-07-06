@@ -1,10 +1,12 @@
-import { getBundleImage } from '../data/illustrationManifest'
+import { Link } from 'react-router-dom'
+import OptimizedImage from './OptimizedImage'
 import { formatPrice } from '../lib/format'
+import { getBundlePath } from '../data/routes'
+import { getBundleImage } from '../data/illustrationManifest'
 import { useCart } from '../context/CartContext'
 import { useLocale } from '../context/LocaleContext'
 import { useShopConfig } from '../context/ShopConfigContext'
 import IllustrationImage from './IllustrationImage'
-import OptimizedImage from './OptimizedImage'
 
 export default function BundlesSection({ compact = false }) {
   const { locale, t } = useLocale()
@@ -28,43 +30,60 @@ export default function BundlesSection({ compact = false }) {
           {bundles.map((bundle) => (
             <article
               key={bundle.id}
+              id={bundle.id}
               className="overflow-hidden rounded-2xl border border-cream-dark bg-white-warm dark:border-neutral-800 dark:bg-neutral-950"
             >
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
-                <IllustrationImage
-                  name={getBundleImage(bundle.id) ?? bundle.image}
-                  alt={bundle.name}
-                  fit="cover"
-                  size="card"
-                  wrapperClassName="h-full w-full"
-                  fallback={
-                    <OptimizedImage
-                      src={bundle.image}
-                      alt={bundle.name}
-                      fit="cover"
-                      size="card"
-                      wrapperClassName="h-full w-full"
-                    />
-                  }
-                />
-              </div>
+              <Link to={getBundlePath(bundle.id)} className="group block">
+                <div className="relative aspect-[4/5] overflow-hidden bg-[#f5efe6] dark:bg-neutral-900">
+                  <IllustrationImage
+                    name={getBundleImage(bundle.id) ?? bundle.image}
+                    alt={bundle.name}
+                    fit="cover"
+                    size="card"
+                    wrapperClassName="h-full w-full"
+                    className="transition duration-500 group-hover:scale-[1.02]"
+                    fallback={
+                      <OptimizedImage
+                        src={bundle.image}
+                        alt={bundle.name}
+                        fit="cover"
+                        size="card"
+                        wrapperClassName="h-full w-full"
+                        className="transition duration-500 group-hover:scale-[1.02]"
+                      />
+                    }
+                  />
+                </div>
+              </Link>
               <div className="p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-tg-green">{bundle.name}</p>
-                <h3 className="mt-1 font-display text-xl font-semibold text-earth dark:text-neutral-100">
-                  {bundle.tagline[locale]}
-                </h3>
+                <Link to={getBundlePath(bundle.id)} className="group block">
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-tg-green group-hover:underline">
+                    {bundle.name}
+                  </p>
+                  <h3 className="mt-1 font-display text-xl font-semibold text-earth group-hover:text-tg-green dark:text-neutral-100">
+                    {bundle.tagline[locale]}
+                  </h3>
+                </Link>
                 <p className="mt-2 text-sm text-earth-soft dark:text-neutral-400">{bundle.description[locale]}</p>
                 <div className="mt-5 flex items-center justify-between gap-3">
                   <span className="font-display text-xl font-semibold text-earth dark:text-neutral-100">
                     {formatPrice(bundle.price)}
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => addBundle(bundle.id)}
-                    className="rounded-full bg-tg-green px-5 py-2.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
-                  >
-                    {t.bundles.add}
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <Link
+                      to={getBundlePath(bundle.id)}
+                      className="rounded-full border border-cream-dark px-4 py-2.5 text-sm font-semibold text-earth-soft transition hover:border-tg-green hover:text-tg-green dark:border-neutral-700"
+                    >
+                      {t.bundles.view}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => addBundle(bundle.id)}
+                      className="rounded-full bg-tg-green px-5 py-2.5 text-sm font-semibold text-tg-ivory transition hover:bg-tg-green-light"
+                    >
+                      {t.bundles.add}
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>
