@@ -20,6 +20,9 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'))
 const AdminProducts = lazy(() => import('./pages/admin/AdminProducts'))
 const AdminContent = lazy(() => import('./pages/admin/AdminContent'))
 const AdminMedia = lazy(() => import('./pages/admin/AdminMedia'))
+const EdenLogin = lazy(() => import('./pages/eden/EdenLogin'))
+const EdenDashboard = lazy(() => import('./pages/eden/EdenDashboard'))
+const EdenProtectedRoute = lazy(() => import('./pages/eden/EdenProtectedRoute'))
 
 function AdminFallback() {
   return (
@@ -91,6 +94,26 @@ export default function App() {
           }
         />
         <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
+
+        <Route
+          path="/eden-admin"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <EdenLogin />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/eden-admin/dashboard"
+          element={
+            <Suspense fallback={<AdminFallback />}>
+              <EdenProtectedRoute>
+                <EdenDashboard />
+              </EdenProtectedRoute>
+            </Suspense>
+          }
+        />
+        <Route path="/eden-admin/*" element={<Navigate to="/eden-admin" replace />} />
       </Routes>
     </BrowserRouter>
   )
