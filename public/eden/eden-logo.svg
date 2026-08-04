@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 760" role="img" aria-labelledby="title desc">
+  <title id="title">EDEN</title>
+  <desc id="desc">Logo EDEN avec trois volutes parfumées et un socle infini doré.</desc>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d3513"/>
+      <stop offset="0.18" stop-color="#d99338"/>
+      <stop offset="0.42" stop-color="#8b461b"/>
+      <stop offset="0.68" stop-color="#efb65a"/>
+      <stop offset="1" stop-color="#6b3011"/>
+    </linearGradient>
+    <filter id="wood" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.11" numOctaves="2" seed="8" result="grain"/>
+      <feColorMatrix in="grain" type="saturate" values="0" result="gray"/>
+      <feBlend in="SourceGraphic" in2="gray" mode="soft-light"/>
+      <feDropShadow dx="0" dy="3" stdDeviation="2.2" flood-color="#4d220d" flood-opacity="0.32"/>
+    </filter>
+  </defs>
+
+  <g fill="url(#gold)" stroke="#4f240d" stroke-width="3" stroke-linejoin="round" filter="url(#wood)">
+    <path d="M371 62c12 38 18 79 8 118-11 42-42 68-58 106-17 41-13 84 7 128-57-49-85-104-78-164 6-52 34-93 58-133 20-33 38-67 31-110 18 17 27 35 32 55z"/>
+    <path d="M415 154c10 30 15 63 7 94-8 33-31 55-44 84-14 33-12 66 4 101-45-39-66-82-61-128 4-40 26-73 45-104 16-26 30-53 25-87 13 13 20 26 24 40z"/>
+    <path d="M453 245c8 23 11 47 5 71-6 25-23 42-33 64-10 25-9 50 3 76-34-30-50-62-46-97 3-30 20-55 34-79 12-20 23-40 19-66 10 10 15 20 18 31z"/>
+    <path d="M285 473c28-24 66-32 102-20 24 8 42 26 66 32 31 8 58-5 66-30 8 28-2 57-26 75-29 22-67 21-101 4-27-14-51-34-82-36-25-2-46 7-54 24-9 19 3 35 23 37 21 2 39-8 53-21-7 28-31 48-62 48-36 0-63-22-66-52-2-22 9-44 31-61z"/>
+  </g>
+
+  <text x="380" y="690" text-anchor="middle" fill="url(#gold)" stroke="#4f240d" stroke-width="1.1" paint-order="stroke" font-family="Georgia, 'Times New Roman', serif" font-size="132" font-weight="400" letter-spacing="34">EDEN</text>
+</svg>
