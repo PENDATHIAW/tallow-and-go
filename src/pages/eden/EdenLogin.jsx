@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { getEdenSession, loginEden } from '../../lib/eden'
+import { getEdenSession, isEdenAdmin, loginEden } from '../../lib/eden'
 
 function EdenMark() {
   return (
@@ -21,7 +21,18 @@ export default function EdenLogin() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    getEdenSession().then(setKnownSession)
+    let active = true
+    getEdenSession().then(async (session) => {
+      if (!session) {
+        if (active) setKnownSession(null)
+        return
+      }
+      const admin = await isEdenAdmin()
+      if (active) setKnownSession(admin ? session : null)
+    })
+    return () => {
+      active = false
+    }
   }, [])
 
   if (knownSession) return <Navigate to="/eden-admin/dashboard" replace />

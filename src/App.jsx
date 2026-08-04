@@ -37,7 +37,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<ShopLayout />}>
-          <Route path="/" element={<Navigate to="/eden-admin" replace />} />
+          <Route path="/" element={<HomePage />} />
           <Route path="/boutique" element={<ShopPage />} />
           <Route path="/univers/:slug" element={<UniversePage />} />
           <Route path="/produit/:productId" element={<ProductPage />} />

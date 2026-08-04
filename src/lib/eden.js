@@ -25,16 +25,33 @@ export function onEdenAuthChange(callback) {
   return () => data.subscription.unsubscribe()
 }
 
+export async function isEdenAdmin() {
+  if (!supabase) return false
+  const { data, error } = await supabase.rpc('eden_current_user_is_admin')
+  if (error) return false
+  return Boolean(data)
+}
+
 export async function loginEden(email, password) {
   if (!isSupabaseConfigured || !supabase) return notConfigured
   const { data, error } = await supabase.auth.signInWithPassword({ email, password })
   if (error) return { ok: false, message: 'Email ou mot de passe incorrect.' }
+  const admin = await isEdenAdmin()
+  if (!admin) {
+    await supabase.auth.signOut()
+    return { ok: false, message: 'Ce compte n’a pas accès à EDEN.' }
+  }
   return { ok: true, session: data.session }
 }
 
 export async function logoutEden() {
   if (!supabase) return
   await supabase.auth.signOut()
+}
+
+export function newIdempotencyKey() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) return crypto.randomUUID()
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
 }
 
 export async function fetchEdenDashboard() {
@@ -80,6 +97,7 @@ export async function recordEdenSale({
   customerPhone,
   channel,
   paymentMethod,
+  idempotencyKey,
 }) {
   if (!supabase) return notConfigured
   const { data, error } = await supabase.rpc('eden_record_sale', {
@@ -89,20 +107,36 @@ export async function recordEdenSale({
     p_customer_phone: customerPhone?.trim() || null,
     p_channel: channel,
     p_payment_method: paymentMethod,
+    p_idempotency_key: idempotencyKey || newIdempotencyKey(),
   })
   if (error) return { ok: false, message: errorMessage(error, 'La vente n’a pas pu être enregistrée.') }
   return { ok: true, saleId: data }
 }
 
-export async function adjustEdenStock(scentId, delta, reason = 'Ajustement manuel') {
+export async function adjustEdenStock(scentId, delta, reason = 'Ajustement manuel', idempotencyKey) {
   if (!supabase) return notConfigured
   const { data, error } = await supabase.rpc('eden_adjust_stock', {
     p_scent_id: Number(scentId),
     p_delta: Number(delta),
     p_reason: reason,
+    p_idempotency_key: idempotencyKey || newIdempotencyKey(),
   })
   if (error) return { ok: false, message: errorMessage(error, 'Le stock n’a pas pu être modifié.') }
   return { ok: true, stock: data }
+}
+
+export async function settleEdenSale(saleId) {
+  if (!supabase) return notConfigured
+  const { error } = await supabase.rpc('eden_settle_sale', { p_sale_id: saleId })
+  if (error) return { ok: false, message: errorMessage(error, 'La vente n’a pas pu être réglée.') }
+  return { ok: true }
+}
+
+export async function cancelEdenSale(saleId, reason = 'Vente annulée') {
+  if (!supabase) return notConfigured
+  const { error } = await supabase.rpc('eden_cancel_sale', { p_sale_id: saleId, p_reason: reason })
+  if (error) return { ok: false, message: errorMessage(error, 'La vente n’a pas pu être annulée.') }
+  return { ok: true }
 }
 
 export async function updateEdenScent(scentId, patch) {
@@ -115,7 +149,7 @@ export async function updateEdenScent(scentId, patch) {
   return { ok: true }
 }
 
-export async function createEdenExpense({ label, category, amount, spentOn, notes }) {
+export async function createEdenExpense({ label, category, amount, spentOn, notes, idempotencyKey }) {
   if (!supabase) return notConfigured
   const { error } = await supabase.from('eden_expenses').insert({
     label: label.trim(),
@@ -123,12 +157,15 @@ export async function createEdenExpense({ label, category, amount, spentOn, note
     amount: Number(amount),
     spent_on: spentOn,
     notes: notes?.trim() || '',
+    idempotency_key: idempotencyKey || newIdempotencyKey(),
   })
-  if (error) return { ok: false, message: errorMessage(error, 'La dépense n’a pas pu être enregistrée.') }
+  if (error && error.code !== '23505') {
+    return { ok: false, message: errorMessage(error, 'La dépense n’a pas pu être enregistrée.') }
+  }
   return { ok: true }
 }
 
-export async function createEdenBatch({ scentId, quantity, startedOn, maturationDays, notes }) {
+export async function createEdenBatch({ scentId, quantity, startedOn, maturationDays, notes, idempotencyKey }) {
   if (!supabase) return notConfigured
   const batchCode = `EDEN-${new Date().toISOString().slice(0, 10).replaceAll('-', '')}-${Date.now().toString().slice(-5)}`
   const { error } = await supabase.from('eden_batches').insert({
@@ -138,8 +175,11 @@ export async function createEdenBatch({ scentId, quantity, startedOn, maturation
     started_on: startedOn,
     maturation_days: Number(maturationDays),
     notes: notes?.trim() || '',
+    idempotency_key: idempotencyKey || newIdempotencyKey(),
   })
-  if (error) return { ok: false, message: errorMessage(error, 'Le lot n’a pas pu être créé.') }
+  if (error && error.code !== '23505') {
+    return { ok: false, message: errorMessage(error, 'Le lot n’a pas pu être créé.') }
+  }
   return { ok: true, batchCode }
 }
 
@@ -196,12 +236,13 @@ export function computeEdenStats({ scents = [], sales = [], expenses = [], batch
     )
   })
 
-  const revenue = sales.reduce((sum, sale) => sum + Number(sale.total || 0), 0)
-  const due = sales
+  const activeSales = sales.filter((sale) => sale.payment_status !== 'cancelled')
+  const revenue = activeSales.reduce((sum, sale) => sum + Number(sale.total || 0), 0)
+  const due = activeSales
     .filter((sale) => sale.payment_status === 'due')
     .reduce((sum, sale) => sum + Number(sale.total || 0), 0)
   const expenseTotal = expenses.reduce((sum, expense) => sum + Number(expense.amount || 0), 0)
-  const costOfSales = sales.reduce((sum, sale) => {
+  const costOfSales = activeSales.reduce((sum, sale) => {
     return sum + (sale.items || []).reduce((itemSum, item) => itemSum + Number(item.unit_cost || 0) * Number(item.quantity || 0), 0)
   }, 0)
   const lowStock = scents.filter((scent) => Number(scent.stock) <= Number(scent.low_stock_threshold))
@@ -231,4 +272,56 @@ export function daysRemaining(batch) {
   const ready = new Date(start)
   ready.setDate(ready.getDate() + Number(batch.maturation_days || 21))
   return Math.ceil((ready.getTime() - Date.now()) / 86400000)
+}
+
+function csvCell(value) {
+  const text = String(value ?? '')
+  return /[";\n]/.test(text) ? `"${text.replaceAll('"', '""')}"` : text
+}
+
+export function buildEdenMonthlyCsv({ sales = [], expenses = [] }, referenceDate = new Date()) {
+  const year = referenceDate.getFullYear()
+  const month = referenceDate.getMonth()
+  const inMonth = (dateValue) => {
+    const date = new Date(dateValue)
+    return date.getFullYear() === year && date.getMonth() === month
+  }
+
+  const monthSales = sales.filter((sale) => sale.payment_status !== 'cancelled' && inMonth(sale.created_at))
+  const monthExpenses = expenses.filter((expense) => inMonth(expense.spent_on))
+
+  const rows = [['Type', 'Date', 'Libellé', 'Catégorie / Statut', 'Montant']]
+
+  monthSales.forEach((sale) => {
+    const label = (sale.items || []).map((item) => `${item.scent?.name} × ${item.quantity}`).join(', ') || 'Vente'
+    rows.push(['Vente', sale.created_at.slice(0, 10), `${label} — ${sale.customer_name}`, sale.payment_status, Number(sale.total || 0)])
+  })
+
+  monthExpenses.forEach((expense) => {
+    rows.push(['Dépense', expense.spent_on, expense.label, expense.category, -Number(expense.amount || 0)])
+  })
+
+  const totalSales = monthSales.reduce((sum, sale) => sum + Number(sale.total || 0), 0)
+  const totalExpenses = monthExpenses.reduce((sum, expense) => sum + Number(expense.amount || 0), 0)
+  rows.push([])
+  rows.push(['Total ventes', '', '', '', totalSales])
+  rows.push(['Total dépenses', '', '', '', -totalExpenses])
+  rows.push(['Marge brute', '', '', '', totalSales - totalExpenses])
+
+  const csv = rows.map((row) => row.map(csvCell).join(';')).join('\n')
+  const monthLabel = new Intl.DateTimeFormat('fr-FR', { month: '2-digit', year: 'numeric' }).format(referenceDate).replaceAll('/', '-')
+  return { csv, filename: `eden-${monthLabel}.csv` }
+}
+
+export function downloadEdenMonthlyCsv(data, referenceDate = new Date()) {
+  const { csv, filename } = buildEdenMonthlyCsv(data, referenceDate)
+  const blob = new Blob(['﻿', csv], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(url)
 }

@@ -13,6 +13,11 @@ dist-ssr
 *.local
 supabase/*.ready.sql
 
+# Environment secrets — never commit real Supabase keys or credentials
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
