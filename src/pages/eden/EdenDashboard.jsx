@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react'
 import {
   BarChart3,
   Calculator,
+  CheckCircle2,
+  Download,
   FlaskConical,
   LogOut,
   Minus,
@@ -10,21 +12,28 @@ import {
   RefreshCw,
   ShoppingBag,
   WalletCards,
+  WifiOff,
+  XCircle,
 } from 'lucide-react'
 import {
   adjustEdenStock,
+  cancelEdenSale,
   computeEdenStats,
   createEdenBatch,
   createEdenExpense,
   daysRemaining,
+  downloadEdenMonthlyCsv,
   fetchEdenDashboard,
   logoutEden,
+  newIdempotencyKey,
   receiveEdenBatch,
   recordEdenSale,
   saveEdenMaterial,
   saveEdenRecipeLine,
+  settleEdenSale,
   updateEdenScent,
 } from '../../lib/eden'
+import { enqueueEdenAction, flushEdenQueue, subscribeEdenQueue } from '../../lib/offlineQueue'
 
 const TABS = [
   { id: 'bord', label: 'Bord', icon: BarChart3 },
@@ -97,6 +106,9 @@ export default function EdenDashboard() {
   const [batch, setBatch] = useState(initialBatch)
   const [material, setMaterial] = useState(initialMaterial)
   const [recipe, setRecipe] = useState(initialRecipe)
+  const [online, setOnline] = useState(() => (typeof navigator === 'undefined' ? true : navigator.onLine))
+  const [queue, setQueue] = useState([])
+  const [flushing, setFlushing] = useState(false)
 
   const load = async ({ quiet = false } = {}) => {
     if (!quiet) setLoading(true)
@@ -120,6 +132,46 @@ export default function EdenDashboard() {
   useEffect(() => {
     load()
   }, [])
+
+  const queueHandlers = {
+    sale: (payload, idempotencyKey) => recordEdenSale({ ...payload, idempotencyKey }),
+    stock: (payload, idempotencyKey) => adjustEdenStock(payload.scentId, payload.delta, payload.reason, idempotencyKey),
+    expense: (payload, idempotencyKey) => createEdenExpense({ ...payload, idempotencyKey }),
+    batch: (payload, idempotencyKey) => createEdenBatch({ ...payload, idempotencyKey }),
+  }
+
+  const flushQueue = async () => {
+    if (flushing) return
+    setFlushing(true)
+    const result = await flushEdenQueue(queueHandlers)
+    setFlushing(false)
+    if (result.flushed > 0) {
+      setNotice(`${result.flushed} action${result.flushed > 1 ? 's' : ''} en attente envoyée${result.flushed > 1 ? 's' : ''}.`)
+      await load({ quiet: true })
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = subscribeEdenQueue(setQueue)
+    return unsubscribe
+  }, [])
+
+  useEffect(() => {
+    const goOnline = () => setOnline(true)
+    const goOffline = () => setOnline(false)
+    window.addEventListener('online', goOnline)
+    window.addEventListener('offline', goOffline)
+    return () => {
+      window.removeEventListener('online', goOnline)
+      window.removeEventListener('offline', goOffline)
+    }
+  }, [])
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- flushing is a network side effect, not a render sync
+    if (online) flushQueue()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [online])
 
   useEffect(() => {
     if (!notice) return undefined
@@ -165,18 +217,33 @@ export default function EdenDashboard() {
       setError('Choisissez une senteur.')
       return
     }
-    const ok = await run(
-      () => recordEdenSale(sale),
-      `${sale.quantity} pot${Number(sale.quantity) > 1 ? 's' : ''} vendu${Number(sale.quantity) > 1 ? 's' : ''}.`,
-    )
+    const successMessage = `${sale.quantity} pot${Number(sale.quantity) > 1 ? 's' : ''} vendu${Number(sale.quantity) > 1 ? 's' : ''}.`
+    if (!online) {
+      enqueueEdenAction('sale', sale)
+      setNotice(`${successMessage} Mise en attente (hors ligne).`)
+      setSale((current) => ({ ...initialSale, odysseyId: current.odysseyId }))
+      return
+    }
+    const ok = await run(() => recordEdenSale({ ...sale, idempotencyKey: newIdempotencyKey() }), successMessage)
     if (ok) setSale((current) => ({ ...initialSale, odysseyId: current.odysseyId }))
   }
 
   const changeStock = async (scent, delta) => {
-    await run(
-      () => adjustEdenStock(scent.id, delta, delta > 0 ? 'Entrée manuelle' : 'Sortie manuelle'),
-      `Stock de ${scent.name} mis à jour.`,
-    )
+    const reason = delta > 0 ? 'Entrée manuelle' : 'Sortie manuelle'
+    if (!online) {
+      enqueueEdenAction('stock', { scentId: scent.id, delta, reason })
+      setNotice(`Stock de ${scent.name} mis en attente (hors ligne).`)
+      return
+    }
+    await run(() => adjustEdenStock(scent.id, delta, reason, newIdempotencyKey()), `Stock de ${scent.name} mis à jour.`)
+  }
+
+  const settleSale = async (sale) => {
+    await run(() => settleEdenSale(sale.id), 'Vente marquée réglée.')
+  }
+
+  const cancelSale = async (sale) => {
+    await run(() => cancelEdenSale(sale.id), 'Vente annulée, stock restauré.')
   }
 
   const submitExpense = async (event) => {
@@ -185,7 +252,13 @@ export default function EdenDashboard() {
       setError('Renseignez le libellé et le montant de la dépense.')
       return
     }
-    const ok = await run(() => createEdenExpense(expense), 'Dépense enregistrée.')
+    if (!online) {
+      enqueueEdenAction('expense', expense)
+      setNotice('Dépense mise en attente (hors ligne).')
+      setExpense(initialExpense)
+      return
+    }
+    const ok = await run(() => createEdenExpense({ ...expense, idempotencyKey: newIdempotencyKey() }), 'Dépense enregistrée.')
     if (ok) setExpense(initialExpense)
   }
 
@@ -195,7 +268,13 @@ export default function EdenDashboard() {
       setError('Choisissez une senteur et une quantité.')
       return
     }
-    const ok = await run(() => createEdenBatch(batch), 'Lot placé en macération.')
+    if (!online) {
+      enqueueEdenAction('batch', batch)
+      setNotice('Lot mis en attente (hors ligne).')
+      setBatch(initialBatch)
+      return
+    }
+    const ok = await run(() => createEdenBatch({ ...batch, idempotencyKey: newIdempotencyKey() }), 'Lot placé en macération.')
     if (ok) setBatch(initialBatch)
   }
 
@@ -255,6 +334,22 @@ export default function EdenDashboard() {
       </header>
 
       <div className="mx-auto max-w-5xl px-4 py-5">
+        {queue.length ? (
+          <div className="mb-4 flex items-center justify-between gap-3 border border-[#E3C68A] bg-[#FBF6EE] px-4 py-3 text-sm text-[#8A6A2F]">
+            <span className="flex items-center gap-2">
+              <WifiOff size={16} />
+              {queue.length} action{queue.length > 1 ? 's' : ''} en attente de réseau.
+            </span>
+            <button
+              type="button"
+              onClick={flushQueue}
+              disabled={!online || flushing}
+              className="shrink-0 border border-[#E3C68A] px-3 py-1.5 text-[10px] uppercase tracking-[0.16em] disabled:opacity-50"
+            >
+              {flushing ? 'Envoi…' : 'Réessayer'}
+            </button>
+          </div>
+        ) : null}
         {notice ? <div className="mb-4 border border-[#B7C8B3] bg-[#F1F4EF] px-4 py-3 text-sm text-[#5E7A5A]">{notice}</div> : null}
         {error ? <div className="mb-4 border border-red-200 bg-red-50 px-4 py-3 text-sm leading-5 text-red-700">{error}</div> : null}
 
@@ -262,7 +357,7 @@ export default function EdenDashboard() {
           <div className="flex min-h-[55vh] items-center justify-center text-sm text-[#7A7168]">Chargement des données EDEN…</div>
         ) : (
           <>
-            {tab === 'bord' ? <DashboardTab data={data} stats={stats} /> : null}
+            {tab === 'bord' ? <DashboardTab data={data} stats={stats} cancelSale={cancelSale} busy={busy} /> : null}
             {tab === 'vente' ? (
               <SaleTab
                 scents={data.scents}
@@ -319,6 +414,7 @@ export default function EdenDashboard() {
                 expense={expense}
                 setExpense={setExpense}
                 submit={submitExpense}
+                settleSale={settleSale}
                 busy={busy}
               />
             ) : null}
@@ -360,7 +456,7 @@ export default function EdenDashboard() {
   )
 }
 
-function DashboardTab({ data, stats }) {
+function DashboardTab({ data, stats, cancelSale, busy }) {
   const topScents = [...data.scents].sort((a, b) => Number(b.sold) - Number(a.sold)).slice(0, 5)
   return (
     <div className="space-y-4">
@@ -389,15 +485,22 @@ function DashboardTab({ data, stats }) {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Card title="Dernières ventes">
-          {data.sales.length ? data.sales.slice(0, 6).map((sale) => (
-            <Row
-              key={sale.id}
-              title={(sale.items || []).map((item) => `${item.scent?.name} × ${item.quantity}`).join(', ') || 'Vente'}
-              subtitle={`${sale.customer_name} · ${sale.payment_method} · ${formatDate(sale.created_at)}`}
-              value={formatMoney(sale.total)}
-              danger={sale.payment_status === 'due'}
-            />
-          )) : <Empty text="Aucune vente enregistrée." />}
+          {data.sales.length ? data.sales.slice(0, 6).map((sale) => {
+            const cancelled = sale.payment_status === 'cancelled'
+            return (
+              <Row
+                key={sale.id}
+                title={(sale.items || []).map((item) => `${item.scent?.name} × ${item.quantity}`).join(', ') || 'Vente'}
+                subtitle={`${sale.customer_name} · ${sale.payment_method} · ${formatDate(sale.created_at)}${cancelled ? ' · Annulée' : ''}`}
+                value={formatMoney(sale.total)}
+                danger={sale.payment_status === 'due'}
+                muted={cancelled}
+                action={!cancelled ? (
+                  <RowAction label="Annuler" icon={XCircle} tone="danger" disabled={busy} onClick={() => cancelSale(sale)} />
+                ) : null}
+              />
+            )
+          }) : <Empty text="Aucune vente enregistrée." />}
         </Card>
 
         <Card title="Senteurs qui partent le mieux">
@@ -655,7 +758,7 @@ function CostsTab({ data, stats, material, setMaterial, recipe, setRecipe, submi
   )
 }
 
-function MoneyTab({ data, stats, expense, setExpense, submit, busy }) {
+function MoneyTab({ data, stats, expense, setExpense, submit, settleSale, busy }) {
   return (
     <div className="space-y-4">
       <section className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -664,6 +767,19 @@ function MoneyTab({ data, stats, expense, setExpense, submit, busy }) {
         <Metric label="Dépenses" value={formatMoney(stats.expenses)} note="Achats et charges" tone="bad" />
         <Metric label="Net estimé" value={formatMoney(stats.net)} note="Après revient" tone={stats.net >= 0 ? 'good' : 'bad'} />
       </section>
+
+      <Card title="Export">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm text-[#7A7168]">Ventes actives et dépenses du mois en cours, au format CSV.</p>
+          <button
+            type="button"
+            onClick={() => downloadEdenMonthlyCsv(data)}
+            className="flex shrink-0 items-center gap-2 border border-[#E5DED4] px-3 py-2 text-[10px] uppercase tracking-[0.16em] text-[#7A7168] transition hover:border-[#B8863F] hover:text-[#B8863F]"
+          >
+            <Download size={14} /> Exporter le mois
+          </button>
+        </div>
+      </Card>
 
       <form onSubmit={submit}>
         <Card title="Nouvelle dépense">
@@ -681,7 +797,14 @@ function MoneyTab({ data, stats, expense, setExpense, submit, busy }) {
       {stats.due > 0 ? (
         <Card title="Paiements à récupérer" accent="#A5523F">
           {data.sales.filter((sale) => sale.payment_status === 'due').map((sale) => (
-            <Row key={sale.id} title={sale.customer_name} subtitle={`${sale.customer_phone || 'Téléphone non renseigné'} · ${formatDate(sale.created_at)}`} value={formatMoney(sale.total)} danger />
+            <Row
+              key={sale.id}
+              title={sale.customer_name}
+              subtitle={`${sale.customer_phone || 'Téléphone non renseigné'} · ${formatDate(sale.created_at)}`}
+              value={formatMoney(sale.total)}
+              danger
+              action={<RowAction label="Réglé" icon={CheckCircle2} tone="good" disabled={busy} onClick={() => settleSale(sale)} />}
+            />
           ))}
         </Card>
       ) : null}
@@ -718,15 +841,36 @@ function Metric({ label, value, note, tone }) {
   )
 }
 
-function Row({ title, subtitle, value, danger, good }) {
+function Row({ title, subtitle, value, danger, good, muted, action }) {
   return (
-    <div className="flex items-center justify-between gap-4 border-b border-[#E5DED4] py-3 last:border-0">
-      <div className="min-w-0">
-        <p className="truncate text-sm sm:text-base">{title}</p>
+    <div className="flex items-center justify-between gap-3 border-b border-[#E5DED4] py-3 last:border-0">
+      <div className="min-w-0 flex-1">
+        <p className={`truncate text-sm sm:text-base ${muted ? 'text-[#A69C91] line-through' : ''}`}>{title}</p>
         <p className="mt-1 text-xs text-[#A69C91]">{subtitle}</p>
       </div>
-      <p className="shrink-0 text-right text-sm" style={{ color: danger ? '#A5523F' : good ? '#5E7A5A' : '#7A7168' }}>{value}</p>
+      <p className="shrink-0 text-right text-sm" style={{ color: muted ? '#A69C91' : danger ? '#A5523F' : good ? '#5E7A5A' : '#7A7168' }}>{value}</p>
+      {action ? <div className="shrink-0">{action}</div> : null}
     </div>
+  )
+}
+
+function RowAction({ label, icon: Icon, tone = 'default', disabled, onClick }) {
+  const toneClass =
+    tone === 'danger'
+      ? 'border-red-200 text-red-600 hover:border-red-300'
+      : tone === 'good'
+        ? 'border-[#B7C8B3] text-[#5E7A5A] hover:border-[#5E7A5A]'
+        : 'border-[#E5DED4] text-[#7A7168]'
+  return (
+    <button
+      type="button"
+      disabled={disabled}
+      onClick={onClick}
+      className={`flex shrink-0 items-center gap-1 border px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em] transition disabled:opacity-40 ${toneClass}`}
+    >
+      {Icon ? <Icon size={13} /> : null}
+      {label}
+    </button>
   )
 }
 
